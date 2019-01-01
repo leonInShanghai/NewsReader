@@ -8,8 +8,20 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+
     <!--修改上面不能预览的bug ↑-->
-    <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+    <style parent="Theme.AppCompat.Light.NoActionBar" name="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+
+    <!--修改最上面不能预览的bug ↑-->
+    <style name="AppTheme2" parent="Base.Theme.AppCompat.Light.DarkActionBar">
     </style>
 
 </resources>

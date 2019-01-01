@@ -64,7 +64,13 @@ public class  AdListBean implements Serializable {
 
         /**splash页广告图片地址*/
         private List<String> res_url;
+
+        /**廣告商的名稱*/
+        private String content;
+
+        /**包含有linkurl 的數組對象*/
         private ActionParamsBean action_params;
+
 
 
         public List<String> getRes_url() {
@@ -73,6 +79,15 @@ public class  AdListBean implements Serializable {
 
         public void setRes_url(List<String> res_url) {
             this.res_url = res_url;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        /**獲取廣告上的名稱作爲廣告描述的titlebar title*/
+        public String getContent() {
+            return content;
         }
 
         public ActionParamsBean getAction_params() {

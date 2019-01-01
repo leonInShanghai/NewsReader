@@ -26,7 +26,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     //添加网络请求框架OKhttp
-    implementation("com.squareup.okhttp3:okhttp:3.12.0")
+    //implementation("com.squareup.okhttp3:okhttp:3.12.0")
     //gson
-    implementation 'com.google.code.gson:gson:2.8.5'
+    //implementation 'com.google.code.gson:gson:2.8.5'
 }

@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -52,7 +51,14 @@ public class DownloadIntentService extends IntentService {
                 //截取.jpg之前的字符串  https://yt-adp.ws.126.net/channel6/10802045_axwn_20181212.jpg?dpi=6401136
                 if (picUrl.contains(".jpg")){
                     picUrl.substring(0, picUrl.indexOf(".jpg"));
-                    downloadPic(picUrl);
+                    //在下载之前先判断是否已存在该图片，已存在的图片不要下载
+                    File file = new File(getExternalCacheDir(),picUrl.hashCode()+".jpg");
+                    if (!file.exists()){//如果文件不存在 下载图片。
+                        downloadPic(picUrl);
+                    }else {//图片存在不做处理跳过本次循环
+                        Log.e(getClass().getSimpleName(),"图片存在,不做下载跳过本次循环");
+                        continue;
+                    }
                 }
             }
         }

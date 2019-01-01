@@ -2,9 +2,14 @@ package com.bobo520.newsreader;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bobo520.newsreader.bean.AdListBean;
 import com.google.gson.Gson;
@@ -12,6 +17,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -27,23 +33,96 @@ import okhttp3.ResponseBody;
 /**
  * Created by Leon on 2018/12/30. Copyright © Leon. All rights reserved.
  * Functions: 创建 project 之初的 第一个activity
+ * okio mave仓库中选这个 ：g:com.squareup.okio 新版的会闪退 也可能是 OK HTTP jar 包太新。
  */
 public class MainActivity extends Activity {
 
     /**传递 adListBean 给 DownloadIntentService 的常量*/
     public static final String ADS_PIC_URL = "ADS_PIC_URL";
 
+    /**廣告内容本地持久化存儲的key*/
+    private static final String CACHE_ADS_JSON = "CACHE_ADS_JSON";
+
+    /**廣告内容本地持久化存儲有效時間的key*/
+    private static final String CACHE_ADS_TIME = "CACHE_ADS_TIME";
+
+    /**本地持久化存儲 廣告圖片位置的key*/
+    private static final String CACHE_ADS_INDEX = "CACHE_ADS_INDEX";
+
+    /**跳轉到廣告詳情頁面的傳遞的url*/
+    public static final String AD_DETAIL_URL = "AD_DETAIL_URL";
+
+    /**跳轉到廣告詳情頁面 廣告上名稱*/
+    public  static final String AD_DETAIL_LTD = "AD_DETAIL_LTD";
+
+    //顯示廣告圖片的imageview
+    private ImageView mIv_ad;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //初始化ui控件
+        mIv_ad = (ImageView)findViewById(R.id.iv_ad);
+
+        //加載網絡數據
         initData();
     }
 
     private void initData(){
-       // requestData();-网络请求 之前用的HttpUrlConnection 现在用的OK HTTP
-       requestData();
+       //獲取本地持久化存儲的數據
+       String json = SpUtils.getString(getApplicationContext(),CACHE_ADS_JSON);
+       //獲取本地持久化存儲的過期時間數據
+       final long nextReq = SpUtils.getLong(getApplicationContext(),CACHE_ADS_TIME);
+       //獲取系統當前時間
+       long currentTimeMillis = System.currentTimeMillis();
+       //如果緩存存在并且沒有過期
+       if (!TextUtils.isEmpty(json) && currentTimeMillis < nextReq){
+           //有緩存，顯示圖片
+            Log.e(getClass().getSimpleName(),"有緩存，顯示圖片");
+           //展示圖片 圖片文件→需要下載地址→JavaBean對象→json字符串
+           Gson gson = new Gson();
+           AdListBean adListBean = gson.fromJson(json,AdListBean.class);
+           List<AdListBean.AdsBean> ads = adListBean.getAds();
+           //index不能寫死每次進來就自加，并且緩存起來
+           int index = SpUtils.getInt(getApplicationContext(),CACHE_ADS_INDEX);//廣告圖片的展示位置（順序）
+           final AdListBean.AdsBean adsBean = ads.get(index);
+           String picUrl = adsBean.getRes_url().get(0);
+           File file = new File(getExternalCacheDir(),picUrl.hashCode()+".jpg");
+           Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+           mIv_ad.setImageBitmap(bitmap);
+           //展示一次廣告++ 避免内容重複
+           index++;
+           index = index % ads.size();
+          // Log.e(getClass().getSimpleName(),"==="+String.valueOf(index)+"----"+ads.size());
+//           if (index >= ads.size() - 1){
+//               index = 0;
+//           }else {
+//               index++;
+//           }
+           SpUtils.setInt(getApplicationContext(),CACHE_ADS_INDEX,index) ;
+
+           //點擊圖片跳轉到對應的廣告詳情
+           mIv_ad.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
+                   Intent intent2 = new Intent(getApplicationContext(),AdDetailActivity.class);
+                   intent2.putExtra(AD_DETAIL_URL,adsBean.getAction_params().getLink_url());
+                   intent2.putExtra(AD_DETAIL_LTD,adsBean.getContent() == null ? "廣告": adsBean.getContent());
+                   Intent[] intents = new Intent[]{intent,intent2};
+                   /**
+                    *startActivities 注意後面帶S 這個方法一口氣打開2個頁面
+                    * 很適合現在的場景（用戶關閉廣告詳情頁新聞頁面就顯示出來了）
+                    */
+                   startActivities(intents);
+                   finish();
+               }
+           });
+       }else {//不存在請求網絡下載圖片
+           requestData();
+       }
     }
 
     private void requestData(){
@@ -58,6 +137,7 @@ public class MainActivity extends Activity {
             @Override
             public void onFailure(Call call, IOException e) {
                 //请求失败
+                Toast.makeText(MainActivity.this,"請求失败請檢查網絡",Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -76,6 +156,21 @@ public class MainActivity extends Activity {
                 //使用GSON，(数据对象)直接转成（java）Bean对象
                 AdListBean adListBean = gson.fromJson(string,AdListBean.class);
 
+                //將 bean對象 轉換為 json對象 這裏轉換之後比上面的字符串少很多只有有用到的内容
+                String json = gson.toJson(adListBean);
+
+                /**
+                 *  先緩存下載到的字符串
+                 *  知識點：數據的持久化保存 SP  數據庫 文件 網絡 内容提供者
+                 *  這裏用的是SP
+                 */
+                SpUtils.setString(getApplicationContext(),CACHE_ADS_JSON,json);
+
+                //緩存過期上限時間
+                long timeMillis = System.currentTimeMillis();
+                long nextReq = adListBean.getNext_req() * 60 *1000;//有效期字段分鐘轉毫秒
+                SpUtils.setLong(getApplicationContext(),CACHE_ADS_TIME,timeMillis + nextReq);
+
                 //在server中去执行下载的后台任务-（不能写在main activity中)下载完成后将后台的server组件释放
                 downloadPic(adListBean);
             }
@@ -93,7 +188,7 @@ public class MainActivity extends Activity {
 }
 
 
-
+// requestData();-网络请求 之前用的HttpUrlConnection 现在用的OK HTTP
 
 //使用HttpUrlConnection 的请求方法（可以用但是没有用 用的OK HTTP）
 //    private void requestData() {

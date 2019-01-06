@@ -12,15 +12,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bobo520.newsreader.bean.AdListBean;
+import com.bobo520.newsreader.weiget.SkipView;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.List;
 
 import okhttp3.Call;
@@ -34,6 +30,7 @@ import okhttp3.ResponseBody;
  * Created by Leon on 2018/12/30. Copyright © Leon. All rights reserved.
  * Functions: 创建 project 之初的 第一个activity
  * okio mave仓库中选这个 ：g:com.squareup.okio 新版的会闪退 也可能是 OK HTTP jar 包太新。
+ * 原来：增加了沉浸式导航栏滑动翻页 SwipeBack功能
  */
 public class MainActivity extends Activity {
 
@@ -58,6 +55,20 @@ public class MainActivity extends Activity {
     //顯示廣告圖片的imageview
     private ImageView mIv_ad;
 
+    /**限制用户不能多次点击的变量*/
+    private boolean once = true;
+    private boolean onceSkip = true;
+
+    /**自定义的skipview的按钮“倒计时跳过”*/
+    private SkipView mSkipView;
+
+    @Override
+    protected void onResume() {
+        //在视图将显示的时候调用-自定义的工具类方法使得状态栏和app颜色一样
+        LETrtStBarUtil.setTransparentToolbar(this);
+        super.onResume();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +76,7 @@ public class MainActivity extends Activity {
 
         //初始化ui控件
         mIv_ad = (ImageView)findViewById(R.id.iv_ad);
+        mSkipView = (SkipView)findViewById(R.id.skipView);
 
         //加載網絡數據
         initData();
@@ -94,34 +106,93 @@ public class MainActivity extends Activity {
            mIv_ad.setImageBitmap(bitmap);
            //展示一次廣告++ 避免内容重複
            index++;
-           index = index % ads.size();
+           index = index % ads.size();//簡單巧妙地避免數組越界的問題
           // Log.e(getClass().getSimpleName(),"==="+String.valueOf(index)+"----"+ads.size());
-//           if (index >= ads.size() - 1){
-//               index = 0;
-//           }else {
-//               index++;
-//           }
-           SpUtils.setInt(getApplicationContext(),CACHE_ADS_INDEX,index) ;
+          // if (index >= ads.size() - 1){
+          //     index = 0;
+          // }else {
+          //     index++;
+          // }
+           SpUtils.setInt(getApplicationContext(),CACHE_ADS_INDEX,index);
+
 
            //點擊圖片跳轉到對應的廣告詳情
            mIv_ad.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
-                   Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
-                   Intent intent2 = new Intent(getApplicationContext(),AdDetailActivity.class);
-                   intent2.putExtra(AD_DETAIL_URL,adsBean.getAction_params().getLink_url());
-                   intent2.putExtra(AD_DETAIL_LTD,adsBean.getContent() == null ? "廣告": adsBean.getContent());
-                   Intent[] intents = new Intent[]{intent,intent2};
-                   /**
-                    *startActivities 注意後面帶S 這個方法一口氣打開2個頁面
-                    * 很適合現在的場景（用戶關閉廣告詳情頁新聞頁面就顯示出來了）
-                    */
-                   startActivities(intents);
-                   finish();
+                   if (once) {//限制用户多次点击开启多个页面
+                       once = false;
+                       if (!CheckTheLinkNetwork.isNetPingUsable()){//用户没有开启网络
+                           Toast.makeText(MainActivity.this,"請求失败請檢查網絡",Toast.LENGTH_SHORT).show();
+                           once = true;//用户没有开启网络 等用用户开启网络后还可以再次点击
+                           return;
+                       }
+                       new Thread() {
+                           @Override
+                           public void run() {
+                               //判断网易返回的url是否正确（这里判断的是是否可达）
+                               if (CheckTheLinkNetwork.checkUrl(adsBean.getAction_params().getLink_url(),
+                                       5000)) {
+                                   //正确回到主线程展示广告
+                                   runOnUiThread(new Runnable() {
+                                       @Override
+                                       public void run() {
+                                           Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                           Intent intent2 = new Intent(getApplicationContext(), AdDetailActivity.class);
+                                           intent2.putExtra(AD_DETAIL_URL, adsBean.getAction_params().getLink_url());
+                                           intent2.putExtra(AD_DETAIL_LTD, adsBean.getContent() == null ? "廣告" : adsBean.getContent());
+                                           Intent[] intents = new Intent[]{intent, intent2};
+                                           /**
+                                            *startActivities 注意後面帶S 這個方法一口氣打開2個頁面
+                                            * 很適合現在的場景（用戶關閉廣告詳情頁新聞頁面就顯示出來了）
+                                            */
+                                           startActivities(intents);
+                                           finish();
+                                       }
+                                   });
+                               } else {
+                                   //网易返回的url不正确目前是什么都不做，要做也要记得开启主线程操作
+                               }
+                           }
+                       }.start();
+                   }
                }
            });
+           //设置SkipView的 点击跳转
+           mSkipView.setVisibility(View.VISIBLE);//让视图显示
+           mSkipView.setmOnSkipListener(new SkipView.OnSkipListener() {
+               @Override
+               public void onSkip() {
+                   //跳转页面
+                   if (onceSkip){//onceSkip限制用户多次点击
+                       onceSkip= false;
+                       Intent intent = new Intent(MainActivity.this,HomeActivity.class);
+                       startActivity(intent);
+                       finish();//跳转完成后关闭splash页面
+                   }
+               }
+           });
+           //让skipview开始旋转
+           mSkipView.start();
+
        }else {//不存在請求網絡下載圖片
+           //展示圖片 圖片文件→需要下載地址→JavaBean對象→json字符串
+           Gson gson = new Gson();
+           AdListBean adListBean = gson.fromJson(json,AdListBean.class);
+           if (adListBean != null){//避免空指針異常
+               List<AdListBean.AdsBean> ads = adListBean.getAds();
+               for (int i = 0; i < ads.size(); i++) {//遍歷並刪除之前的所有數據
+                   final AdListBean.AdsBean adsBean = ads.get(i);
+                   String picUrl = adsBean.getRes_url().get(0);
+                   File file = new File(getExternalCacheDir(),picUrl.hashCode()+".jpg");
+                   deleteFile(file);
+               }
+           }
+
+           //下載數據
            requestData();
+           //重新將index設置為0 否則會數組越界
+           SpUtils.setInt(getApplicationContext(),CACHE_ADS_INDEX,0) ;
        }
     }
 
@@ -184,6 +255,21 @@ public class MainActivity extends Activity {
         intent.setClass(getApplicationContext(),DownloadIntentService.class);
         intent.putExtra(ADS_PIC_URL,adListBean);
         startService(intent);
+    }
+
+    //删除文件夹及文件夹下所有文件
+    public static void deleteFile(File file) {
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            for (int i = 0; i < files.length; i++) {
+                File f = files[i];
+                deleteFile(f);
+            }
+            file.delete();
+        } else if (file.exists()) {
+            file.delete();
+        }
+
     }
 }
 

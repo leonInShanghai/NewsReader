@@ -42,9 +42,8 @@ public class AdDetailActivity extends Activity {
           /**
           * 發現網易的url會重定向-即你輸入一個鏈接他會自動跳轉到另外一個鏈接
            * 重定向解決方法: mWebView.setWebViewClient(new WebViewClient());
-           * 這裏有了這個方法setWebChromeClient(new WebChromeClient() 就沒有寫上面的方法
           */
-
+          mWebView.setWebViewClient(new WebViewClient());
           mWebView.loadUrl(url);
 
           //允许js运行-webView默認是不會加載js的
@@ -84,15 +83,18 @@ public class AdDetailActivity extends Activity {
         mWebView.destroy();
         super.onDestroy();
     }
+}
 
-    /* 设置沉浸式-狀態欄的背景跟隨app界面的背景-覺得這個功能好 這段代碼在這個項目沒有用到*/
-    private void setImmersive() {
+
+
+
+
+/* 设置沉浸式-狀態欄的背景跟隨app界面的背景-覺得這個功能好 這段代碼在這個項目沒有用到*/
+//    private void setImmersive() {
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//透明状态栏
 //        //得到状态栏margin-top高度
 //        statusBarHeightParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
 //        statusBarHeightParams.setMargins(0, UiUtils.getStatusBarHeight(), 0, 0);
 //        llBody.setLayoutParams(statusBarHeightParams);
-    }
+//    }
 
-
-}

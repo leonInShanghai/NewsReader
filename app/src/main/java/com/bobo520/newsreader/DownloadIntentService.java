@@ -46,6 +46,7 @@ public class DownloadIntentService extends IntentService {
            List<AdListBean.AdsBean> abs = adListBean.getAds();
 
 
+            //增强for循環 快捷键： iter
             for (AdListBean.AdsBean ab : abs) {
                 String picUrl = ab.getRes_url().get(0);
                 //截取.jpg之前的字符串  https://yt-adp.ws.126.net/channel6/10802045_axwn_20181212.jpg?dpi=6401136

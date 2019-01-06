@@ -10,16 +10,33 @@
     它需要对图片进行一些缩放操作，在缩放的过程中，它不会按照原图的比例来缩放-->
     <!--ScaleType.CENTER_CROP这是我最喜欢的模式，因为在该模式下，图片会被等比缩放直到完全填充整个ImageView，
     并居中显示。该模式也是最常用的模式了-->
-    <ImageView
-        android:id="@+id/iv_ad"
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:scaleType="fitXY"
-        android:background="@drawable/splash"/>
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/iv_ad"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="fitXY"
+            android:background="@drawable/splash"/>
+
+        <com.bobo520.newsreader.weiget.SkipView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/skipView"
+            android:visibility="gone"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="25dp"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/biz_ad_slogan"/>
-
 </LinearLayout>

@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="#ffffff">
 
     <!--android:scaleType="fitXY" fitXY的目标是填充整个ImageView，为了完成这个目标，
     它需要对图片进行一些缩放操作，在缩放的过程中，它不会按照原图的比例来缩放-->

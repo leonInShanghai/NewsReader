@@ -62,12 +62,12 @@ public class MainActivity extends Activity {
     /**自定义的skipview的按钮“倒计时跳过”*/
     private SkipView mSkipView;
 
-    @Override
-    protected void onResume() {
-        //在视图将显示的时候调用-自定义的工具类方法使得状态栏和app颜色一样
-        LETrtStBarUtil.setTransparentToolbar(this);
-        super.onResume();
-    }
+//    @Override
+//    protected void onResume() {
+//        //在视图将显示的时候调用-自定义的工具类方法使得状态栏和app颜色一样
+//        LETrtStBarUtil.setTransparentToolbar(this);
+//        super.onResume();
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

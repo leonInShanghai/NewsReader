@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+
+    <!-- gravity是设置自身内部元素的对齐方式。比如一个TextView，
+         则是设置内部文字的对齐方式。如果是ViewGroup组件如LinearLayout的话，
+         则为设置它内部view组件的对齐方式。
+         layout_gravity是设置自身相当于父容器的对齐方式。
+         比如，一个TextView设置layout_gravity属性，则表示这TextView相对于父容器的对齐方式-->
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/iv_tab"
+        android:background="@drawable/tab_news_selected" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="新闻"
+        android:textColor="@color/tab_text_color_selector"
+        android:id="@+id/tv_tab"/>
+
+</LinearLayout>

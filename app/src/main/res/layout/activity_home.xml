@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity"
-    android:background="#ff0000">
+    android:orientation="vertical"
+    tools:context=".HomeActivity">
 
+    <!--下面这个view是为了设置沉浸式状态栏-->
+    <View
+        android:id="@+id/status_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@drawable/shape_le"/>
 
-</RelativeLayout>
+    <!--fragment容器 将会在activity 中用Java代码动态替换-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/fl_frag"/>
+    
+    <!--原来用的安卓的 android.support.v4.app.FragmentTabHost
+    后来自己写的全盘copy安卓的FragmentTabHost代码自己修改
+    FragmentTabHost内部已经封装过关于点击切换fragment的业务逻辑咱么可以不用自己再去实现-->
+    <com.bobo520.newsreader.weiget.MyFragmentTabHost
+        android:id="@+id/tabHost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

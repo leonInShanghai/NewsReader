@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -46,8 +47,11 @@ public class AdDetailActivity extends Activity {
           mWebView.setWebViewClient(new WebViewClient());
           mWebView.loadUrl(url);
 
+
           //允许js运行-webView默認是不會加載js的
           mWebView.getSettings().setJavaScriptEnabled(true);
+          //开启本地DOM存储-解决网易严选不能加载的问题
+          mWebView.getSettings().setDomStorageEnabled(true);
           //监听网页加载-讓進度條發揮作用
           mWebView.setWebChromeClient(new WebChromeClient() {
                 @Override
@@ -81,10 +85,41 @@ public class AdDetailActivity extends Activity {
     protected void onDestroy() {
         //這裏解決本頁面finish后音樂還在播放的問題
         mWebView.destroy();
+
+        ///销毁webview比较正规的写法
+//        if (mWebView != null) {
+//            mWebView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+//            mWebView.clearHistory();
+//
+//            ((ViewGroup) mWebView.getParent()).removeView(mWebView);
+//            mWebView.destroy();
+//            mWebView = null;
+//        }
+
         super.onDestroy();
     }
 }
 
+
+/**
+ * webView不能加载url问题的解决方法
+ mWebSettings.setJavaScriptCanOpenWindowsAutomatically(true);//设置js可以直接打开窗口，如window.open()，默认为false
+ mWebSettings.setJavaScriptEnabled(true);//是否允许JavaScript脚本运行，默认为false。设置true时，会提醒可能造成XSS漏洞
+ mWebSettings.setSupportZoom(true);//是否可以缩放，默认true
+ mWebSettings.setBuiltInZoomControls(true);//是否显示缩放按钮，默认false
+ mWebSettings.setUseWideViewPort(true);//设置此属性，可任意比例缩放。大视图模式
+ mWebSettings.setLoadWithOverviewMode(true);//和setUseWideViewPort(true)一起解决网页自适应问题
+ mWebSettings.setAppCacheEnabled(true);//是否使用缓存
+ mWebSettings.setDomStorageEnabled(true);//开启本地DOM存储
+ mWebSettings.setLoadsImagesAutomatically(true); // 加载图片
+ mWebSettings.setMediaPlaybackRequiresUserGesture(false);//播放音频，多媒体需要用户手动？设置为false为可自动播放
+ ---------------------
+ 作者：Esmussssein
+ 来源：CSDN
+ 原文：https://blog.csdn.net/qq_39071530/article/details/82586847
+ 版权声明：本文为博主原创文章，转载请附上博文链接！
+ *
+ */
 
 
 

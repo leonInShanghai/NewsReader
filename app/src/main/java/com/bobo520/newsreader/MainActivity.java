@@ -59,6 +59,9 @@ public class MainActivity extends Activity {
     private boolean once = true;
     private boolean onceSkip = true;
 
+    /**解决用户在skip即将加载完成的时候点击广告开启2个homeactivity的bug*/
+    private boolean noPlayAdvertising = true;
+
     /**自定义的skipview的按钮“倒计时跳过”*/
     private SkipView mSkipView;
 
@@ -89,7 +92,7 @@ public class MainActivity extends Activity {
        final long nextReq = SpUtils.getLong(getApplicationContext(),CACHE_ADS_TIME);
        //獲取系統當前時間
        long currentTimeMillis = System.currentTimeMillis();
-       //如果緩存存在并且沒有過期
+       //如果緩存存在并且沒有過期-**********************有可能播放广告的处理逻辑**********************
        if (!TextUtils.isEmpty(json) && currentTimeMillis < nextReq){
            //有緩存，顯示圖片
             Log.e(getClass().getSimpleName(),"有緩存，顯示圖片");
@@ -122,9 +125,11 @@ public class MainActivity extends Activity {
                public void onClick(View v) {
                    if (once) {//限制用户多次点击开启多个页面
                        once = false;
+                       noPlayAdvertising = false;//用户已经点击了广告
                        if (!CheckTheLinkNetwork.isNetPingUsable()){//用户没有开启网络
                            Toast.makeText(MainActivity.this,"請求失败請檢查網絡",Toast.LENGTH_SHORT).show();
                            once = true;//用户没有开启网络 等用用户开启网络后还可以再次点击
+                           noPlayAdvertising = true;//没有网络用户可以再次点击
                            return;
                        }
                        new Thread() {
@@ -164,7 +169,7 @@ public class MainActivity extends Activity {
                @Override
                public void onSkip() {
                    //跳转页面
-                   if (onceSkip){//onceSkip限制用户多次点击
+                   if (onceSkip && noPlayAdvertising){//onceSkip限制用户多次点击&&没有点击广告才能条转到home
                        onceSkip= false;
                        Intent intent = new Intent(MainActivity.this,HomeActivity.class);
                        startActivity(intent);
@@ -175,7 +180,7 @@ public class MainActivity extends Activity {
            //让skipview开始旋转
            mSkipView.start();
 
-       }else {//不存在請求網絡下載圖片
+       }else {//不存在請求網絡下載圖片-**********************不播放广告的处理逻辑**********************
            //展示圖片 圖片文件→需要下載地址→JavaBean對象→json字符串
            Gson gson = new Gson();
            AdListBean adListBean = gson.fromJson(json,AdListBean.class);
@@ -207,8 +212,14 @@ public class MainActivity extends Activity {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                //请求失败
-                Toast.makeText(MainActivity.this,"請求失败請檢查網絡",Toast.LENGTH_SHORT).show();
+               //当前是再OK HTTP创建的子线程中要做操作一定要在主线程中
+               runOnUiThread(new Runnable() {
+                   @Override
+                   public void run() {
+                       //请求失败-先提示用户没有联网-再处理跳转逻辑
+                       Toast.makeText(MainActivity.this,"請求失败請檢查網絡",Toast.LENGTH_SHORT).show();
+                   }
+               });
             }
 
             @Override

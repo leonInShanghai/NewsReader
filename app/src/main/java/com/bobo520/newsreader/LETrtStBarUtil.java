@@ -3,7 +3,10 @@ package com.bobo520.newsreader;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
+import android.preference.PreferenceActivity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 /**
  * Created by Leon on 2019/1/5. Copyright © Leon. All rights reserved.
@@ -19,7 +22,11 @@ public class LETrtStBarUtil {
             //想要设置沉浸式状态栏的activity中都创建一个view 高度20dp 设置成自己想要的颜色
             View view = activity.findViewById(R.id.status_placeholder);
             if (view != null){//避免空指针异常
+                //动态的设置view的高度==状态栏的高度
                 view.setVisibility(View.VISIBLE);
+                ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) view.getLayoutParams();
+                params.height = getStatusBarHeight(activity);
+                view.setLayoutParams(params);
             }
             View decorView = activity.getWindow().getDecorView();
             decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -32,6 +39,19 @@ public class LETrtStBarUtil {
                 view.setVisibility(View.GONE);
             }
         }
+    }
+
+
+    /**
+     * 获得状态栏的高度
+     */
+    public static int getStatusBarHeight(Activity activity) {
+        int result = 0;
+        int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = activity.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
 }

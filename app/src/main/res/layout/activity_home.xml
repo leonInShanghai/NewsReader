@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:context=".HomeActivity">
 
-    <!--下面这个view是为了设置沉浸式状态栏-->
+    <!--下面这个view是为了设置沉浸式状态栏 id 必须是status_placeholder 放在最上面-->
     <View
         android:id="@+id/status_placeholder"
         android:layout_width="match_parent"

@@ -156,7 +156,8 @@ public class MainActivity extends Activity {
                                        }
                                    });
                                } else {
-                                   //网易返回的url不正确目前是什么都不做，要做也要记得开启主线程操作
+                                   //网易返回的url不正确广告后还让用户进入app
+                                   noPlayAdvertising = true;//状态改为没有点击广告
                                }
                            }
                        }.start();

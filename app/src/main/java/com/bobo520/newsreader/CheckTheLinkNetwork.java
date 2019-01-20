@@ -17,7 +17,7 @@ public class CheckTheLinkNetwork {
     /**
      * 判断当前网络是否可用(通用方法)
      * 耗时12秒 - 这个方法耗时能用 以后要是有时间优化
-     * @return 这个方法可以在主线程使用 目前这个方法有使用
+     * @return 这个方法可以在主线程使用 目前这个方法有使用(有点会阻塞线程)
      */
     public static boolean isNetPingUsable(){
         Runtime runtime = Runtime.getRuntime();

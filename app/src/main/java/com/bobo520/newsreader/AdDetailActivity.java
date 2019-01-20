@@ -1,13 +1,17 @@
 package com.bobo520.newsreader;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import static com.bobo520.newsreader.MainActivity.AD_DETAIL_URL;
@@ -19,54 +23,101 @@ import static com.bobo520.newsreader.MainActivity.AD_DETAIL_LTD;
  */
 public class AdDetailActivity extends Activity {
 
-    /**webview上面的進度條*/
+    /**webview上面的進度條 可以用但是没有用 为了适配轩尼诗的广告*/
     private ProgressBar pbProgress;
 
     /**加載廣告詳情的webview*/
     private WebView mWebView;
 
+    //加载失败时提示的image view
+    private ImageView mErrorView;
+
+    //是否要显示加载错的页面的变量
+    private boolean loadError = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ad_detail);
-        mWebView = (WebView)findViewById(R.id.webView);
+
+        //Leon设置了最近淘宝等各大app流行的沉浸式状态栏
+        LETrtStBarUtil.setTransparentToolbar(this);
+
+        mWebView = (WebView) findViewById(R.id.webView);
         pbProgress = (ProgressBar) findViewById(R.id.pb_progress);
+        mErrorView = (ImageView)findViewById(R.id.mErrorView);
+
+
 
         //取出上一頁面傳遞的數據
         Intent intent = getIntent();
-        if (intent != null){
-          //webview顯示網頁的url
-          String url =  intent.getStringExtra(AD_DETAIL_URL);
-          //廣告商名稱-用在titlebar中間的title
-          String titleStr = intent.getStringExtra(AD_DETAIL_LTD);
+        if (intent != null) {
+            //webview顯示網頁的url
+            String url = intent.getStringExtra(AD_DETAIL_URL);
+            //廣告商名稱-用在titlebar中間的title
+            String titleStr = intent.getStringExtra(AD_DETAIL_LTD);
 
-          /**
-          * 發現網易的url會重定向-即你輸入一個鏈接他會自動跳轉到另外一個鏈接
-           * 重定向解決方法: mWebView.setWebViewClient(new WebViewClient());
-          */
-          mWebView.setWebViewClient(new WebViewClient());
-          mWebView.loadUrl(url);
+            /**
+             * 發現網易的url會重定向-即你輸入一個鏈接他會自動跳轉到另外一個鏈接
+             * 重定向解決方法: mWebView.setWebViewClient(new WebViewClient());
+             */
+            mWebView.setWebViewClient(new WebViewClient() {
+                @Override
+                public void onReceivedError(WebView view, int errorCode,
+                                            String description, String failingUrl) {
+
+                    //加载失败loadError = true
+                    super.onReceivedError(view, errorCode, description, failingUrl);
+                    view.setVisibility(View.GONE);
+                    mErrorView.setVisibility(View.VISIBLE);
+                    loadError = true;
+                }
+
+                @Override
+                public void onPageFinished(WebView view, String url) {//加载成功
+                    super.onPageFinished(view, url);
+
+                    //严谨起见还是在做判断
+                    if (loadError != true) {
+                        //显示错误页面
+                        mErrorView.setVisibility(View.GONE);
+                        view.setVisibility(View.VISIBLE);
+                    }
 
 
-          //允许js运行-webView默認是不會加載js的
-          mWebView.getSettings().setJavaScriptEnabled(true);
-          //开启本地DOM存储-解决网易严选不能加载的问题
-          mWebView.getSettings().setDomStorageEnabled(true);
-          //监听网页加载-讓進度條發揮作用
-          mWebView.setWebChromeClient(new WebChromeClient() {
+                }
+            });
+
+            mWebView.loadUrl(url);
+            //设置自适应任意大小的
+            // pc网页-解决了轩尼诗广告不能加载的问题 还要让进度条默认不显示才解决了 ↓
+            //解决步骤二  -----→    --------------------------------- ProgressBar android:visibility="gone"
+            mWebView.getSettings().setUseWideViewPort(true);
+            // mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+            //允许js运行-webView默認是不會加載js的
+            mWebView.getSettings().setJavaScriptEnabled(true);
+            //开启本地DOM存储-解决网易严选不能加载的问题
+            mWebView.getSettings().setDomStorageEnabled(true);
+            mWebView.getSettings().setBlockNetworkImage(false);
+            mWebView.getSettings().setLoadWithOverviewMode(true);
+
+
+            //监听网页加载-讓進度條發揮作用（这里的进度条其实不会发挥作用View.GONE了）
+            mWebView.setWebChromeClient(new WebChromeClient() {
                 @Override
                 public void onProgressChanged(WebView view, int newProgress) {
-                    if (newProgress == 100) {
+                    if (newProgress >= 100) {
                         // 网页加载完成
                         pbProgress.setVisibility(View.GONE);
                     } else {
-                        // 加载中
+                        // 加载中 轩尼诗广告不能加载 改成加载错误显示错误不用进度条以后其他地方可以用
+                        //pbProgress.setVisibility(View.VISIBLE);
                         pbProgress.setProgress(newProgress);
                     }
                     super.onProgressChanged(view, newProgress);
                 }
-           });
 
+            });
         }
     }
 
@@ -84,17 +135,17 @@ public class AdDetailActivity extends Activity {
     @Override
     protected void onDestroy() {
         //這裏解決本頁面finish后音樂還在播放的問題
-        mWebView.destroy();
+        //mWebView.destroy();
 
         ///销毁webview比较正规的写法
-//        if (mWebView != null) {
-//            mWebView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
-//            mWebView.clearHistory();
-//
-//            ((ViewGroup) mWebView.getParent()).removeView(mWebView);
-//            mWebView.destroy();
-//            mWebView = null;
-//        }
+        if (mWebView != null) {
+            mWebView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+            mWebView.clearHistory();
+
+            ((ViewGroup) mWebView.getParent()).removeView(mWebView);
+            mWebView.destroy();
+            mWebView = null;
+        }
 
         super.onDestroy();
     }
@@ -121,6 +172,53 @@ public class AdDetailActivity extends Activity {
  *
  */
 
+
+/** 尝试了很多方法都加载不了下面这个网页 加载图片-解决轩尼诗广告不能加载的问题 有空接着搞
+ *mWebView.loadUrl("http://clickc.admaster.com.cn/c/a121927,b3163300,c3078,i0,m101,8a2,8b1,0a__OS__,z__IDFA__,0c__IMEI__,h");
+ *  // 支持获取手势焦点
+ mWebView.requestFocusFromTouch();
+ mWebView.setHorizontalFadingEdgeEnabled(true);
+ mWebView.setVerticalFadingEdgeEnabled(false);
+ mWebView.setVerticalScrollBarEnabled(false);
+ // 支持JS
+ mWebView.getSettings().setJavaScriptEnabled(true);
+ mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+ mWebView.getSettings().setBuiltInZoomControls(true);
+ mWebView.getSettings().setDisplayZoomControls(true);
+ mWebView.getSettings().setLoadWithOverviewMode(true);
+ // 支持插件
+ mWebView.getSettings().setPluginState(WebSettings.PluginState.ON);
+ mWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+ // 自适应屏幕
+ mWebView.getSettings().setUseWideViewPort(true);
+ mWebView.getSettings().setLoadWithOverviewMode(true);
+ // 支持缩放
+ mWebView.getSettings().setSupportZoom(false);//就是这个属性把我搞惨了，
+ // 隐藏原声缩放控件
+ mWebView.getSettings().setDisplayZoomControls(false);
+ // 支持内容重新布局
+ mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+ mWebView.getSettings().supportMultipleWindows();
+ mWebView.getSettings().setSupportMultipleWindows(true);
+ // 设置缓存模式
+ mWebView.getSettings().setDomStorageEnabled(true);
+ mWebView.getSettings().setDatabaseEnabled(true);
+ mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+ mWebView.getSettings().setAppCacheEnabled(true);
+ mWebView.getSettings().setAppCachePath(mWebView.getContext().getCacheDir().getAbsolutePath());
+ // 设置可访问文件
+ mWebView.getSettings().setAllowFileAccess(true);
+ mWebView.getSettings().setNeedInitialFocus(true);
+ // 支持自定加载图片
+ if (Build.VERSION.SDK_INT >= 19) {
+ mWebView.getSettings().setLoadsImagesAutomatically(true);
+ } else {
+ mWebView.getSettings().setLoadsImagesAutomatically(false);
+ }
+ mWebView.getSettings().setNeedInitialFocus(true);
+ // 设定编码格式
+ mWebView.getSettings().setDefaultTextEncodingName("UTF-8");
+ */
 
 
 

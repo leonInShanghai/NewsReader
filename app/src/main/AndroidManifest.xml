@@ -6,11 +6,13 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <!-- icon 改成 ic_launcher1 是因为导入的依赖:FlycoTabLayout很可能是忘记从库中删除的通用Android图标
+    导致我的apk包 再下载好后安装之前launcher不是我的launcher图 -->
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher1"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_round1"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" android:theme="@android:style/Theme.NoTitleBar.Fullscreen">

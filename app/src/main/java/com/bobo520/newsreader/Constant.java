@@ -14,4 +14,10 @@ public class Constant {
     public static final String NEWS_URL = "http://c.m.163.com/nc/article/hea" +
             "dline/T1348647909107/0-9.html?from=toutiao&size=10&passport=&de" +
             "vId=bMo6EQztO2ZGFBurrbgcMQ%3D%3D&net=wifi";
+
+
+
+    /**由于2019年网易没有返回banner的数据自己创造的banner1图片地址*/
+
+    /**由于2019年网易没有返回banner的数据自己创造的banner2图片地址*/
 }

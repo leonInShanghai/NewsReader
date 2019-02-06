@@ -2,17 +2,26 @@ package com.bobo520.newsreader.weiget.banner;
 
 import com.bobo520.newsreader.R;
 import com.bobo520.newsreader.util.ImageUtil;
+import com.bobo520.newsreader.util.ReturnImgWH;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -28,7 +37,10 @@ public class BannerView extends RelativeLayout{
     //xml中的控件
     private ViewPager mViewpager;
     private TextView mTvTitle;
-    private LinearLayout mAdIndicator;
+    //private LinearLayout mAdIndicator;
+
+    //这个是最大的那个RelativeLayout 布局控件
+    private RelativeLayout dynamicHeight;
 
     //banner轮播图上需要的图片和标题
     private ArrayList<String> mImgPics;
@@ -48,7 +60,8 @@ public class BannerView extends RelativeLayout{
         View view = View.inflate(getContext(),R.layout.view_banner,this);
         mViewpager = (ViewPager)view.findViewById( R.id.viewpager );
         mTvTitle = (TextView)view.findViewById( R.id.tv_title );
-        mAdIndicator = (LinearLayout)view.findViewById( R.id.ad_indicator );
+        //mAdIndicator = (LinearLayout)view.findViewById( R.id.ad_indicator );
+        dynamicHeight = (RelativeLayout)findViewById(R.id.dynamicHeight);
     }
 
     /**
@@ -92,8 +105,36 @@ public class BannerView extends RelativeLayout{
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(ViewGroup container,final int position) {
             ImageView imageView = mImageViews.get(position);
+
+            //使banner的宽度和屏幕宽度一样并且不拉伸变形①获取用户手机屏幕宽度
+            //获取图片真正的宽高
+            Glide.with(getContext()).asBitmap().load(mImgPics.get(position)).into(new SimpleTarget<Bitmap>() {
+
+                @Override
+                public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+                    if (bitmap.getWidth() > 0 && bitmap.getHeight() > 0){
+                            WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+                            double windowWidth = windowManager.getDefaultDisplay().getWidth();
+                            ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) dynamicHeight.getLayoutParams();
+                            params.width = (int) windowWidth;
+                            //高度计算公式 图片高度 / (图片宽度 / 屏幕宽度)
+                            params.height = (int) ((double)bitmap.getHeight() / ((double) bitmap.getWidth() / windowWidth));
+                            Toast.makeText(getContext(), params.height + "1", Toast.LENGTH_SHORT).show();
+                            dynamicHeight.setLayoutParams(params);
+                        }else {
+                            WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE); ;
+                            double windowWidth = windowManager.getDefaultDisplay().getWidth();
+                            ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) dynamicHeight.getLayoutParams();
+                            params.width = (int) windowWidth;
+                            params.height = 608;;
+                            dynamicHeight.setLayoutParams(params);
+                    }
+                }
+            });
+        //使banner的宽度和屏幕宽度一样并且不拉伸变形①获取用户手机屏幕宽度
+
             container.addView(imageView);
             return imageView;
         }

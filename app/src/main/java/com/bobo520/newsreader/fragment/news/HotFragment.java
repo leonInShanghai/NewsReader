@@ -105,9 +105,8 @@ public class HotFragment extends LogFragment {
         //通过自定义控件来做一个封装，后面就方便复用了
         BannerView bannerView = new BannerView(getContext());
         //ArrayList<BannerBean> abs = firstBean.getAbs();//2019年网易服务器没有返回这些
-
-        ArrayList<String> titles = new ArrayList<>();
-        ArrayList<String> imgUrls = new ArrayList<>();
+        //ArrayList<String> titles = new ArrayList<>();
+        //ArrayList<String> imgUrls = new ArrayList<>();
 
         //由于2019年后网易没有返回abs（banner的数据）我先自己造了数据
 //        for (int i = 0;i < ads.size();i++){
@@ -115,6 +114,14 @@ public class HotFragment extends LogFragment {
 //            titles.add(bannerBean.getTitle());
 //            titles.add(bannerBean.getImgsrc());
 //        }
+
+        //----------上面是网络你数据方法↑下面是造数据方法↓--------------
+        ArrayList<String> imgUrls = new ArrayList<>();
+        ArrayList<String> titles = new ArrayList<>();
+        imgUrls.add(Constant.BANNER1);
+        imgUrls.add(Constant.BANNER2);
+        titles.add("0000000000000000");
+        titles.add("1111111111111");
         bannerView.setBannerData(imgUrls,titles);
         mLvHot.addHeaderView(bannerView);
     }

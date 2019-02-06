@@ -18,6 +18,10 @@ public class Constant {
 
 
     /**由于2019年网易没有返回banner的数据自己创造的banner1图片地址*/
+    public static final String BANNER1 = "https://raw.githubusercontent.com/leonInShanghai/" +
+            "NewsReader/master/otherPic/banner1.jpg";
 
     /**由于2019年网易没有返回banner的数据自己创造的banner2图片地址*/
+    public static final String BANNER2 = "https://raw.githubusercontent.com/leonInShanghai/" +
+            "NewsReader/master/otherPic/banner2.jpg";
 }

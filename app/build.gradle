@@ -42,6 +42,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     //implementation 'com.android.support:support-v4:28.0.0'
 
-    //FlycoTabLayout的依赖
+    //FlycoTabLayout的依赖 用到的地方例如：新闻fragment又分成若干个view pager
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
 }

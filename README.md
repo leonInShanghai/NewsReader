@@ -21,8 +21,7 @@
 #用到的知识点 数据本地持久化保存，主线程发消息给子线程。</br>
 #依赖三方库的方式：</br>
 1.依赖一个文件（jar/aar） aar文件的区别：除了包含jar文件外，还包含了一些资源文件。</br>
-    //aar文件在第一次依赖时，需要进行一些配置
-        //首先在project外层build.gradle文件中添加如下代码：
+    //aar文件在第一次依赖时，需要进行一些配置 首先在project外层build.gradle文件中添加如下代码：
 
         allprojects {
             repositories {
@@ -47,4 +46,6 @@
 
 2.依赖一个module（一个Library形式的module）</br>
 3.通过远程仓库进行依赖（缺点它的代码无法更改 因为别人通常是打包好上传到远程仓库的打包好的文件代码你怎么修改呢）
-比如：implementation  'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+比如：implementation  'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'</br>
+加载图片的几种方法：</br>
+1.Glide 2.自己写 3.UIL（老牌的图片加载三方库）

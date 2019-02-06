@@ -1,8 +1,10 @@
 package com.bobo520.newsreader.http;
 
-import android.util.Log;
 
-import com.bobo520.newsreader.Constant;
+
+import android.os.Handler;
+import android.os.Looper;
+
 import com.bobo520.newsreader.LELog;
 
 import java.io.IOException;
@@ -12,7 +14,7 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
+
 
 /**
  * Created by Leon on 2019/1/20. Copyright © Leon. All rights reserved.
@@ -39,8 +41,15 @@ public class HttpHelper {
 
     private static HttpHelper sHttpHelper;
 
-    private HttpHelper(){
+    private final OkHttpClient mOkHttpClient;
 
+    private  Handler mHandler;
+
+    private HttpHelper(){
+        mOkHttpClient = new OkHttpClient();
+        //确保mHandler运行在主线程中：Looper.getMainLooper()
+        //如果handler的构造方法中传入了某个线程对应的looper，那么handler就会跟这个线程绑定起来
+        mHandler = new Handler(Looper.getMainLooper());
     }
 
     public static HttpHelper getInstance(){
@@ -63,9 +72,8 @@ public class HttpHelper {
      */
     public void requestGET(String url, final OnResponseListener listener){
         //通过OK HTTP来请求网络
-        OkHttpClient okHttpClient = new OkHttpClient();
-        final Request request = new Request.Builder().url(url).build();
-        Call call = okHttpClient.newCall(request);
+        Request request = new Request.Builder().url(url).build();
+        Call call = mOkHttpClient.newCall(request);
         //这里用的异步加载
         call.enqueue(new Callback() {
             @Override
@@ -82,7 +90,14 @@ public class HttpHelper {
                 }
 
                 //后续的业务需要交给不同的页面来实现-自定义接口来实现
-                listener.onSuccess(response);
+                final String string = response.body().string();
+                //让onSuccess方法直接运行在主线程
+                mHandler.post(new Runnable() {//运行在创建handler时对应的线程中
+                    @Override
+                    public void run() {
+                        listener.onSuccess(string);
+                    }
+                });
             }
         });
     }

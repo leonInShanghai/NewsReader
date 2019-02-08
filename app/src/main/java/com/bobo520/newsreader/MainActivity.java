@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -65,12 +67,21 @@ public class MainActivity extends Activity {
     /**自定义的skipview的按钮“倒计时跳过”*/
     private SkipView mSkipView;
 
-//    @Override
-//    protected void onResume() {
-//        //在视图将显示的时候调用-自定义的工具类方法使得状态栏和app颜色一样
-//        LETrtStBarUtil.setTransparentToolbar(this);
-//        super.onResume();
-//    }
+    private final static int SPLASH = 2019208;
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            //如果当前的activity 已经退出那么不做任何的处理
+            if (isFinishing()){
+                return;
+            }
+
+            //进入主页。
+            toHome();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,7 +213,20 @@ public class MainActivity extends Activity {
        }
     }
 
+    //跳转到主页面
+    private void toHome(){
+        Intent intent = new Intent(MainActivity.this,HomeActivity.class);
+        startActivity(intent);
+        finish();//跳转完成后关闭splash页面
+    }
+
     private void requestData(){
+
+        //-----------------------------暂时将页面跳转代码加在这里------------------------------
+        //handle发送一个1秒钟延时的消息
+        handler.sendEmptyMessageDelayed(SPLASH, 1000);
+        //-----------------------------暂时将页面跳转代码加在这里------------------------------
+
         //1.使用okHttp进行网络请求
         OkHttpClient okHttpClient = new OkHttpClient();
         //2.创建Request对象-建造者模式

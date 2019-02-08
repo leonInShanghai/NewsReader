@@ -120,8 +120,8 @@ public class HotFragment extends LogFragment {
         ArrayList<String> titles = new ArrayList<>();
         imgUrls.add(Constant.BANNER1);
         imgUrls.add(Constant.BANNER2);
-        titles.add("0000000000000000");
-        titles.add("1111111111111");
+        titles.add("波波新闻有态度°");
+        titles.add("波波 instant message");
         bannerView.setBannerData(imgUrls,titles);
         mLvHot.addHeaderView(bannerView);
     }

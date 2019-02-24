@@ -30,10 +30,6 @@ dependencies {
     //gson
     //implementation 'com.google.code.gson:gson:2.8.5'
 
-    //沉浸式 滑动关闭页面所需依赖
-    //implementation 'com.jude:swipebackhelper:3.1.2'
-    //implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
-
     implementation project(':library')
 
 
@@ -44,4 +40,7 @@ dependencies {
 
     //FlycoTabLayout的依赖 用到的地方例如：新闻fragment又分成若干个view pager
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+
+    //下拉加载更多（停止维护）https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh
+    implementation 'in.srain.cube:ultra-ptr:1.0.11'
 }

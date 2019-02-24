@@ -26,6 +26,13 @@ public class HotNewsAdater extends MyBaseAdapter<HotNewsBean>{
         super(list);
     }
 
+    /**添加(更新)数据的方法-下拉刷新上拉加载更多*/
+    public void loadData(ArrayList<HotNewsBean> list){
+        mList.addAll(list);
+        //刷新页面-通知已更改的数据集
+        notifyDataSetChanged();
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         HotNewsViewHolder viewHolder;
@@ -68,6 +75,16 @@ public class HotNewsAdater extends MyBaseAdapter<HotNewsBean>{
         }
         //用封装好的单例工具类设置图片
         ImageUtil.getSinstance().displayPic(hotNewsBean.getImg(),viewHolder.ivHot);
+    }
+
+    /**用于下拉刷新时调用的方法*/
+    public void updateData(ArrayList<HotNewsBean> list){
+        //先清空一下之前的数据
+        mList.clear();
+
+        mList.addAll(list);
+        //刷新页面-通知已更改的数据集
+        notifyDataSetChanged();
     }
 
     private class HotNewsViewHolder{

@@ -4,6 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.bobo520.newsreader.bean.HotNewsBean;
 import com.flyco.tablayout.widget.MsgView;
 
 import java.util.ArrayList;
@@ -36,4 +37,5 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
+
 }

@@ -103,21 +103,21 @@ public class AdDetailActivity extends Activity {
 
 
             //监听网页加载-讓進度條發揮作用（这里的进度条其实不会发挥作用View.GONE了）
-            mWebView.setWebChromeClient(new WebChromeClient() {
-                @Override
-                public void onProgressChanged(WebView view, int newProgress) {
-                    if (newProgress >= 100) {
-                        // 网页加载完成
-                        pbProgress.setVisibility(View.GONE);
-                    } else {
-                        // 加载中 轩尼诗广告不能加载 改成加载错误显示错误不用进度条以后其他地方可以用
-                        //pbProgress.setVisibility(View.VISIBLE);
-                        pbProgress.setProgress(newProgress);
-                    }
-                    super.onProgressChanged(view, newProgress);
-                }
-
-            });
+//            mWebView.setWebChromeClient(new WebChromeClient() {
+//                @Override
+//                public void onProgressChanged(WebView view, int newProgress) {
+//                    if (newProgress >= 100) {
+//                        // 网页加载完成
+//                        pbProgress.setVisibility(View.GONE);
+//                    } else {
+//                        // 加载中 轩尼诗广告不能加载 改成加载错误显示错误不用进度条以后其他地方可以用
+//                        //pbProgress.setVisibility(View.VISIBLE);
+//                        pbProgress.setProgress(newProgress);
+//                    }
+//                    super.onProgressChanged(view, newProgress);
+//                }
+//
+//            });
         }
     }
 

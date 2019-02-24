@@ -2,9 +2,12 @@ package com.bobo520.newsreader.weiget.banner;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -43,6 +46,12 @@ public class BannerView extends RelativeLayout{
     private ArrayList<String> mImgPics;
     private ArrayList<String> mTitles;
 
+    //负责让轮播图自动滚动的handler
+    private Handler mHandler;
+
+    /**发送自动轮播消息的唯一标识 刚好也是延时的时长2000毫秒*/
+    private static final int SHOW_TIME = 2000;
+
     public BannerView(Context context) {
         this(context,null);
     }
@@ -59,6 +68,24 @@ public class BannerView extends RelativeLayout{
         mTvTitle = (TextView)view.findViewById( R.id.tv_title );
         mAdIndicator = (LinearLayout)view.findViewById( R.id.ad_indicator );
         dynamicHeight = (RelativeLayout)findViewById(R.id.dynamicHeight);
+
+        mHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+
+                switch (msg.what){
+                    case SHOW_TIME :
+                        //接收到消息自动翻页-先获取当前页
+                        int currentItem = mViewpager.getCurrentItem();
+                        currentItem++;
+                        mViewpager.setCurrentItem(currentItem);
+                        //再次发送这个消息使得轮播图可以无限自动轮播
+                        mHandler.sendEmptyMessageDelayed(SHOW_TIME,SHOW_TIME);
+                        break;
+                }
+            }
+        };
     }
 
     /**
@@ -95,6 +122,54 @@ public class BannerView extends RelativeLayout{
         //设置翻页的监听
         MyPageChangeListener myPageChangeListener = new MyPageChangeListener();
         mViewpager.addOnPageChangeListener(myPageChangeListener);
+
+        /**
+         * 设置view pager的初始位置从max value的中间开始 实现用户可以左划banner
+         * 细节并不是从第一张图片开始展示
+         */
+        mViewpager.setCurrentItem(Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % mTitles.size());
+
+        //调用自动无限轮播的方法
+        start();
+    }
+
+    /**
+     * 分发
+     * 备注：如果希望在原先的触摸逻辑的基础上面，添加一些额外的业务逻辑，并且该业务逻辑不需要影响到先前
+     * 的触摸逻辑，可以考虑将业务逻辑代码写在分发方法中
+     * ACTION_CANCEL:事件类型：当控件在触摸的一系列过程中，突然中断了。
+     */
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        int eventAction = event.getAction();
+
+        switch (eventAction){
+            case MotionEvent.ACTION_DOWN:
+                //用户按下了banner图 停止发送让banner图无限滚动的消息
+                stop();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                break;
+            case MotionEvent.ACTION_UP:
+                //用户抬起了手指开始发送让banner图无限滚动的消息
+                start();
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                //用户取消了（当控件在触摸的一系列过程中，突然中断了）（手指移动到别的控件上了）
+                start();
+                break;
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
+    public void start(){
+        //开始自动轮播
+        mHandler.sendEmptyMessageDelayed(SHOW_TIME,SHOW_TIME);
+    }
+
+    public void stop(){
+        //停止自动轮播-销毁handler
+        mHandler.removeCallbacksAndMessages(null);
     }
 
     /**设置页面的小点 pager count*/
@@ -223,6 +298,18 @@ public class BannerView extends RelativeLayout{
             //警告:为了实现imageview 轮播图无限往一个方向滑动 不要在这里调用removeView
             //container.removeView((View) object);
         }
+    }
+
+
+    @Override
+    protected void onDetachedFromWindow() {
+        /**
+         * 和window对象断开关系
+         * 视图死亡（视图被移除，或者activity死亡之前）时调用
+         * stop();方法中会移除handler合理的管理内存
+         */
+        stop();
+        super.onDetachedFromWindow();
     }
 }
 

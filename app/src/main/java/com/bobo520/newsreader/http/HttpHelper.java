@@ -77,8 +77,15 @@ public class HttpHelper {
         //这里用的异步加载
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                listener.onFail();
+            public void onFailure(Call call,final IOException e) {
+
+                //让onFailure在主线程中执行避免异常
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listener.onFail(e);
+                    }
+                });
             }
 
             @Override

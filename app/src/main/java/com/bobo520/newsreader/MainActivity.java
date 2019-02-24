@@ -130,51 +130,6 @@ public class MainActivity extends Activity {
            SpUtils.setInt(getApplicationContext(),CACHE_ADS_INDEX,index);
 
 
-           //點擊圖片跳轉到對應的廣告詳情
-           mIv_ad.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   if (once) {//限制用户多次点击开启多个页面
-                       once = false;
-                       noPlayAdvertising = false;//用户已经点击了广告
-                       if (!CheckTheLinkNetwork.isNetPingUsable()){//用户没有开启网络
-                           Toast.makeText(MainActivity.this,"請求失败請檢查網絡",Toast.LENGTH_SHORT).show();
-                           once = true;//用户没有开启网络 等用用户开启网络后还可以再次点击
-                           noPlayAdvertising = true;//没有网络用户可以再次点击
-                           return;
-                       }
-                       new Thread() {
-                           @Override
-                           public void run() {
-                               //判断网易返回的url是否正确（这里判断的是是否可达）
-                               if (CheckTheLinkNetwork.checkUrl(adsBean.getAction_params().getLink_url(),
-                                       5000)) {
-                                   //正确回到主线程展示广告
-                                   runOnUiThread(new Runnable() {
-                                       @Override
-                                       public void run() {
-                                           Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                                           Intent intent2 = new Intent(getApplicationContext(), AdDetailActivity.class);
-                                           intent2.putExtra(AD_DETAIL_URL, adsBean.getAction_params().getLink_url());
-                                           intent2.putExtra(AD_DETAIL_LTD, adsBean.getContent() == null ? "廣告" : adsBean.getContent());
-                                           Intent[] intents = new Intent[]{intent, intent2};
-                                           /**
-                                            *startActivities 注意後面帶S 這個方法一口氣打開2個頁面
-                                            * 很適合現在的場景（用戶關閉廣告詳情頁新聞頁面就顯示出來了）
-                                            */
-                                           startActivities(intents);
-                                           finish();
-                                       }
-                                   });
-                               } else {
-                                   //网易返回的url不正确广告后还让用户进入app
-                                   noPlayAdvertising = true;//状态改为没有点击广告
-                               }
-                           }
-                       }.start();
-                   }
-               }
-           });
            //设置SkipView的 点击跳转
            mSkipView.setVisibility(View.VISIBLE);//让视图显示
            mSkipView.setmOnSkipListener(new SkipView.OnSkipListener() {
@@ -189,10 +144,15 @@ public class MainActivity extends Activity {
                    }
                }
            });
-           //让skipview开始旋转
            mSkipView.start();
 
        }else {//不存在請求網絡下載圖片-**********************不播放广告的处理逻辑**********************
+
+           //-----------------------------暂时将页面跳转代码加在这里------------------------------
+           //handle发送一个1秒钟延时的消息
+           handler.sendEmptyMessageDelayed(SPLASH, 1000);
+           //-----------------------------暂时将页面跳转代码加在这里------------------------------
+
            //展示圖片 圖片文件→需要下載地址→JavaBean對象→json字符串
            Gson gson = new Gson();
            AdListBean adListBean = gson.fromJson(json,AdListBean.class);
@@ -221,11 +181,6 @@ public class MainActivity extends Activity {
     }
 
     private void requestData(){
-
-        //-----------------------------暂时将页面跳转代码加在这里------------------------------
-        //handle发送一个1秒钟延时的消息
-        handler.sendEmptyMessageDelayed(SPLASH, 1000);
-        //-----------------------------暂时将页面跳转代码加在这里------------------------------
 
         //1.使用okHttp进行网络请求
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -307,6 +262,15 @@ public class MainActivity extends Activity {
         }
 
     }
+
+    @Override
+    protected void onDestroy() {
+
+        //当activity销毁的时候移除掉handle发送的消息合理的管理内存
+        handler.removeCallbacksAndMessages(null);
+
+        super.onDestroy();
+    }
 }
 
 
@@ -359,3 +323,54 @@ public class MainActivity extends Activity {
 //
 //        return stringBuffer.toString();
 //    }
+
+
+//點擊圖片跳轉到對應的廣告詳情 - 由于网易后端返回的url格式太混乱后来没有用
+//  mIv_ad.setOnClickListener(new View.OnClickListener() {
+//@Override
+//public void onClick(View v) {
+//        //结束绘制skipview
+//        mSkipView.stop();
+//        if (once) {//限制用户多次点击开启多个页面
+//        once = false;
+//        noPlayAdvertising = false;//用户已经点击了广告
+//        //ANR_LOG: >>> msg's executing time is too long 注释了下面这些耗时操作
+//        //if (!CheckTheLinkNetwork.isNetPingUsable()){//用户没有开启网络
+//        //  Toast.makeText(MainActivity.this,"請求失败請檢查網絡",Toast.LENGTH_SHORT).show();
+//        //once = true;//用户没有开启网络 等用用户开启网络后还可以再次点击
+//        //noPlayAdvertising = true;//没有网络用户可以再次点击
+//        //return;
+//        //}
+//        new Thread() {
+//@Override
+//public void run() {
+//        //判断网易返回的url是否正确（这里判断的是是否可达）
+//        if (CheckTheLinkNetwork.checkUrl(adsBean.getAction_params().getLink_url(),
+//        3000)) {
+//        //正确回到主线程展示广告
+//        runOnUiThread(new Runnable() {
+//@Override
+//public void run() {
+//        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+//        Intent intent2 = new Intent(getApplicationContext(), AdDetailActivity.class);
+//        //adsBean.getAction_params().getLink_url()
+//        intent2.putExtra(AD_DETAIL_URL, "009900");
+//        intent2.putExtra(AD_DETAIL_LTD, adsBean.getContent() == null ? "廣告" : adsBean.getContent());
+//        Intent[] intents = new Intent[]{intent, intent2};
+//        /**
+//         *startActivities 注意後面帶S 這個方法一口氣打開2個頁面
+//         * 很適合現在的場景（用戶關閉廣告詳情頁新聞頁面就顯示出來了）
+//         */
+//        startActivities(intents);
+//        finish();
+//        }
+//        });
+//        } else {
+//        //网易返回的url不正确广告后还让用户进入app
+//        noPlayAdvertising = true;//状态改为没有点击广告
+//        }
+//        }
+//        }.start();
+//        }
+//        }
+//        });

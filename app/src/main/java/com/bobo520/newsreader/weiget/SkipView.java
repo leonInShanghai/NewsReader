@@ -174,6 +174,11 @@ public class SkipView extends View {
         mHandler.sendEmptyMessage(SPACE_TIME_ANGLE);
     }
 
+    /**停止绘画要跳转页面*/
+    public void stop(){
+        mHandler.removeCallbacksAndMessages(null);
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);

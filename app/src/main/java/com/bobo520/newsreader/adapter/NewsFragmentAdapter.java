@@ -31,4 +31,6 @@ public class NewsFragmentAdapter extends FragmentStatePagerAdapter{
     public int getCount() {
         return mFragments == null ? 0 : mFragments.size();
     }
+
 }
+

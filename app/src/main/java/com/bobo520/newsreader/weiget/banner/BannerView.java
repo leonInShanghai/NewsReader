@@ -133,6 +133,7 @@ public class BannerView extends RelativeLayout{
         start();
     }
 
+
     /**
      * 分发
      * 备注：如果希望在原先的触摸逻辑的基础上面，添加一些额外的业务逻辑，并且该业务逻辑不需要影响到先前
@@ -147,6 +148,8 @@ public class BannerView extends RelativeLayout{
             case MotionEvent.ACTION_DOWN:
                 //用户按下了banner图 停止发送让banner图无限滚动的消息
                 stop();
+                // 此句代码是为了通知他的父ViewPager现在进行的是本控件的操作，不要对我的操作进行干扰
+                //getParent().requestDisallowInterceptTouchEvent(true);
                 break;
             case MotionEvent.ACTION_MOVE:
                 break;

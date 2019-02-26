@@ -50,6 +50,9 @@ public class HotFragment extends LogFragment {
     /**用来下拉刷新的GitHub上找的下拉刷新控件*/
     private PtrClassicFrameLayout mPtrFrame;
 
+    /**自定义bannerview的变量*/
+    private BannerView mBannerView;
+
     @Override
     public View getChildView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View inflate = inflater.inflate(R.layout.frag_hot,container,false);
@@ -147,7 +150,6 @@ public class HotFragment extends LogFragment {
             url = Constant.getNewsUrl(0,9);
         } else {
             //上拉加载更多
-
             url = Constant.getNewsUrl(loadMoreCount * 10, loadMoreCount * 10 + 9);
             loadMoreCount++;
         }
@@ -204,22 +206,23 @@ public class HotFragment extends LogFragment {
             mHotNewsAdater = new HotNewsAdater(t1348647909107);
             mLvHot.setAdapter(mHotNewsAdater);
         }else {
-            //判读是否为加载更多
+            //判断是否为加载更多
             if (isLoadMore){
                 mHotNewsAdater.loadData(t1348647909107);
             }else {
                 //下拉刷新-添加之前先清空数据再添加
                 mHotNewsAdater.updateData(t1348647909107);
             }
-
         }
     }
 
     //设置轮播图
     private void setBanner(HotNewsBean firstBean) {
         //通过自定义控件来做一个封装，后面就方便复用了 getContext()空指针
-        if (getContext() != null) {
-            BannerView bannerView = new BannerView(getContext());
+        if (getContext() == null ) { return;}
+
+        //避免重复创建避免重复添加banner数据mBannerView合理管理内存
+            mBannerView = new BannerView(getContext());
 
             //ArrayList<BannerBean> abs = firstBean.getAbs();//2019年网易服务器没有返回这些
             //ArrayList<String> titles = new ArrayList<>();
@@ -239,8 +242,8 @@ public class HotFragment extends LogFragment {
             imgUrls.add(Constant.BANNER2);
             titles.add("波波新闻有态度°");
             titles.add("波波 instant message");
-            bannerView.setBannerData(imgUrls, titles);
-            mLvHot.addHeaderView(bannerView);
-        }
+            mBannerView.setBannerData(imgUrls, titles);
+            mLvHot.addHeaderView(mBannerView);
+
     }
 }

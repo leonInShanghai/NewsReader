@@ -32,7 +32,6 @@ import okhttp3.ResponseBody;
  * Created by Leon on 2018/12/30. Copyright © Leon. All rights reserved.
  * Functions: 创建 project 之初的 第一个activity
  * okio mave仓库中选这个 ：g:com.squareup.okio 新版的会闪退 也可能是 OK HTTP jar 包太新。
- * 原来：增加了沉浸式导航栏滑动翻页 SwipeBack功能
  */
 public class MainActivity extends Activity {
 
@@ -58,7 +57,6 @@ public class MainActivity extends Activity {
     private ImageView mIv_ad;
 
     /**限制用户不能多次点击的变量*/
-    private boolean once = true;
     private boolean onceSkip = true;
 
     /**解决用户在skip即将加载完成的时候点击广告开启2个homeactivity的bug*/

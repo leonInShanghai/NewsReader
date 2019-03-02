@@ -149,7 +149,7 @@ public class HotFragment extends LogFragment {
             //下拉刷新-取出前面10条新闻的最新数据就行了
             url = Constant.getNewsUrl(0,9);
         } else {
-            //上拉加载更多-注意loadMoreCount++;写前面之前写后面遇到了bug
+            //上拉加载更多-注意loadMoreCount++;之前写前面写后面遇到了bug
             loadMoreCount++;
             url = Constant.getNewsUrl(loadMoreCount * 10, loadMoreCount * 10 + 9);
         }

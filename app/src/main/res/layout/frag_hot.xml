@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--添加的下拉刷新控件 ↓ -->
-<in.srain.cube.views.ptr.PtrClassicFrameLayout
+<!--原来后来继承重写了 in.srain.cube.views.ptr.PtrClassicFrameLayout-->
+<com.bobo520.newsreader.weiget.MyPtrClassicFrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ptr_frame"
     xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
@@ -25,4 +26,4 @@
 
     </LinearLayout>
 
-</in.srain.cube.views.ptr.PtrClassicFrameLayout>
+</com.bobo520.newsreader.weiget.MyPtrClassicFrameLayout>

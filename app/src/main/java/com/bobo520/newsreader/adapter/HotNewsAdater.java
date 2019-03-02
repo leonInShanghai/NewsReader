@@ -6,6 +6,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bobo520.newsreader.LELog;
 import com.bobo520.newsreader.R;
 import com.bobo520.newsreader.bean.HotNewsBean;
 import com.bobo520.newsreader.bean.HotNewsListBean;
@@ -74,7 +75,15 @@ public class HotNewsAdater extends MyBaseAdapter<HotNewsBean>{
             }
         }
         //用封装好的单例工具类设置图片
-        ImageUtil.getSinstance().displayPic(hotNewsBean.getImg(),viewHolder.ivHot);
+        if (hotNewsBean.getImg() == null){//2019-3-2发现网易返回的数据有时候没有图片
+            viewHolder.ivHot.setVisibility(View.GONE);
+        }else {
+            viewHolder.ivHot.setVisibility(View.VISIBLE);
+            ImageUtil.getSinstance().displayPic(hotNewsBean.getImg(),viewHolder.ivHot);
+        }
+
+        //2019-3-2之前
+        //ImageUtil.getSinstance().displayPic(hotNewsBean.getImg(),viewHolder.ivHot);
     }
 
     /**用于下拉刷新时调用的方法*/
@@ -82,6 +91,7 @@ public class HotNewsAdater extends MyBaseAdapter<HotNewsBean>{
         //先清空一下之前的数据
         mList.clear();
 
+        //LELog.showLogWithLineNum(5,"先清空一下之前的数据");
         mList.addAll(list);
         //刷新页面-通知已更改的数据集
         notifyDataSetChanged();

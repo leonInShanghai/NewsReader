@@ -48,4 +48,18 @@
 3.通过远程仓库进行依赖（缺点它的代码无法更改 因为别人通常是打包好上传到远程仓库的打包好的文件代码你怎么修改呢）
 比如：implementation  'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'</br>
 加载图片的几种方法：</br>
-1.Glide 2.自己写 3.UIL（老牌的图片加载三方库）
+1.Glide 2.自己写 3.UIL（老牌的图片加载三方库）</br>
+
+-------------------------------------------------------------------------------------------------------------</br>
+1.下拉刷新控件PtrFragmeLayout的触摸逻辑</br>
+   有两个方法：</br>
+        dispatchTouchEventSupper 默认的super分发方法，该方法会正常的将触摸事件发给子控件</br>
+        dispatchTouchEvent 系统的分发方发，内部有自定义的业务逻辑</br>
+            自定义的业务逻辑：当能够响应下拉刷新的手势时，就会直接去下拉刷新并return true，</br>
+                              触摸事件是不会分发给内部子控件的</br>
+                              当不响应下拉刷新时，就调用dispatchTouchEventSuper方法，正常的将触摸事件发下去</br>
+
+2.复写这个控件（PtrFragmeLayout）的分发方法dispatchTouchEvent：</br>
+    当手势的X方向偏移大于Y方向的偏移时，说明不是下拉刷新的手势，
+    将事件正常的分发下去（return dispatchTouchEventSupper）;</br>
+

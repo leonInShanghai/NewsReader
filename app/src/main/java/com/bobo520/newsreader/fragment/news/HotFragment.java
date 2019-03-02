@@ -149,9 +149,9 @@ public class HotFragment extends LogFragment {
             //下拉刷新-取出前面10条新闻的最新数据就行了
             url = Constant.getNewsUrl(0,9);
         } else {
-            //上拉加载更多
-            url = Constant.getNewsUrl(loadMoreCount * 10, loadMoreCount * 10 + 9);
+            //上拉加载更多-注意loadMoreCount++;写前面之前写后面遇到了bug
             loadMoreCount++;
+            url = Constant.getNewsUrl(loadMoreCount * 10, loadMoreCount * 10 + 9);
         }
         //HttpHelper已将子线程转换到UI线程请放心使用
         HttpHelper.getInstance().requestGET(url, new OnResponseListener() {
@@ -196,7 +196,7 @@ public class HotFragment extends LogFragment {
             Log.e("leon","有轮播图");
             //添加一个head给list view，制作轮播图
             setBanner(firstBean);
-        }else if (mHotNewsAdater == null){//第一次进来需要设置banner图
+        }else {//第一次进来需要设置banner图if (mHotNewsAdater == null)
             //原来服务器是有返回轮播图的数据，按原来要写在if语句上半部分的
             setBanner(firstBean);
         }
@@ -221,29 +221,32 @@ public class HotFragment extends LogFragment {
         //通过自定义控件来做一个封装，后面就方便复用了 getContext()空指针
         if (getContext() == null ) { return;}
 
-        //避免重复创建避免重复添加banner数据mBannerView合理管理内存
+        //ArrayList<BannerBean> abs = firstBean.getAbs();//2019年网易服务器没有返回这些
+        //ArrayList<String> titles = new ArrayList<>();
+        //ArrayList<String> imgUrls = new ArrayList<>();
+
+        //由于2019年后网易没有返回abs（banner的数据）我先自己造了数据
+        //for (int i = 0;i < ads.size();i++){
+        //BannerBean bannerBean = ads.get(i);
+        //titles.add(bannerBean.getTitle());
+        //titles.add(bannerBean.getImgsrc());
+        //}
+
+        //----------上面是网络数据方法↑下面是造数据方法↓--------------
+
+        ArrayList<String> imgUrls = new ArrayList<>();
+        ArrayList<String> titles = new ArrayList<>();
+        imgUrls.add(Constant.BANNER1);
+        imgUrls.add(Constant.BANNER2);
+        titles.add("波波新闻有态度°");
+        titles.add("波波 instant message");
+
+        if (mBannerView == null){
             mBannerView = new BannerView(getContext());
-
-            //ArrayList<BannerBean> abs = firstBean.getAbs();//2019年网易服务器没有返回这些
-            //ArrayList<String> titles = new ArrayList<>();
-            //ArrayList<String> imgUrls = new ArrayList<>();
-
-            //由于2019年后网易没有返回abs（banner的数据）我先自己造了数据
-//        for (int i = 0;i < ads.size();i++){
-//            BannerBean bannerBean = ads.get(i);
-//            titles.add(bannerBean.getTitle());
-//            titles.add(bannerBean.getImgsrc());
-//        }
-
-            //----------上面是网络你数据方法↑下面是造数据方法↓--------------
-            ArrayList<String> imgUrls = new ArrayList<>();
-            ArrayList<String> titles = new ArrayList<>();
-            imgUrls.add(Constant.BANNER1);
-            imgUrls.add(Constant.BANNER2);
-            titles.add("波波新闻有态度°");
-            titles.add("波波 instant message");
             mBannerView.setBannerData(imgUrls, titles);
             mLvHot.addHeaderView(mBannerView);
-
+        }else {
+            mBannerView.updateData(imgUrls, titles);
+        }
     }
 }

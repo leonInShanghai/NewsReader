@@ -65,6 +65,7 @@ public class NewsFragment extends LogFragment {
         fragments.add(new EmptyFragment());
         fragments.add(new EmptyFragment());
         fragments.add(new EmptyFragment());
+
         //嵌套使用的时候要使用ChildFragmentManager
         NewsFragmentAdapter newsFragmentAdapter =  new NewsFragmentAdapter(getChildFragmentManager(),fragments);
 

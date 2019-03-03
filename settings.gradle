@@ -1,1 +1,1 @@
-include ':app', ':skipview', ':viewpagerdemo','library'
+include ':app', ':skipview', ':viewpagerdemo', ':buildertest','library'

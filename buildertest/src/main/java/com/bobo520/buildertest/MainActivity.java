@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.e("建造者模式：",girlFriend.toString());
 
-        //log输出如下：
+        //log输出如下：了
         //GirlFriend{name='大乔', age='100', height='175', weight='99', sanwei='80 60 90', isBeauty=true}
     }
 }

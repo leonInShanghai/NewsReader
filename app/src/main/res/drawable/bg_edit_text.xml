@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--state_focused 状态聚焦 -->
+    <item android:drawable="@drawable/line_blue" android:state_focused="true"/>
+    <item android:drawable="@drawable/line_blue" android:state_selected="true"/>
+    <item android:drawable="@drawable/line_gray" />
+</selector>

@@ -1,5 +1,6 @@
 package com.bobo520.newsreader.fragment.news;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -7,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.bobo520.newsreader.Constant;
 import com.bobo520.newsreader.LELog;
+import com.bobo520.newsreader.NewsDetailActivity;
 import com.bobo520.newsreader.R;
 import com.bobo520.newsreader.adapter.HotNewsAdater;
 import com.bobo520.newsreader.bean.HotNewsBean;
@@ -29,6 +32,8 @@ import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
+
+import static com.bobo520.newsreader.NewsDetailActivity.NEWS_ID;
 
 /**
  * Created by Leon on 2019/1/13. Copyright © Leon. All rights reserved.
@@ -74,6 +79,19 @@ public class HotFragment extends LogFragment {
 
         //设置ListView的脚布局-上拉加载更多的加载框
         setFooter();
+
+        /**
+         * listView Item点击事件的处理
+         */
+        mLvHot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getContext(), NewsDetailActivity.class);
+                //因为listView header 的原因这里的position要 - 1
+                intent.putExtra(NEWS_ID,((HotNewsBean)mHotNewsAdater.getItem(position - 1)).getId());
+                startActivity(intent);
+            }
+        });
 
         requestData(false);
     }

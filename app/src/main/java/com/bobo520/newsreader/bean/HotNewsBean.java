@@ -43,6 +43,12 @@ public class HotNewsBean {
     String interest;
 
     /**
+     * 新闻的标志id
+
+     */
+    String id;
+
+    /**
      * 代表该新闻是否为轮播图
      * 例如：0
      */
@@ -94,6 +100,14 @@ public class HotNewsBean {
 
     public void setHasHead(int hasHead) {
         this.hasHead = hasHead;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
 }

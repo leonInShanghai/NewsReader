@@ -10,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.bobo520.newsreader.LELog;
 import com.bobo520.newsreader.R;
 import com.bobo520.newsreader.adapter.NewsFragmentAdapter;
 import com.bobo520.newsreader.fragment.news.DisportFragment;
@@ -65,6 +68,7 @@ public class NewsFragment extends LogFragment {
         fragments.add(new EmptyFragment());
         fragments.add(new EmptyFragment());
         fragments.add(new EmptyFragment());
+
 
         //嵌套使用的时候要使用ChildFragmentManager
         NewsFragmentAdapter newsFragmentAdapter =  new NewsFragmentAdapter(getChildFragmentManager(),fragments);

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewsDetailActivity">
+
+    <!--下面这个view是为了设置沉浸式状态栏 id 必须是status_placeholder 放在最上面-->
+    <View
+        android:id="@+id/status_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@drawable/shape_le"/>
+
+    <!--android:background="@drawable/shape_le"-->
+    <LinearLayout
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:background="@drawable/shape_le">
+
+        <ImageButton
+            android:layout_height="match_parent"
+            android:layout_width="50dp"
+            android:background="@drawable/bg_btn_back"
+            android:src="@drawable/news_title_back"/>
+
+        <!--Space已经提示过时查看源代码显示继承自view就用view代替了-->
+        <View
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"/>
+
+        <ImageButton
+            android:layout_height="match_parent"
+            android:layout_width="50dp"
+            android:background="@drawable/bg_btn_back"
+            android:src="@drawable/news_title_menu"/>
+
+   </LinearLayout>
+
+    <WebView
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/webView"/>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:paddingTop="12dp"
+        android:paddingBottom="8dp"
+        android:gravity="center_vertical"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp">
+
+        <EditText
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:background="@null"
+            android:layout_weight="1"
+            android:id="@+id/et_reply"
+            android:drawablePadding="2dp"
+            android:drawableBottom="@drawable/bg_edit_text"
+            android:drawableLeft="@drawable/icon_edit_icon"
+            android:textSize="14sp"
+            android:textColorHint="@color/color_gray"
+            android:hint="写跟贴"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_reply"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/icon_message"
+            android:textSize="12sp"
+            android:textColor="@color/color_main"
+            android:text="899"/>
+
+        <ImageView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:src="@drawable/news_article_share_icon"
+            android:id="@+id/iv_share"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_send_reply"
+            android:textColor="@color/color_gray"
+            android:text="发送"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+</LinearLayout>
+

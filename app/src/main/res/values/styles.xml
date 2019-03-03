@@ -1,16 +1,6 @@
 <resources>
 
-    <!-- 原来的代码不能预览AppTheme 后面加了1 -->
-    <style name="AppTheme1" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
-
-
-    <!--修改上面不能预览的bug ↑-->
+    <!--修改不能预览的bug-->
     <style parent="Theme.AppCompat.Light.NoActionBar" name="AppTheme">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -18,10 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-
-
-    <!--修改最上面不能预览的bug ↑-->
-    <style name="AppTheme2" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+    <!--准备一个半透明的activity主题 右划返回（SwipeBackLayout）用-->
+    <style name="SwipeBackActivityTheme" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
     </style>
+
 
 </resources>

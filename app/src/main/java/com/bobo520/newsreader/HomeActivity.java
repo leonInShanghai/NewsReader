@@ -80,6 +80,5 @@ public class HomeActivity extends AppCompatActivity {
 
         /**设置默认选中的tab item*/
         mTabHost.setCurrentTab(0);
-
     }
 }

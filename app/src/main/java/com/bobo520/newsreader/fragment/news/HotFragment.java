@@ -1,6 +1,7 @@
 package com.bobo520.newsreader.fragment.news;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,11 +21,13 @@ import com.bobo520.newsreader.R;
 import com.bobo520.newsreader.adapter.HotNewsAdater;
 import com.bobo520.newsreader.bean.HotNewsBean;
 import com.bobo520.newsreader.bean.HotNewsListBean;
+import com.bobo520.newsreader.customDialog.CfLoadingView;
 import com.bobo520.newsreader.fragment.LogFragment;
 import com.bobo520.newsreader.http.HttpHelper;
 import com.bobo520.newsreader.http.OnResponseListener;
 import com.bobo520.newsreader.weiget.banner.BannerView;
 import com.google.gson.Gson;
+import com.kaopiz.kprogresshud.KProgressHUD;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,6 +61,9 @@ public class HotFragment extends LogFragment {
 
     /**自定义bannerview的变量*/
     private BannerView mBannerView;
+
+    /**加载时像X方那样的loding动画*/
+    private KProgressHUD mKProgressHUD;
 
     @Override
     public View getChildView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -156,6 +163,20 @@ public class HotFragment extends LogFragment {
     //请求数据
     private void requestData(final boolean isLoadMore){
 
+
+        //CfLoadingView imageView = new ImageView(this);
+        //imageView.setBackgroundResource(R.drawable.spin_animation);
+        //AnimationDrawable drawable = (AnimationDrawable) imageView.getBackground();
+        //drawable.start();
+        if (getContext() != null){
+            //开始网络请求-开始显示loading
+           mKProgressHUD = KProgressHUD.create(getContext())
+                    .setCustomView(new CfLoadingView(getContext()))
+                    .setLabel("Please wait",Color.GRAY)
+                    .setBackgroundColor(Color.WHITE)
+                    .show();
+        }
+
         /**
          * 根据用户加载更多的次数，来不断的变化url
          * 第一次 ： 0-9
@@ -180,6 +201,9 @@ public class HotFragment extends LogFragment {
 
                 //结束下拉刷新（无论成功失败本次发起请求已经结束）
                 mPtrFrame.refreshComplete();
+                //loading结束（无论成功失败本次发起请求已经结束）
+                mKProgressHUD.dismiss();
+
 
                 Toast.makeText(getActivity(), "請求失败請檢查網絡", Toast.LENGTH_SHORT).show();
                 LELog.showLogWithLineNum(5,"onFail e："+e.getMessage());
@@ -193,6 +217,9 @@ public class HotFragment extends LogFragment {
 
                 //当前正请求已经结束（无论成功失败本次发起请求已经结束）变量置为true
                 isSuccess = true;
+
+                //loading结束（无论成功失败本次发起请求已经结束）
+                mKProgressHUD.dismiss();
 
                 //解析 gson fastjson
                 Gson gson = new Gson();

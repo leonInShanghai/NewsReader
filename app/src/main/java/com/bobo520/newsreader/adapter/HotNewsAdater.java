@@ -60,6 +60,8 @@ public class HotNewsAdater extends MyBaseAdapter<HotNewsBean>{
     private void changeUI(HotNewsViewHolder viewHolder,HotNewsBean hotNewsBean){
         viewHolder.tvTitle.setText(hotNewsBean.getTitle());
         viewHolder.tvSource.setText(hotNewsBean.getSource());
+        LELog.showLogWithLineNum(5,hotNewsBean.getInterest()+"<<<<<<<<<<<<<<<<<<<<<<<<<");
+
         if (hotNewsBean.getInterest().equals("S")) {
             //要显示置顶
             viewHolder.tvTop.setVisibility(View.VISIBLE);

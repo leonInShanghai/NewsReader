@@ -8,6 +8,7 @@ import android.os.Looper;
 import com.bobo520.newsreader.LELog;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -46,7 +47,15 @@ public class HttpHelper {
     private  Handler mHandler;
 
     private HttpHelper(){
-        mOkHttpClient = new OkHttpClient();
+        //原来时这样写的
+        //mOkHttpClient = new OkHttpClient();
+
+        //我改成这样了
+        mOkHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)//设置连接超时时间
+                .readTimeout(20, TimeUnit.SECONDS)//设置读取超时时间
+                .build();
+
         //确保mHandler运行在主线程中：Looper.getMainLooper()
         //如果handler的构造方法中传入了某个线程对应的looper，那么handler就会跟这个线程绑定起来
         mHandler = new Handler(Looper.getMainLooper());
@@ -93,6 +102,12 @@ public class HttpHelper {
                 //请求不成功的处理
                 if (!response.isSuccessful()){
                     LELog.showLogWithLineNum(5,"响应未成功");
+                    mHandler.post(new Runnable() {//运行在创建handler时对应的线程中
+                        @Override
+                        public void run() {
+                            listener.onFail(new IOException());
+                        }
+                    });
                     return;
                 }
 

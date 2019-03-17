@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bobo520.newsreader.bean.NewsDetailBean;
 import com.bobo520.newsreader.customDialog.CfLoadingView;
@@ -95,6 +97,9 @@ public class NewsDetailActivity extends SwipeBackActivity {
      * 请求新闻详情的数据
      */
     private void initData(){
+
+        Log.e("mNewsId==",mNewsId+",,,,,,,,,,,,,,,,,");
+
         //避免空指针判断
         if (TextUtils.isEmpty(mNewsId)){ return; }
 
@@ -115,6 +120,8 @@ public class NewsDetailActivity extends SwipeBackActivity {
 
                 //loading结束（无论成功失败本次发起请求已经结束）
                 mKProgressHUD.dismiss();
+                Toast.makeText(NewsDetailActivity.this,"网易加密新闻解析异常"
+                        ,Toast.LENGTH_SHORT).show();
 
             }
 
@@ -144,6 +151,52 @@ public class NewsDetailActivity extends SwipeBackActivity {
 
     //webview加载数据
     private void setWebViewData(NewsDetailBean newsDetailBean){
-        mWebView.loadUrl(newsDetailBean.getShareLink());
+        
+        //加载服务器端返回的数据拼接成为string来进行展示
+        if (newsDetailBean != null){
+            String body = newsDetailBean.getBody();
+            mWebView.loadDataWithBaseURL(null,body,"text/html",
+                    "utf-8",null);
+
+
+            mTvReply.setText(newsDetailBean.getReplyCount()+"");
+
+
+            //加载标题
+            String titleHTML = "<p style = \"margin:25px 0px 0px 0px\"><span style='font-size:22px;'>" +
+                    "<strong>" + newsDetailBean.getTitle() + "</strong></span></p>";// 标题
+            titleHTML = titleHTML+ "<p><span style='color:#999999;font-size:14px;'>"+
+                    newsDetailBean.getSource()+"&nbsp&nbsp"+newsDetailBean.getPtime()+"</span></p>";//来源与时间
+            titleHTML = titleHTML+"<div style=\"border-top:1px dotted #999999;margin:20px 0px\">" +
+                    "</div>";//加条虚线
+            //设置正文的字体
+            body = "<div style='line-height:180%;'><span style='font-size:15px;'>"+body+"</span></div>";
+
+            body = titleHTML+body;
+
+
+            //修改图片的宽度
+            body = "<html><head><style>img{width:100%}</style>" +
+                    "<script>function show(index){window.demo.showPic(index);}</script>"
+                    +"</head>"+body+"</html>";
+
+            mWebView.loadDataWithBaseURL(null,body,"text/html",
+                    "utf-8",null);
+
+        }
+
+        //mWebView.loadUrl(newsDetailBean.getShareLink());
     }
 }
+
+/**
+ *  //替换显示图片
+ ArrayList<ImgBean> imgList = newsDetailBean.getImg();
+ for (int i = 0; i < imgList.size(); i++) {
+ ImgBean imgBean = imgList.get(i);
+ String ref = imgBean.getRef();
+ String src = imgBean.getSrc();
+ src = "<img src='"+src+"' onclick='show("+i+")'></img>";
+ body = body.replace(ref,src);
+ }
+ */

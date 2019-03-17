@@ -1,0 +1,24 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+      function go(){
+        window.location = "http://www.baidu.com";
+        display_alert();
+      }
+      //弹框用的方法
+      function display_alert(){
+           alert("i am an alert box!!");
+      }
+      function test(){
+        //开始调用Java方法
+        //window.java类的别名.Java方法
+        window.alias.show("我是JS叫来滴");
+      }
+    </script>
+</head>
+    <body bgcolor="black">
+    <a onClick=" test()" >
+        <img id="image" src="ic_launcher.png"/></a>
+    </body>
+</html>

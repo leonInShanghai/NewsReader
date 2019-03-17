@@ -1,21 +1,20 @@
 package com.bobo520.newsreader;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import static com.bobo520.newsreader.MainActivity.AD_DETAIL_URL;
 import static com.bobo520.newsreader.MainActivity.AD_DETAIL_LTD;
+import static com.bobo520.newsreader.MainActivity.AD_DETAIL_URL;
 
 /**
  * Created by Leon on 2019/1/1 Copyright © Leon. All rights reserved.
@@ -73,6 +72,16 @@ public class AdDetailActivity extends Activity {
                     loadError = true;
                 }
 
+                //低版本手机会走这个（过时的）方法
+                @Override
+                public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                    super.onReceivedError(view, request, error);
+                    view.setVisibility(View.GONE);
+                    mErrorView.setVisibility(View.VISIBLE);
+                    loadError = true;
+                }
+
+
                 @Override
                 public void onPageFinished(WebView view, String url) {//加载成功
                     super.onPageFinished(view, url);
@@ -83,7 +92,6 @@ public class AdDetailActivity extends Activity {
                         mErrorView.setVisibility(View.GONE);
                         view.setVisibility(View.VISIBLE);
                     }
-
 
                 }
             });

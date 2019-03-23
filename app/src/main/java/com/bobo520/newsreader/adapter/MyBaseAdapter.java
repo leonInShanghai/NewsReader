@@ -1,11 +1,8 @@
 package com.bobo520.newsreader.adapter;
 
-import android.view.View;
-import android.view.ViewGroup;
+
 import android.widget.BaseAdapter;
 
-import com.bobo520.newsreader.bean.HotNewsBean;
-import com.flyco.tablayout.widget.MsgView;
 
 import java.util.ArrayList;
 

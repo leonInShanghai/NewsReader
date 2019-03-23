@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tl="http://schemas.android.com/apk/res-auto">
 
     <include layout="@layout/include_news_title"/>
 
@@ -12,10 +14,11 @@
         <!--android:background="@color/colorPrimary"/>-->
     <include layout="@layout/include_title"/>
 
+    <!--@string/appbar_scrolling_view_behavior-->
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/viewPager"/>
+        android:id="@+id/viewPager" />
 
 
 </LinearLayout>

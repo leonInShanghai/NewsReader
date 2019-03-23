@@ -34,8 +34,11 @@
 
         <activity android:name=".AdDetailActivity" />
         <activity android:name=".HomeActivity" />
-        <!--theme属性是解决划动关闭activity 时屏幕黑屏的问题（我倒没有遇到黑屏的情况）-->
-        <activity android:name=".NewsDetailActivity" android:theme="@style/SwipeBackActivityTheme"/>
+        <!-- theme属性是解决划动关闭activity 时屏幕黑屏的问题（我倒没有遇到黑屏的情况） -->
+        <activity
+            android:name=".NewsDetailActivity"
+            android:theme="@style/SwipeBackActivityTheme" />
+        <activity android:name=".ShowPicActivity"></activity>
     </application>
 
 </manifest>

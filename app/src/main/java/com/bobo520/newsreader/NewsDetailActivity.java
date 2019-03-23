@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,13 +18,17 @@ import com.bobo520.newsreader.http.HttpHelper;
 import com.bobo520.newsreader.http.OnResponseListener;
 import com.google.gson.Gson;
 import com.kaopiz.kprogresshud.KProgressHUD;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.List;
 
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+
+import static com.bobo520.newsreader.ShowPicActivity.IMG_LIST;
+import static com.bobo520.newsreader.ShowPicActivity.IMG_INDEX;
 
 /**
  * Created by 求知自学网 on 2019/3/3 Copyright © Leon. All rights reserved.
@@ -54,6 +59,9 @@ public class NewsDetailActivity extends SwipeBackActivity {
 
     //发送的textView tv_send_reply
     private TextView mTvSendReply;
+
+    /**解析json数据用的JavaBean*/
+    private NewsDetailBean mNewsDetailBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +99,32 @@ public class NewsDetailActivity extends SwipeBackActivity {
 
         //设置webview允许执行JavaScript
         mWebView.getSettings().setJavaScriptEnabled(true);
+
+        //add JavaScriptInterfacre 来进行交互 第二个参数 name 是别名可以随便写但是JavaScript用的时候要一致
+        mWebView.addJavascriptInterface(this,"demo");
+    }
+
+
+    /**跳转到展示图片的activity  Javascript中调用 window.demo.showPic(index)
+     * @param index 用户点击图片的索引
+     */
+    @JavascriptInterface
+    public void showPic(int index){
+
+        //传递数据
+        if (mNewsDetailBean != null){
+            Intent intent = new Intent(getApplicationContext(),ShowPicActivity.class);
+            List<NewsDetailBean.ImgBean> imgList = mNewsDetailBean.getImg();
+
+            //传递图片数据集合需要序列化才能传递
+            intent.putExtra(IMG_LIST, (Serializable) imgList);
+
+            //传递图片的索引
+            intent.putExtra(IMG_INDEX,index);
+
+            //开启图片详情页
+            startActivity(intent);
+        }
     }
 
     /**
@@ -122,7 +156,6 @@ public class NewsDetailActivity extends SwipeBackActivity {
                 mKProgressHUD.dismiss();
                 Toast.makeText(NewsDetailActivity.this,"网易加密新闻解析异常"
                         ,Toast.LENGTH_SHORT).show();
-
             }
 
             @Override
@@ -139,8 +172,8 @@ public class NewsDetailActivity extends SwipeBackActivity {
                     String realJson = jsonObject.getString(mNewsId);
                     //获得到标准格式可以转为JavaBean格式的json
                     Gson gson = new Gson();
-                    NewsDetailBean newsDetailBean = gson.fromJson(realJson, NewsDetailBean.class);
-                    setWebViewData(newsDetailBean);
+                    mNewsDetailBean = gson.fromJson(realJson, NewsDetailBean.class);
+                    setWebViewData(mNewsDetailBean);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -174,15 +207,24 @@ public class NewsDetailActivity extends SwipeBackActivity {
 
             body = titleHTML+body;
 
+            //替换显示图片
+            List<NewsDetailBean.ImgBean> imgList = newsDetailBean.getImg();
+            for (int i = 0; i < imgList.size(); i++) {
+                NewsDetailBean.ImgBean imgBean = imgList.get(i);
+                String ref = imgBean.getRef();
+                String src = imgBean.getSrc();
+                //在这里把索引i传递送给JavaScript
+                src = "<img src = '"+src+"' onclick = 'show("+i+")'></img>";
+                body = body.replace(ref,src);
+            }
 
-            //修改图片的宽度
+            //修改图片的宽度-使得富文本中图片的宽度不会超过屏幕的宽度
             body = "<html><head><style>img{width:100%}</style>" +
                     "<script>function show(index){window.demo.showPic(index);}</script>"
                     +"</head>"+body+"</html>";
 
             mWebView.loadDataWithBaseURL(null,body,"text/html",
                     "utf-8",null);
-
         }
 
         //mWebView.loadUrl(newsDetailBean.getShareLink());

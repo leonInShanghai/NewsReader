@@ -12,5 +12,5 @@
         tl:tl_textSelectColor="@color/color_main"
         tl:tl_textUnselectColor="@color/color_gray"
         tl:tl_indicator_color="@color/color_main"
-        tl:tl_textsize="14sp"/>
+        tl:tl_textsize="14sp" />
 </LinearLayout>

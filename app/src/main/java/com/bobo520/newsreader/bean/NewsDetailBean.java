@@ -1,12 +1,15 @@
 package com.bobo520.newsreader.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by 求知自学网 on 2019/3/16. Copyright © Leon. All rights reserved.
  * Functions: 新闻详情页 json对象转Java对象
+ * implements Serializable  序列化 是为了 intent.putExtra(ADS_PIC_URL,adListBean); 的时候可以传值。
+ * 这里面只要用到了类都需要将全部对象都序列化即：implements Serializable
  */
-public class NewsDetailBean {
+public class NewsDetailBean implements Serializable {
 
 
     /**
@@ -333,7 +336,7 @@ public class NewsDetailBean {
         this.topiclist = topiclist;
     }
 
-    public static class ImgBean {
+    public static class ImgBean implements Serializable{
         /**
          * ref : <!--IMG#0-->
          * src : http://cms-bucket.ws.126.net/2019/03/16/bee0a6513d5e4747b14294a6fbee8f95.jpeg
@@ -383,7 +386,7 @@ public class NewsDetailBean {
         }
     }
 
-    public static class TopiclistNewsBean {
+    public static class TopiclistNewsBean implements  Serializable {
         /**
          * ename : yaowenspecial
          * hasCover : false

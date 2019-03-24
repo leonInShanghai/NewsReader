@@ -38,7 +38,8 @@
         <activity
             android:name=".NewsDetailActivity"
             android:theme="@style/SwipeBackActivityTheme" />
-        <activity android:name=".ShowPicActivity"></activity>
+        <activity android:name=".ShowPicActivity" />
+        <activity android:name=".KeyboardManActivity"></activity>
     </application>
 
 </manifest>

@@ -25,6 +25,7 @@ import com.bobo520.newsreader.customDialog.CfLoadingView;
 import com.bobo520.newsreader.fragment.LogFragment;
 import com.bobo520.newsreader.http.HttpHelper;
 import com.bobo520.newsreader.http.OnResponseListener;
+import com.bobo520.newsreader.util.IsNotFastClickUtils;
 import com.bobo520.newsreader.weiget.banner.BannerView;
 import com.google.gson.Gson;
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -93,10 +94,14 @@ public class HotFragment extends LogFragment {
         mLvHot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getContext(), NewsDetailActivity.class);
-                //因为listView header 的原因这里的position要 - 1
-                intent.putExtra(NEWS_ID,((HotNewsBean)mHotNewsAdater.getItem(position - 1)).getId());
-                startActivity(intent);
+
+                //加上避免用户重复点击开启两个activity的方法
+                if (IsNotFastClickUtils.isNotFastClick()){
+                    Intent intent = new Intent(getContext(), NewsDetailActivity.class);
+                    //因为listView header 的原因这里的position要 - 1
+                    intent.putExtra(NEWS_ID,((HotNewsBean)mHotNewsAdater.getItem(position - 1)).getId());
+                    startActivity(intent);
+                }
             }
         });
 

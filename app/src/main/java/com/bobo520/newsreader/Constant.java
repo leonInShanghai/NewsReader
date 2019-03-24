@@ -18,6 +18,11 @@ public class Constant {
     /**新闻详情页面的url*/
     private static final String NEWS_DETAIL_URL = "http://c.m.163.com/nc/article/ID/full.html";
 
+    /**新闻评论页面的url*/
+    private static final String NEWS_REPLY_URL = "http://comment.api.163.com/api/" +
+            "v1/products/a2869674571f77b5a0867c3d71db5856/threads/ID/app/comments" +
+            "/hotList?offset=0&limit=10&showLevelThreshold=10&headLimit=2&tailLimit=2";
+
     /**
      * 根据id返回新闻详情url
      * @param id 每条新闻的id
@@ -38,6 +43,15 @@ public class Constant {
                 end+"");
     }
 
+    /**
+     * 确定详情请求接口的地址
+     * @param id  例如：C85DDFSQ00964J4O
+     * @return 根据每条新闻详情请求接口的地址
+     */
+    public static String getNewsReplyUrl(String id){
+        return NEWS_REPLY_URL.replace("ID",id);
+    }
+
 
     /**由于2019年网易没有返回banner的数据自己创造的banner1图片地址*/
     public static final String BANNER1 = "https://raw.githubusercontent.com/leonInShanghai/" +
@@ -47,3 +61,21 @@ public class Constant {
     public static final String BANNER2 = "https://raw.githubusercontent.com/leonInShanghai/" +
             "NewsReader/master/otherPic/banner2.jpg";
 }
+
+
+/**
+ *（热门回帖URL）
+ http://comment.api.163.com/api/v1/products/a2869674571f77b5a0867c3d71db5856/threads/C85DDFSQ00964J4O/app/comments/hotList?offset=0&limit=10&showLevelThreshold=10&headLimit=2&tailLimit=2
+
+ （最新回帖URL）
+ http://comment.api.163.com/api/v1/products/a2869674571f77b5a0867c3d71db5856/threads/C85DDFSQ00964J4O/app/comments/newList?offset=0&limit=20&showLevelThreshold=10&headLimit=2&tailLimit=2
+ （一直往下拉，加载更多评论时的请求URL）
+ http://comment.api.163.com/api/v1/products/a2869674571f77b5a0867c3d71db5856/threads/C85DDFSQ00964J4O/app/comments/newList?offset=20&limit=20&showLevelThreshold=10&headLimit=2&tailLimit=2
+
+
+ PS：
+ URL中的C85Q4KIF000187VE为对应的新闻id，需要被替换
+ URL中的"newList"代表是最新回帖类型，"hotList"代表是热门回帖类型
+ URL中的offset=0，代表从第一条记录开始查询
+ URL中的limit=10，代表需要查出来多少条数据
+ */

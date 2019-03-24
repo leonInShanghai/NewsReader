@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/activity_keybroad_man"
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+    <!-- 不让EditText默认聚焦的方法： 在EditText的父级控件中找一个，设置成
+    android:focusable="true"      android:focusableInTouchMode="true"
+    这样，就把EditText默认的行为截断了！ 通过可行。
+     我剪切了这句话：xmlns:tools="http://schemas.android.com/tools"-->
+
+
+        <!--下面这个view是为了设置沉浸式状态栏 id 必须是status_placeholder 放在最上面-->
+        <View android:id="@+id/status_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@drawable/shape_le"/>
+
+        <LinearLayout android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:background="@drawable/shape_le">
+
+
+            <ImageButton
+                android:id="@+id/back_imageButton"
+                android:layout_height="match_parent"
+                android:layout_width="50dp"
+                android:background="@drawable/bg_btn_back"
+                android:src="@drawable/news_title_back"/>
+        </LinearLayout>
+
+        <ListView
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:id="@+id/listView_reply"
+            android:layout_weight="1"/>
+
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="12dp"
+            android:paddingBottom="8dp"
+            android:gravity="center_vertical"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_send_reply"
+            android:textColor="@color/color_gray"
+            android:text="发送"/>
+
+        <EditText
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:id="@+id/et_reply"
+            android:background="@null"
+            android:layout_weight="1"
+            android:drawablePadding="2dp"
+            android:drawableBottom="@drawable/bg_edit_text"
+            android:drawableLeft="@drawable/icon_edit_icon"
+            android:textSize="14sp"
+            android:textColorHint="@color/color_gray"
+            android:hint="写跟贴"/>
+
+    </LinearLayout>
+
+</LinearLayout>

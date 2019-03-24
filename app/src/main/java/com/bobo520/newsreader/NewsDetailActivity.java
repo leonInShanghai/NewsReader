@@ -112,6 +112,17 @@ public class NewsDetailActivity extends SwipeBackActivity implements View.OnClic
         mBackButton = (ImageButton)findViewById(R.id.back_button);
         mBackButton.setOnClickListener(this);
 
+        //点击评论数量进行页面跳转
+        mTvReply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //跳转到评论activity
+                Intent intent = new Intent(getApplicationContext(),KeyboardManActivity.class);
+                intent.putExtra(NEWS_ID,mNewsId);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
@@ -201,9 +212,8 @@ public class NewsDetailActivity extends SwipeBackActivity implements View.OnClic
             mWebView.loadDataWithBaseURL(null,body,"text/html",
                     "utf-8",null);
 
-
+            //设置网络请求的真实的评论数量
             mTvReply.setText(newsDetailBean.getReplyCount()+"");
-
 
             //加载标题
             String titleHTML = "<p style = \"margin:25px 0px 0px 0px\"><span style='font-size:22px;'>" +
@@ -237,6 +247,7 @@ public class NewsDetailActivity extends SwipeBackActivity implements View.OnClic
                     "utf-8",null);
         }
 
+        //分享新闻用的url
         //mWebView.loadUrl(newsDetailBean.getShareLink());
     }
 

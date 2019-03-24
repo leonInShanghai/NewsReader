@@ -1,10 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ShowPicActivity">
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout android:background="#000" android:layout_height="match_parent" android:layout_width="match_parent" android:id="@+id/activity_show_pic" xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--下面这个view是为了设置沉浸式状态栏 id 必须是status_placeholder 放在最上面-->
     <View
@@ -13,4 +8,37 @@
         android:layout_height="20dp"
         android:background="@drawable/shape_le"/>
 
-</android.support.constraint.ConstraintLayout>
+    <!--android:background="#222"-->
+    <LinearLayout
+        android:background="#000"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:paddingLeft="12dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_alignParentBottom="true">
+
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_index"
+            android:textSize="12sp"
+            android:textColor="@color/color_white"/>
+
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_total"
+            android:textSize="12sp"
+            android:textColor="@color/color_white"/>
+
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/viewPager_show_pic"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"/>
+
+</RelativeLayout>

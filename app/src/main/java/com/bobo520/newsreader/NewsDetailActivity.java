@@ -5,9 +5,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,7 +36,7 @@ import static com.bobo520.newsreader.ShowPicActivity.IMG_INDEX;
  * Created by 求知自学网 on 2019/3/3 Copyright © Leon. All rights reserved.
  * Functions: 新闻详情的activity 主要展示内容的控件是webview
  */
-public class NewsDetailActivity extends SwipeBackActivity {
+public class NewsDetailActivity extends SwipeBackActivity implements View.OnClickListener {
 
     /**activity之间传值的key*/
     public static final String NEWS_ID = "NEWS_ID";
@@ -62,6 +64,9 @@ public class NewsDetailActivity extends SwipeBackActivity {
 
     /**解析json数据用的JavaBean*/
     private NewsDetailBean mNewsDetailBean;
+
+    /**左上角的返回按钮*/
+    private ImageButton mBackButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +107,11 @@ public class NewsDetailActivity extends SwipeBackActivity {
 
         //add JavaScriptInterfacre 来进行交互 第二个参数 name 是别名可以随便写但是JavaScript用的时候要一致
         mWebView.addJavascriptInterface(this,"demo");
+
+        //实例化左上角返回按钮并设置点击事件的监听对象
+        mBackButton = (ImageButton)findViewById(R.id.back_button);
+        mBackButton.setOnClickListener(this);
+
     }
 
 
@@ -228,6 +238,15 @@ public class NewsDetailActivity extends SwipeBackActivity {
         }
 
         //mWebView.loadUrl(newsDetailBean.getShareLink());
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        //用户点击了左上角的返回按钮
+        if (v == mBackButton){
+            finish();
+        }
     }
 }
 

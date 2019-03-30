@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+    android:padding="8dp">
+
+    <!--第三方库https://mvnrepository.com/artifact/de.hdodenhof/circleimageview/3.0.0-->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_user_icon"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/icon_user_default"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:layout_toRightOf="@id/iv_user_icon"
+        android:textSize="15sp"
+        android:id="@+id/tv_user_name"
+        android:textColor="@android:color/holo_blue_dark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="来自网易的一个热心朝阳群众"/>
+    <TextView
+        android:id="@+id/tv_user_info"
+        android:textColor="@color/color_gray"
+        android:textSize="12sp"
+        android:layout_toRightOf="@id/iv_user_icon"
+        android:layout_below="@id/tv_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="北京市 IPhone 6s 2小时前"/>
+
+    <ImageView
+        android:layout_alignParentRight="true"
+        android:id="@+id/iv_support"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_support"/>
+
+    <TextView
+        android:layout_toLeftOf="@id/iv_support"
+        android:id="@+id/tv_vote_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_gray"
+        android:textSize="14sp"
+        android:layout_marginRight="3dp"
+        android:text="10086"/>
+    <!--楼中楼，自定义View，现在这里占个坑-->
+    <FrameLayout
+        android:id="@+id/fl_sub_floor"
+        android:layout_below="@id/tv_user_info"
+        android:layout_toRightOf="@id/iv_user_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_toRightOf="@id/iv_user_icon"
+        android:layout_below="@id/fl_sub_floor"
+        android:id="@+id/tv_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:textSize="18sp"
+        android:layout_marginTop="3dp"
+        android:text="看着好恶心，又想起张翰密集眼的照片了"/>
+
+
+
+</RelativeLayout>

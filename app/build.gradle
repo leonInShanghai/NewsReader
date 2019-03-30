@@ -20,6 +20,8 @@ android {
 
 //引入本地libs的aar文件配置第一步
 repositories {
+
+    //引入本地aar文件配置第一步
     flatDir {
         dirs 'libs'
     }
@@ -59,4 +61,5 @@ dependencies {
     //引入本地libs的aar文件 注意先要在外层的gradle文件中配置  PhotoView-1.3.0 README.md中写的
     //第二中配置方法现在用的https://blog.csdn.net/github_27263697/article/details/79196273
     implementation(name: 'PhotoView-1.3.0', ext: 'aar')
+    implementation(name:'circleimageview-3.0.0',ext: 'aar');
 }

@@ -3,14 +3,66 @@
     android:layout_width="match_parent"
     android:layout_height="48dp"
     xmlns:tl="http://schemas.android.com/apk/res-auto">
-    <com.flyco.tablayout.SlidingTabLayout
-        android:id="@+id/tablayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tl:tl_textAllCaps="true"
-        tl:tl_textBold="BOTH"
-        tl:tl_textSelectColor="@color/color_main"
-        tl:tl_textUnselectColor="@color/color_gray"
-        tl:tl_indicator_color="@color/color_main"
-        tl:tl_textsize="14sp" />
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_weight="1">
+
+        <com.flyco.tablayout.SlidingTabLayout
+            android:id="@+id/tablayout"
+            android:layout_width="359dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12sp"
+            tl:tl_indicator_color="@color/color_main"
+            tl:tl_textAllCaps="true"
+            tl:tl_textBold="BOTH"
+            tl:tl_textSelectColor="@color/color_main"
+            tl:tl_textUnselectColor="@color/color_gray"
+            tl:tl_textsize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_change_tip"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/color_light_gray"
+            android:gravity="center_vertical"
+            android:text="切换栏目"
+            android:textSize="20sp"
+            android:visibility="gone"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="45dp">
+
+
+
+        <ImageButton
+            android:id="@+id/ibtn_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:background="@drawable/bg_btn_arrow"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:src="@drawable/icon_news_column_add_down"/>
+
+        <TextView
+            android:id="@+id/tv_change_done"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:background="@color/color_light_gray"
+            android:gravity="center_vertical"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:text="完成"
+            android:textColor="@color/color_main"
+            android:textSize="16sp"
+            android:visibility="gone"/>
+
+    </FrameLayout>
+
 </LinearLayout>

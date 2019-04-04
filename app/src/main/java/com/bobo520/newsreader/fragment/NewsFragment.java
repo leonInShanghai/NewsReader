@@ -1,6 +1,10 @@
 package com.bobo520.newsreader.fragment;
 
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,11 +18,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.view.animation.TranslateAnimation;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bobo520.newsreader.HomeActivity;
 import com.bobo520.newsreader.LELog;
+import com.bobo520.newsreader.OnShowTabHostListener;
 import com.bobo520.newsreader.R;
 import com.bobo520.newsreader.adapter.NewsFragmentAdapter;
 import com.bobo520.newsreader.fragment.news.DisportFragment;
@@ -40,6 +48,28 @@ public class NewsFragment extends LogFragment {
     private TextView tvChangeTip;
     private ImageButton ibtnArrow;
     private TextView tvChangeDone;
+    //白色的顯示所有標題的區域
+    private FrameLayout mFlChangeTitle;
+
+
+    /**mTablayout中箭头的属性动画 方法一*/
+    private ObjectAnimator mAnimaUp;
+
+    /**mTablayout中箭头的属性动画 方法二*/
+    private ValueAnimator mAnimUp;
+    private ValueAnimator mAnimDown;
+
+    /**mTablayout中 箭頭旋轉（朝上or朝下）的變量 默認為朝下*/
+    private boolean isDown = true;
+
+    /**mTablayout中 箭頭旋轉動畫是否處於動畫中 默認為否*/
+    private boolean isAnimStart = false;
+
+    /**準備補間動畫來給白屏區域設置位移-顯示*/
+    private TranslateAnimation mTranslateAnimShow;
+
+    /**準備補間動畫來給白屏區域設置位移-隱藏*/
+    private TranslateAnimation mTranslateAnimHide;
 
 
 
@@ -51,6 +81,7 @@ public class NewsFragment extends LogFragment {
         tvChangeTip = (TextView) view.findViewById(R.id.tv_change_tip);
         ibtnArrow = (ImageButton) view.findViewById(R.id.ibtn_arrow);
         tvChangeDone = (TextView) view.findViewById(R.id.tv_change_done);
+        mFlChangeTitle = (FrameLayout)view.findViewById(R.id.fl_change_title);
 
         //ibtnArrow的动画效果
         initView();
@@ -60,7 +91,71 @@ public class NewsFragment extends LogFragment {
 
     //ibtnArrow的点击事件监听
     private void initView(){
+        //方法一：有一定的局限性 String propertyName必须能提供get 和 set 方法
+        //回顾属性动画ObjectAnimator. Object target, String propertyName, float... values 方法一
+        //mAnimaUp = ObjectAnimator.ofFloat(ibtnArrow,"rotation",0,180);
+        //mAnimaUp.setDuration(500);//动画的持续事件500毫秒
+
+        //属性动画方法二: ValueAnimator
+        MyAnimatorUpdateListener myAnimatorUpdateListener = new MyAnimatorUpdateListener();
+        //設置動畫完成用戶才能點擊
+        MyAnimatorListenerAdapter myAnimatorListenerAdapter = new MyAnimatorListenerAdapter();
+        mAnimUp = ValueAnimator.ofFloat(0,180);
+        mAnimUp.setDuration(500);//动画的持续事件500毫秒
+        mAnimUp.addUpdateListener(myAnimatorUpdateListener);
+
+        //倒轉動畫
+        mAnimDown = ValueAnimator.ofFloat(180,0);
+        mAnimDown.setDuration(500);//动画的持续事件500毫秒
+        mAnimDown.addUpdateListener(myAnimatorUpdateListener);
+
+        //設置動畫完成用戶才能點擊
+        mAnimDown.addListener(myAnimatorListenerAdapter);
+
+        //準備補間動畫來給白屏區域設置位移-顯示
+        mTranslateAnimShow = new TranslateAnimation(TranslateAnimation.RELATIVE_TO_SELF, 0,
+                TranslateAnimation.RELATIVE_TO_SELF, 0,
+                TranslateAnimation.RELATIVE_TO_SELF, -1,
+                TranslateAnimation.RELATIVE_TO_SELF, 0);
+        mTranslateAnimShow.setDuration(500);//設置動畫持續時間500毫秒
+
+        //準備補間動畫來給白屏區域設置位移-隱藏
+        mTranslateAnimHide = new TranslateAnimation(TranslateAnimation.RELATIVE_TO_SELF, 0,
+                TranslateAnimation.RELATIVE_TO_SELF, 0,
+                TranslateAnimation.RELATIVE_TO_SELF, 0,
+                TranslateAnimation.RELATIVE_TO_SELF, -1);
+        mTranslateAnimHide.setDuration(500);//設置動畫持續時間500毫秒
+
+        //设置ibtnArrow点击事件
         ibtnArrow.setOnClickListener(new MyClickListener());
+    }
+
+    //代碼抽取 new AnimatorListenerAdapter()
+    private class MyAnimatorListenerAdapter extends AnimatorListenerAdapter{
+
+        @Override
+        public void onAnimationStart(Animator animation) {
+            super.onAnimationStart(animation);
+            //設置動畫已經開始了
+            isAnimStart = true;
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            super.onAnimationEnd(animation);
+            //設置動畫已經結束了
+            isAnimStart = false;
+        }
+    }
+
+    //代碼抽取 ValueAnimator.AnimatorUpdateListener()
+    private class MyAnimatorUpdateListener implements ValueAnimator.AnimatorUpdateListener{
+
+        @Override
+        public void onAnimationUpdate(ValueAnimator animation) {
+            float animatedValue = (float) animation.getAnimatedValue();
+            ibtnArrow.setRotation(animatedValue);
+        }
     }
 
     //用户点击了 ibtnArrow
@@ -68,8 +163,56 @@ public class NewsFragment extends LogFragment {
 
         @Override
         public void onClick(View v) {
-            //开始播放动画
 
+            //开始播放动画 方法一：
+            //mAnimaUp.start();
+
+            //如果動畫中點擊無效 達到運行完一個動畫才開始另一個動畫 避免用戶快速點擊二次 動畫剛正轉立刻又反轉
+            if (isAnimStart){
+                //如果動畫正在執行中就不再執行後續的邏輯
+                return;
+            }
+
+            //开始播放动画 方法二：
+            if (isDown) {
+                //動畫正轉
+                mAnimUp.start();
+                //isDown = false; 後面代碼精簡成一句
+
+                //讓白色的顯示所有標題的區域展示
+                mFlChangeTitle.setVisibility(View.VISIBLE);
+
+                //開始show動畫
+                mFlChangeTitle.startAnimation(mTranslateAnimShow);
+
+                //調用HomeActivity 公有方法去隱藏下面的TabHost控件-第一種寫法
+                //HomeActivity activity = (HomeActivity)getActivity();
+                //activity.showTabHost(false);
+
+                //調用HomeActivity 公有方法去隱藏下面的TabHost控件-第二種寫法
+                OnShowTabHostListener tabHostListener = (OnShowTabHostListener)getActivity();
+                tabHostListener.showTabHost(false);
+            }else{
+                //動畫倒轉
+                mAnimDown.start();
+                //isDown = true; 後面代碼精簡成一句
+
+                //讓白色的顯示所有標題的區域隱藏
+                mFlChangeTitle.setVisibility(View.GONE);
+
+                //開始hide動畫
+                mFlChangeTitle.startAnimation(mTranslateAnimHide);
+
+                //調用HomeActivity 公有方法去顯示下面的TabHost控件 第一種寫法
+                //HomeActivity activity = (HomeActivity)getActivity();
+                //activity.showTabHost(true);
+
+                //調用HomeActivity 公有方法去隱藏下面的TabHost控件-第二種寫法
+                OnShowTabHostListener tabHostListener = (OnShowTabHostListener)getActivity();
+                tabHostListener.showTabHost(true);
+            }
+            //用戶點擊后 箭頭朝向取反 原來朝上 變成朝下 反之 反之
+            isDown = !isDown;
         }
     }
 

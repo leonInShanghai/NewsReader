@@ -12,11 +12,10 @@ import android.widget.TextView;
 
 import com.bobo520.newsreader.adapter.NewsCommectAdapter;
 import com.bobo520.newsreader.bean.NewsCommentBean;
-import com.bobo520.newsreader.customDialog.CfLoadingView;
+import com.bobo520.newsreader.customDialog.LEloadingView;
 import com.bobo520.newsreader.http.HttpHelper;
 import com.bobo520.newsreader.http.OnResponseListener;
 import com.bobo520.newsreader.util.JsonUtil;
-import com.google.gson.Gson;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONArray;
@@ -84,7 +83,7 @@ public class KeyboardManActivity extends SwipeBackActivity {
 
         //开始网络请求-开始显示loading
         mKProgressHUD = KProgressHUD.create(KeyboardManActivity.this)
-                .setCustomView(new CfLoadingView(KeyboardManActivity.this))
+                .setCustomView(new LEloadingView(KeyboardManActivity.this))
                 .setLabel("Please wait", Color.GRAY)
                 .setBackgroundColor(Color.WHITE)
                 .show();

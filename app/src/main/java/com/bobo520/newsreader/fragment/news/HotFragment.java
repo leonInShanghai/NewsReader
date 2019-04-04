@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,7 +20,7 @@ import com.bobo520.newsreader.R;
 import com.bobo520.newsreader.adapter.HotNewsAdater;
 import com.bobo520.newsreader.bean.HotNewsBean;
 import com.bobo520.newsreader.bean.HotNewsListBean;
-import com.bobo520.newsreader.customDialog.CfLoadingView;
+import com.bobo520.newsreader.customDialog.LEloadingView;
 import com.bobo520.newsreader.fragment.LogFragment;
 import com.bobo520.newsreader.http.HttpHelper;
 import com.bobo520.newsreader.http.OnResponseListener;
@@ -176,7 +175,7 @@ public class HotFragment extends LogFragment {
         if (getContext() != null){
             //开始网络请求-开始显示loading
            mKProgressHUD = KProgressHUD.create(getContext())
-                    .setCustomView(new CfLoadingView(getContext()))
+                    .setCustomView(new LEloadingView(getContext()))
                     .setLabel("Please wait",Color.GRAY)
                     .setBackgroundColor(Color.WHITE)
                     .show();

@@ -14,11 +14,31 @@
         <!--android:background="@color/colorPrimary"/>-->
     <include layout="@layout/include_title"/>
 
-    <!--@string/appbar_scrolling_view_behavior-->
-    <android.support.v4.view.ViewPager
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/viewPager" />
+        android:layout_height="match_parent">
 
+        <!--@string/appbar_scrolling_view_behavior-->
+        <android.support.v4.view.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/viewPager" />
+
+        <!--白色的顯示所有標題的區域 注意要寫到後面 後面的會把前面的擋住 -->
+        <FrameLayout
+            android:visibility="gone"
+            android:background="@color/color_white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/fl_change_title">
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:src="@drawable/login_icon"/>
+        </FrameLayout>
+
+    </FrameLayout>
 
 </LinearLayout>

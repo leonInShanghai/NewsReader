@@ -19,7 +19,7 @@ import com.bobo520.newsreader.weiget.MyFragmentTabHost;
  * Created by Leon on 2019/1/1 Copyright © Leon. All rights reserved.
  * Functions: app的 主頁面 各個fragment 都在這裏
  */
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements OnShowTabHostListener {
 
     //private FragmentTabHost mTabHost;
     private MyFragmentTabHost mTabHost;
@@ -35,6 +35,15 @@ public class HomeActivity extends AppCompatActivity {
         //mTabHost = (FragmentTabHost)findViewById(R.id.tabHost);
         mTabHost = (MyFragmentTabHost)findViewById(R.id.tabHost);
         initData();
+    }
+
+    /**公開的- 顯示/隱藏 底部 showTabHost的方法*/
+    public void showTabHost(boolean isShow){
+        if (isShow){
+            mTabHost.setVisibility(View.VISIBLE);
+        }else{
+            mTabHost.setVisibility(View.GONE);
+        }
     }
 
     private void initData(){

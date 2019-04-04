@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bobo520.newsreader.bean.NewsDetailBean;
-import com.bobo520.newsreader.customDialog.CfLoadingView;
+import com.bobo520.newsreader.customDialog.LEloadingView;
 import com.bobo520.newsreader.http.HttpHelper;
 import com.bobo520.newsreader.http.OnResponseListener;
 import com.google.gson.Gson;
@@ -160,7 +160,7 @@ public class NewsDetailActivity extends SwipeBackActivity implements View.OnClic
 
         //开始网络请求-开始显示loading
         mKProgressHUD = KProgressHUD.create(NewsDetailActivity.this)
-                .setCustomView(new CfLoadingView(NewsDetailActivity.this))
+                .setCustomView(new LEloadingView(NewsDetailActivity.this))
                 .setLabel("Please wait", Color.GRAY)
                 .setBackgroundColor(Color.WHITE)
                 .show();

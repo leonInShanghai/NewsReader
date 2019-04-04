@@ -11,7 +11,7 @@
 
         <com.flyco.tablayout.SlidingTabLayout
             android:id="@+id/tablayout"
-            android:layout_width="359dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12sp"

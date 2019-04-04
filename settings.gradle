@@ -1,1 +1,1 @@
-include ':app', ':skipview', ':viewpagerdemo', ':buildertest',':chaindemo',':webviewdemo','library'
+include ':app', ':skipview', ':viewpagerdemo', ':buildertest',':chaindemo',':webviewdemo', ':eventbusdome','library'

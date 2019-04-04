@@ -9,17 +9,22 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.bobo520.newsreader.event.ShowTabEvent;
 import com.bobo520.newsreader.fragment.MeFragment;
 import com.bobo520.newsreader.fragment.NewsFragment;
 import com.bobo520.newsreader.fragment.TopicFragment;
 import com.bobo520.newsreader.fragment.VaFragment;
 import com.bobo520.newsreader.weiget.MyFragmentTabHost;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 /**
  * Created by Leon on 2019/1/1 Copyright © Leon. All rights reserved.
  * Functions: app的 主頁面 各個fragment 都在這裏
+ * 用第二种隐藏tabhost 的方法时需要 implements OnShowTabHostListener 当前使用的是第三种EventBus
  */
-public class HomeActivity extends AppCompatActivity implements OnShowTabHostListener {
+public class HomeActivity extends AppCompatActivity  {
 
     //private FragmentTabHost mTabHost;
     private MyFragmentTabHost mTabHost;
@@ -34,12 +39,19 @@ public class HomeActivity extends AppCompatActivity implements OnShowTabHostList
 
         //mTabHost = (FragmentTabHost)findViewById(R.id.tabHost);
         mTabHost = (MyFragmentTabHost)findViewById(R.id.tabHost);
+
+        //为了能够监听 NewsFragment 发出的隐藏tabHost 的事件 必须先注册eventbus
+        EventBus.getDefault().register(this);
+
         initData();
     }
 
-    /**公開的- 顯示/隱藏 底部 showTabHost的方法*/
-    public void showTabHost(boolean isShow){
-        if (isShow){
+    /**前2种方法直接调用 公開的- 顯示/隱藏 底部 showTabHost的方法
+     * 后面用了eventbus 3.0 必须加注解 @Subscribe
+     */
+    @Subscribe
+    public void showTabHost(ShowTabEvent showTabEvent){
+        if (showTabEvent.needShow){
             mTabHost.setVisibility(View.VISIBLE);
         }else{
             mTabHost.setVisibility(View.GONE);
@@ -89,5 +101,12 @@ public class HomeActivity extends AppCompatActivity implements OnShowTabHostList
 
         /**设置默认选中的tab item*/
         mTabHost.setCurrentTab(0);
+    }
+
+    @Override
+    protected void onDestroy() {
+        //销毁 EventBus 合理的管理内存   unregister：未挂号（释放）的意识
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }

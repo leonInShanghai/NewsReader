@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,16 +24,20 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bobo520.newsreader.HomeActivity;
 import com.bobo520.newsreader.LELog;
 import com.bobo520.newsreader.OnShowTabHostListener;
 import com.bobo520.newsreader.R;
 import com.bobo520.newsreader.adapter.NewsFragmentAdapter;
+import com.bobo520.newsreader.event.ShowTabEvent;
 import com.bobo520.newsreader.fragment.news.DisportFragment;
 import com.bobo520.newsreader.fragment.news.EmptyFragment;
 import com.bobo520.newsreader.fragment.news.HotFragment;
 import com.flyco.tablayout.SlidingTabLayout;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -185,13 +190,27 @@ public class NewsFragment extends LogFragment {
                 //開始show動畫
                 mFlChangeTitle.startAnimation(mTranslateAnimShow);
 
+                //处理 Android 点击穿透
+                mFlChangeTitle.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        //TODO: 用户点击的时候想做些什么在这里添加
+
+                        return true;
+                    }
+                });
+
                 //調用HomeActivity 公有方法去隱藏下面的TabHost控件-第一種寫法
                 //HomeActivity activity = (HomeActivity)getActivity();
                 //activity.showTabHost(false);
 
                 //調用HomeActivity 公有方法去隱藏下面的TabHost控件-第二種寫法
-                OnShowTabHostListener tabHostListener = (OnShowTabHostListener)getActivity();
-                tabHostListener.showTabHost(false);
+                //OnShowTabHostListener tabHostListener = (OnShowTabHostListener)getActivity();
+                //tabHostListener.showTabHost(false);
+
+                //HomeActivity 隱藏下面的TabHost控件第三種寫法 EventBus
+                EventBus.getDefault().post(new ShowTabEvent(false));
+
             }else{
                 //動畫倒轉
                 mAnimDown.start();
@@ -208,8 +227,11 @@ public class NewsFragment extends LogFragment {
                 //activity.showTabHost(true);
 
                 //調用HomeActivity 公有方法去隱藏下面的TabHost控件-第二種寫法
-                OnShowTabHostListener tabHostListener = (OnShowTabHostListener)getActivity();
-                tabHostListener.showTabHost(true);
+                //OnShowTabHostListener tabHostListener = (OnShowTabHostListener)getActivity();
+                //tabHostListener.showTabHost(true);
+
+                //HomeActivity 隱藏下面的TabHost控件第三種寫法  EventBus
+                EventBus.getDefault().post(new ShowTabEvent(true));
             }
             //用戶點擊后 箭頭朝向取反 原來朝上 變成朝下 反之 反之
             isDown = !isDown;

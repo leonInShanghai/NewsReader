@@ -44,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:text="波波新聞有態度°"
+                android:textStyle="bold"
                 android:textSize="20sp"
                 android:textColor="@color/color_gray"/>
 

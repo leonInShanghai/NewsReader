@@ -16,7 +16,7 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter {
 
     protected ArrayList<T> mList;
 
-    MyBaseAdapter(ArrayList<T> list){
+    public MyBaseAdapter(ArrayList<T> list){
         this.mList = list;
     }
 

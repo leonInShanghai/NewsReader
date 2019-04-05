@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--相当于 iOS中的 UIConnectionVIew
+        后来自定义 FitHeightGridView 继承GridView 为了处理在ScrollView 高度只显示一行可以滚动的问题-->
+        <com.bobo520.newsreader.weiget.FitHeightGridView
+            android:listSelector="@color/color_transparent"
+            android:padding="8dp"
+            android:horizontalSpacing="5dp"
+            android:verticalSpacing="5dp"
+            android:id="@+id/gv_show_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="4"/>
+
+        <TextView
+            android:layout_margin="8dp"
+            android:gravity="right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="长按排序或删除"/>
+
+        <TextView
+            android:paddingTop="5dp"
+            android:paddingLeft="13dp"
+            android:background="@color/color_light_gray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="点击添加更多栏目"
+            android:textSize="16sp"/>
+
+        <!--相当于 iOS中的 UIConnectionVIew
+        后来自定义 FitHeightGridView 继承GridView 为了处理在ScrollView 高度只显示一行可以滚动的问题-->
+        <com.bobo520.newsreader.weiget.FitHeightGridView
+            android:background="@color/color_light_gray"
+            android:listSelector="@color/color_transparent"
+            android:padding="8dp"
+            android:horizontalSpacing="5dp"
+            android:verticalSpacing="5dp"
+            android:numColumns="4"
+            android:id="@+id/gv_add_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</ScrollView>

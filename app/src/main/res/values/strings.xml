@@ -13,7 +13,7 @@
         <item>头条</item>
         <item>要闻</item>
         <item>娱乐</item>
-        <item>体育</item>
+        <item>提议</item>
         <!--<item>网易号</item>-->
         <!--<item>北京</item>-->
         <!--<item>视频</item>-->
@@ -33,7 +33,7 @@
         <item>头条</item>
         <item>要闻</item>
         <item>娱乐</item>
-        <item>体育</item>
+        <item>提议</item>
         <item>网易号</item>
         <item>北京</item>
         <item>视频</item>
@@ -47,6 +47,14 @@
         <item>跟贴</item>
         <item>房产</item>
         <item>股票</item>
+    </array>
+
+    <array name="to_add_news_titles">
+        <item>NBA</item>
+        <item>美女</item>
+        <item>轻松一刻</item>
+        <item>上海</item>
+        <item>教育</item>
     </array>
 
 </resources>

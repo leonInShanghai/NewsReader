@@ -20,7 +20,9 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,6 +33,8 @@ import com.bobo520.newsreader.LELog;
 import com.bobo520.newsreader.OnShowTabHostListener;
 import com.bobo520.newsreader.R;
 import com.bobo520.newsreader.adapter.NewsFragmentAdapter;
+import com.bobo520.newsreader.adapter.ShowTitleAdapter;
+import com.bobo520.newsreader.adapter.ToAddTitleAdapter;
 import com.bobo520.newsreader.event.ShowTabEvent;
 import com.bobo520.newsreader.fragment.news.DisportFragment;
 import com.bobo520.newsreader.fragment.news.EmptyFragment;
@@ -40,6 +44,7 @@ import com.flyco.tablayout.SlidingTabLayout;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Leon on 2019/1/13. Copyright © Leon. All rights reserved.
@@ -53,9 +58,9 @@ public class NewsFragment extends LogFragment {
     private TextView tvChangeTip;
     private ImageButton ibtnArrow;
     private TextView tvChangeDone;
+
     //白色的顯示所有標題的區域
     private FrameLayout mFlChangeTitle;
-
 
     /**mTablayout中箭头的属性动画 方法一*/
     private ObjectAnimator mAnimaUp;
@@ -76,7 +81,23 @@ public class NewsFragment extends LogFragment {
     /**準備補間動畫來給白屏區域設置位移-隱藏*/
     private TranslateAnimation mTranslateAnimHide;
 
+    /**白屏上半（长按排序或删除以上） 的GridView*/
+    private GridView mGvShowTitle;
 
+    /**白屏下半（长按排序或删除以下） 的GridView*/
+    private GridView mGvAddTitle;
+
+    /**白屏上半（长按排序或删除以上） 的适配器*/
+    private ShowTitleAdapter mShowTitleAdapter;
+
+    /**白屏下半（长按排序或删除以下） 的适配器*/
+    private ToAddTitleAdapter mToAddAdapter;
+
+    /**白屏上半（长按排序或删除以上） 的gridview 有没有被用户长按过*/
+    private boolean isLongClick = false;
+
+    /**mTablayout 数据源数组*/
+    private String[] mTitles;
 
     @Override
     public View getChildView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,6 +111,9 @@ public class NewsFragment extends LogFragment {
 
         //ibtnArrow的动画效果
         initView();
+
+        /**初始化白屏區域的GridView textView等控件*/
+        initChangeTitleLayout();
 
         return view;
     }
@@ -133,6 +157,103 @@ public class NewsFragment extends LogFragment {
 
         //设置ibtnArrow点击事件
         ibtnArrow.setOnClickListener(new MyClickListener());
+    }
+
+    //初始化白屏展示所有标题数据的Layout布局
+    private void initChangeTitleLayout(){
+
+        //通过打气筒的形式添加
+        if (getContext() == null){ return; }//避免快速切换空指针异常
+        View inflate = View.inflate(getContext(),R.layout.view_change_title,null);
+        mGvShowTitle = (GridView)inflate.findViewById( R.id.gv_show_title );
+        mGvAddTitle = (GridView)inflate.findViewById( R.id.gv_add_title );
+
+        //添加到FrameLayout中 这里不是在XML中添加 而是用Java添加到FrameLayout
+        mFlChangeTitle.addView(inflate);
+
+        //设置GridView的长按事件
+        mGvShowTitle.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                //用户长按了
+                isLongClick = true;
+
+                //如果用户长按就显示item左上角删除图片 参数二：当前所处的tab position
+                mShowTitleAdapter.setShowDelete(true,mShowTitleAdapter.getLisStr(mTablayout.
+                                getCurrentTab()));
+
+                //显示完成文本
+                tvChangeDone.setVisibility(View.VISIBLE);
+
+                //return false; 这里要改为return true 否者触摸事件没有被消费掉 点击事件会响到
+                return true;
+            }
+        });
+
+        //GridView的点击事件，进行增删
+        mGvShowTitle.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //如果左上角显示了删除图片
+                if (mShowTitleAdapter.isShowDelete(mShowTitleAdapter.getLisStr(position),isLongClick)){
+                    //删除该item，将其添加到下面的grid view中
+                    String deleteItem = mShowTitleAdapter.deleteItem(position);
+                    mToAddAdapter.addItem(deleteItem);
+                }else{//如果左上角没有显示删除图片 用户点击跳转到 对应的tab 并且收起所有的标题
+                    //if (position < mTablayout.getTabCount()) {
+
+                        //方法一：注意不要直接设置索引 索引当 用户删除 后位置会改变照成不正确
+                        //String lisStr = mShowTitleAdapter.getLisStr(position);
+                        //mViewPager.setCurrentItem(position);
+
+                        //方法二：注意不要直接设置索引 索引当 用户删除 后位置会改变照成不正确
+                        String lisStr = mShowTitleAdapter.getLisStr(position);//获取用户点击索引的标题
+                        for (int i = 0;i < mTitles.length;i++){
+                            if (mTitles[i].equals(lisStr)){
+                                mTablayout.setCurrentTab(i);
+                            }
+                        }
+
+                        //用代码来点击箭头按钮收起所有的标题  perform:执行的意识
+                        ibtnArrow.performClick();
+                        tvChangeDone.performClick();
+                    }
+                }
+
+                //点击后还原不可还原会有bug
+                //isLongClick = false;
+            //}
+        });
+
+
+        //添加titleGridView 的点击事件处理
+        mGvAddTitle.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //点击删除自己的item title
+                String deleteItem = mToAddAdapter.deleteItem(position);
+
+                //给mGvShowTitle添加item title
+                mShowTitleAdapter.addItem(deleteItem);
+            }
+        });
+
+        //选择删除tab类型后 完成按钮的点击事件
+        tvChangeDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //点击就不再显示左上角的删除图片
+                mShowTitleAdapter.setShowDelete(false,mShowTitleAdapter.getLisStr(
+                        mTablayout.getCurrentTab()));
+
+                //并且将自己隐藏
+                tvChangeDone.setVisibility(View.GONE);
+
+                //点击后还原用户长按的状态
+                isLongClick = false;
+            }
+        });
     }
 
     //代碼抽取 new AnimatorListenerAdapter()
@@ -182,6 +303,17 @@ public class NewsFragment extends LogFragment {
             if (isDown) {
                 //動畫正轉
                 mAnimUp.start();
+
+                //让切换栏目显示遮挡tabHost
+                tvChangeTip.setVisibility(View.VISIBLE);
+                tvChangeTip.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //这里并不是为了处理点击事件而是为了避免点击事件穿透用户点击到 下层的TabHost
+                        LELog.showLogWithLineNum(5,"避免了点击事件穿透😂");
+                    }
+                });
+
                 //isDown = false; 後面代碼精簡成一句
 
                 //讓白色的顯示所有標題的區域展示
@@ -190,15 +322,6 @@ public class NewsFragment extends LogFragment {
                 //開始show動畫
                 mFlChangeTitle.startAnimation(mTranslateAnimShow);
 
-                //处理 Android 点击穿透
-                mFlChangeTitle.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        //TODO: 用户点击的时候想做些什么在这里添加
-
-                        return true;
-                    }
-                });
 
                 //調用HomeActivity 公有方法去隱藏下面的TabHost控件-第一種寫法
                 //HomeActivity activity = (HomeActivity)getActivity();
@@ -215,6 +338,9 @@ public class NewsFragment extends LogFragment {
                 //動畫倒轉
                 mAnimDown.start();
                 //isDown = true; 後面代碼精簡成一句
+
+                //让切换栏目隐藏
+                tvChangeTip.setVisibility(View.INVISIBLE);
 
                 //讓白色的顯示所有標題的區域隱藏
                 mFlChangeTitle.setVisibility(View.GONE);
@@ -247,10 +373,35 @@ public class NewsFragment extends LogFragment {
 
     private void initData(){
 
-         ArrayList<Fragment> fragments = new ArrayList<Fragment>();
+        //标题数据TabHost数据源
+        mTitles = getResources().getStringArray(R.array.news_titles);
 
-        //标题数据
-        String[] titles = getResources().getStringArray(R.array.news_titles);
+        //设置展示标题的网络控件GridView的数据(适配器)
+        String allTitles[] = getResources().getStringArray(R.array.news_titles_all);
+
+        //将全部的标题数组转集合 String[] →  ArrayList<String>
+        ArrayList<String> showTitleList = new ArrayList<>();
+        showTitleList.addAll(Arrays.asList(allTitles));
+
+        //注意 直接通过Arrays.asList(allTitles) 生成的list是无法进行直接增删的 如下↓
+        //ShowTitleAdapter showTitleAdapter = new ShowTitleAdapter(new ArrayList<String>(Arrays.asList(allTitles)));
+
+        //将数组转换好的集合放入adapter的构造方法中
+        mShowTitleAdapter = new ShowTitleAdapter(showTitleList,mTitles);
+        mGvShowTitle.setAdapter(mShowTitleAdapter);
+
+        String[] toAddTitles = getResources().getStringArray(R.array.to_add_news_titles);
+
+        //将全部的标题数组转集合 String[] →  ArrayList<String>
+        ArrayList<String> toAddList = new ArrayList<>();
+        toAddList.addAll(Arrays.asList(toAddTitles));
+
+        //将数组转换好的集合放入adapter的构造方法中
+        mToAddAdapter = new ToAddTitleAdapter(toAddList);
+        mGvAddTitle.setAdapter(mToAddAdapter);
+
+
+        ArrayList<Fragment> fragments = new ArrayList<Fragment>();
 
         fragments.add(new HotFragment());
         fragments.add(new DisportFragment());
@@ -282,7 +433,7 @@ public class NewsFragment extends LogFragment {
 
         //解决4个tab的时候不好看 方法一：
         //设置mTablayout（SlidingTabLayout）标题宽度为 屏幕宽度 / titles.length
-        if (titles.length < 5 && getActivity() != null && getContext() != null){
+        if (mTitles.length < 5 && mTitles.length > 2 &&getActivity() != null && getContext() != null){
             WindowManager wm = (WindowManager) getActivity().getSystemService(getContext().WINDOW_SERVICE);
             DisplayMetrics dm = new DisplayMetrics();
             wm.getDefaultDisplay().getMetrics(dm);
@@ -302,12 +453,12 @@ public class NewsFragment extends LogFragment {
 
             //宽度算法:屏幕宽度（像素）/ 屏幕密度  需要 （- 24 （是mTablayout 左右边距） - ibtn_arrow 宽度）
             int screenWidth = (int) (width / density - 24 - ibtnArrowWidth);
-            mTablayout.setTabWidth(screenWidth / titles.length);
+            mTablayout.setTabWidth(screenWidth / mTitles.length);
         }
 
 
         //绑定标题控件FlycoLayout与view pager绑定\
-        mTablayout.setViewPager(mViewPager,titles);
+        mTablayout.setViewPager(mViewPager,mTitles);
     }
 
 }

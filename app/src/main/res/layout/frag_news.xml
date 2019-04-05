@@ -32,21 +32,21 @@
             android:layout_height="match_parent"
             android:id="@+id/fl_change_title">
 
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:src="@drawable/login_icon"/>
+            <!--<ImageView-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:layout_gravity="center_vertical|center_horizontal"-->
+                <!--android:src="@drawable/login_icon"/>-->
 
-            <TextView
-                android:layout_marginTop="65dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:text="波波新聞有態度°"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:textColor="@color/color_gray"/>
+            <!--<TextView-->
+                <!--android:layout_marginTop="65dp"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical|center_horizontal"-->
+                <!--android:text="波波新聞有態度°"-->
+                <!--android:textStyle="bold"-->
+                <!--android:textSize="20sp"-->
+                <!--android:textColor="@color/color_gray"/>-->
 
         </FrameLayout>
 

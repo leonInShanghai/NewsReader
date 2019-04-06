@@ -6,7 +6,7 @@ package com.bobo520.newsreader;
  */
 public class Constant {
 
-    /**广告图片的json请求url*/
+    /**广告图片的json请求url  2019-4-6 这个接口不提供数据了自己造数据*/
     public static final String ADS_URL = "http://g1.163.com/madr?app=7A16FBB" +
             "6&platform=android&category=STARTUP&location=1";
 

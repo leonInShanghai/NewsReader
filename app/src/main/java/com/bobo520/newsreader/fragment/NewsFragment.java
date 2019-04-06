@@ -201,7 +201,7 @@ public class NewsFragment extends LogFragment {
                     String deleteItem = mShowTitleAdapter.deleteItem(position);
                     mToAddAdapter.addItem(deleteItem);
                 }else{//如果左上角没有显示删除图片 用户点击跳转到 对应的tab 并且收起所有的标题
-                    //if (position < mTablayout.getTabCount()) {
+                    if (position < mTablayout.getTabCount()) {
 
                         //方法一：注意不要直接设置索引 索引当 用户删除 后位置会改变照成不正确
                         //String lisStr = mShowTitleAdapter.getLisStr(position);
@@ -223,7 +223,7 @@ public class NewsFragment extends LogFragment {
 
                 //点击后还原不可还原会有bug
                 //isLongClick = false;
-            //}
+            }
         });
 
 

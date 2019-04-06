@@ -116,7 +116,6 @@ public class ShowTitleAdapter extends MyBaseAdapter<String> {
          * 删除规则用户所在的位置不要删除
          * 4个根目录不要删除
          */
-
         if (isLongClick){
 
             //四个根目录return false

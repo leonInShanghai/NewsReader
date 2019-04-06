@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AdDetailActivity">
+    tools:context=".app.AdDetailActivity">
 
     <!--下面这个view是为了设置沉浸式状态栏 id 必须是status_placeholder 放在最上面-->
     <View

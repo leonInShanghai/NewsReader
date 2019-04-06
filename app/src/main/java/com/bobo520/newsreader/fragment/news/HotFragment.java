@@ -13,19 +13,19 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.bobo520.newsreader.Constant;
-import com.bobo520.newsreader.LELog;
-import com.bobo520.newsreader.NewsDetailActivity;
+import com.bobo520.newsreader.util.Constant;
+import com.bobo520.newsreader.util.LELog;
+import com.bobo520.newsreader.news.controller.activity.NewsDetailActivity;
 import com.bobo520.newsreader.R;
-import com.bobo520.newsreader.adapter.HotNewsAdater;
-import com.bobo520.newsreader.bean.HotNewsBean;
-import com.bobo520.newsreader.bean.HotNewsListBean;
+import com.bobo520.newsreader.news.controller.adapter.HotNewsAdater;
+import com.bobo520.newsreader.news.model.HotNewsBean;
+import com.bobo520.newsreader.news.model.HotNewsListBean;
 import com.bobo520.newsreader.customDialog.LEloadingView;
 import com.bobo520.newsreader.fragment.LogFragment;
 import com.bobo520.newsreader.http.HttpHelper;
 import com.bobo520.newsreader.http.OnResponseListener;
 import com.bobo520.newsreader.util.IsNotFastClickUtils;
-import com.bobo520.newsreader.weiget.banner.BannerView;
+import com.bobo520.newsreader.news.view.BannerView;
 import com.google.gson.Gson;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
@@ -37,7 +37,7 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 
-import static com.bobo520.newsreader.NewsDetailActivity.NEWS_ID;
+import static com.bobo520.newsreader.news.controller.activity.NewsDetailActivity.NEWS_ID;
 
 /**
  * Created by Leon on 2019/1/13. Copyright © Leon. All rights reserved.

@@ -5,7 +5,7 @@ package com.bobo520.newsreader.http;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.bobo520.newsreader.LELog;
+import com.bobo520.newsreader.util.LELog;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;

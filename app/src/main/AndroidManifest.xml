@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".app.MainActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,17 +29,17 @@
         </activity>
 
         <service
-            android:name=".DownloadIntentService"
+            android:name=".app.DownloadIntentService"
             android:exported="false" />
 
-        <activity android:name=".AdDetailActivity" />
-        <activity android:name=".HomeActivity" />
+        <activity android:name=".app.AdDetailActivity" />
+        <activity android:name=".app.HomeActivity" />
         <!-- theme属性是解决划动关闭activity 时屏幕黑屏的问题（我倒没有遇到黑屏的情况） -->
         <activity
-            android:name=".NewsDetailActivity"
+            android:name=".news.controller.activity.NewsDetailActivity"
             android:theme="@style/SwipeBackActivityTheme" />
-        <activity android:name=".ShowPicActivity" />
-        <activity android:name=".KeyboardManActivity"></activity>
+        <activity android:name=".news.controller.activity.ShowPicActivity" />
+        <activity android:name=".news.controller.activity.KeyboardManActivity"></activity>
     </application>
 
 </manifest>

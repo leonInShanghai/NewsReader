@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewsDetailActivity">
+    tools:context=".news.controller.activity.NewsDetailActivity">
 
     <!--下面这个view是为了设置沉浸式状态栏 id 必须是status_placeholder 放在最上面-->
     <View

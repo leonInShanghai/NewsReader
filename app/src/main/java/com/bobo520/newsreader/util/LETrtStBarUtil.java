@@ -14,7 +14,7 @@ import com.bobo520.newsreader.R;
  * Created by Leon on 2019/1/5. Copyright © Leon. All rights reserved.
  * Functions:设置状态栏透明为沉浸式导航栏打基础的类
  * 下面这个方法比较麻烦我没有用
- * 沉浸式状态栏： https://github.com/wuhenzhizao/android-titlebar
+ * 沉浸式状态栏： https://github.com/wuhenzhizao/android-titlebar  99
  */
 public class LETrtStBarUtil {
 

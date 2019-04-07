@@ -9,6 +9,23 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+       //-----------------------JPush↓------------------------------------------
+        ndk {
+            //选择要添加的对应 cpu 类型的 .so 库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
+
+        //org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:processDebugManifest'.
+        //incremental = false
+
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : applicationId,
+                JPUSH_APPKEY : "b4f579a33774f5308eac89f2", //JPush 上注册的包名对应的 Appkey.
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+        ]
+        //-----------------------JPush↑------------------------------------------
     }
     buildTypes {
         release {
@@ -62,4 +79,9 @@ dependencies {
     //第二中配置方法现在用的https://blog.csdn.net/github_27263697/article/details/79196273
     implementation(name: 'PhotoView-1.3.0', ext: 'aar')
     implementation(name:'circleimageview-3.0.0',ext: 'aar');
+
+    //----------------JPush ↓-----------------------------------------------
+    implementation 'cn.jiguang.sdk:jpush:3.2.0'  // 此处以JPush 3.2.0 版本为例。
+    implementation 'cn.jiguang.sdk:jcore:1.2.7'  // 此处以JCore 1.2.7 版本为例。
+    //----------------JPush ↑-----------------------------------------------
 }

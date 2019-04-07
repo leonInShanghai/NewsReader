@@ -14,6 +14,8 @@ import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
 import java.io.File;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * Created by Leon on 2019/2/4. Copyright © Leon. All rights reserved.
  * Functions:
@@ -44,5 +46,10 @@ public class NewsReaderApplication extends Application {
                 .build();
 
         ImageLoader.getInstance().init(config);
+
+
+        //初始化 JPush
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
     }
 }

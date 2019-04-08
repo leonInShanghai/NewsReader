@@ -12,4 +12,7 @@
     <color name="color_transparent">#00000000</color>
     <color name="color_light_gray">#EEEEEEEE</color>
     <color name="red_E83828">#E83828</color>
+    <color name="gray_f3f2f7">#F3F2F7</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
 </resources>

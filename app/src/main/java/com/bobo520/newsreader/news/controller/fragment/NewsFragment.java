@@ -30,8 +30,6 @@ import com.bobo520.newsreader.news.controller.adapter.NewsFragmentAdapter;
 import com.bobo520.newsreader.news.controller.adapter.ShowTitleAdapter;
 import com.bobo520.newsreader.news.controller.adapter.ToAddTitleAdapter;
 import com.bobo520.newsreader.event.ShowTabEvent;
-import com.bobo520.newsreader.fragment.news.EmptyFragment;
-import com.bobo520.newsreader.fragment.news.HotFragment;
 import com.bobo520.newsreader.util.JsonUtil;
 import com.flyco.tablayout.SlidingTabLayout;
 

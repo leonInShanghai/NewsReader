@@ -1,4 +1,4 @@
-package com.bobo520.newsreader.fragment.news;
+package com.bobo520.newsreader.news.controller.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;

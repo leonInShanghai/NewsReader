@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.bobo520.newsreader.R;
 import com.bobo520.newsreader.event.ShowTabEvent;
-import com.bobo520.newsreader.fragment.MeFragment;
+import com.bobo520.newsreader.me.MeFragment;
 import com.bobo520.newsreader.news.controller.fragment.NewsFragment;
 import com.bobo520.newsreader.fragment.TopicFragment;
 import com.bobo520.newsreader.fragment.VaFragment;

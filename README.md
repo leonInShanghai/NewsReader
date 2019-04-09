@@ -70,6 +70,7 @@
 每个activity都有一个window窗体，窗体当中都会有一个根布局，我们平时写的setContentView方法就是将xml对应的view</br>
 添加到整个根布局中。</br>
 --------------------------------------------------------------------------------------------------------------</br>
+```java
  /**
      *  解决错误
      * All com.android.support libraries must use the exact same version specification
@@ -91,5 +92,5 @@
             }
         }
     }
-
+``
 

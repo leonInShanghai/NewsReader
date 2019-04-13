@@ -10,11 +10,9 @@
         android:layout_width="62dp"
         android:layout_height="62dp"
         android:src="@drawable/bobologo"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="25dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="RtlCompat" />
+        tools:ignore="MissingConstraints,RtlCompat"
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="25dp" />
 
     <TextView
         android:id="@+id/tv_user_name"
@@ -28,40 +26,6 @@
         tools:text="kk"
         tools:ignore="RtlCompat" />
 
-    <LinearLayout
-        android:id="@+id/credit_ll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center_vertical"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_user_paint"
-        app:layout_constraintStart_toStartOf="@+id/tv_user_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_user_name"
-        app:layout_constraintVertical_bias="1.0">
-
-        <ImageView
-            android:id="@+id/iv_auth_ic"
-            android:layout_width="11dp"
-            android:layout_height="10dp"
-            android:src="@drawable/mine_credit_ic" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="7dp"
-            android:text="实名认证"
-            android:visibility="gone"
-            android:textColor="#010101"
-            android:textSize="10sp" />
-
-        <ImageView
-            android:layout_width="5dp"
-            android:layout_height="9dp"
-            android:src="@drawable/mine_small_right" />
-    </LinearLayout>
 
     <ImageView
         android:id="@+id/iv_mine_msg"

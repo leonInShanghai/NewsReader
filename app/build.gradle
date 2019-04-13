@@ -104,4 +104,8 @@ dependencies {
 
     //我的MeFragmnet 用到的下拉刷新控件
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-2'
+
+    //[已过时。 🚀适用于Android的适配器（BaseAdapter，RecyclerView.Adapter）包装器。
+    // 一个适配器同时适用RecyclerView，ListView中，GridView的等。
+    implementation 'org.byteam.superadapter:superadapter:3.6.8'
 }

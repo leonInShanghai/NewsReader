@@ -2,7 +2,7 @@ package com.bobo520.newsreader.me.adapter;
 
 import android.content.Context;
 
-import com.bobo520.newsreader.me.model.MineWorkMap;
+import com.bobo520.newsreader.me.model.bean.MineWorkMap;
 import com.bobo520.newsreader.R;
 
 import org.byteam.superadapter.SuperAdapter;
@@ -27,4 +27,5 @@ public class MineWorkAdapter extends SuperAdapter<MineWorkMap> {
         holder.setText(R.id.tv, item.getName());
         holder.setImageResource(R.id.iv, item.getImgRes());
     }
+
 }

@@ -48,7 +48,7 @@ public class LETrtStBarUtil {
     /**
      * 获得状态栏的高度
      */
-    public static int getStatusBarHeight(Activity activity) {
+    private static int getStatusBarHeight(Activity activity) {
         int result = 0;
         int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {

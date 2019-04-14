@@ -2,17 +2,23 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingTop="26dp"
+    android:paddingRight="16dp"
     xmlns:tools="http://schemas.android.com/tools">
+    <!--match_parent-->
 
+
+    <!--tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="25dp" -->
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_user_paint"
         android:layout_width="62dp"
         android:layout_height="62dp"
-        android:src="@drawable/bobologo"
-        tools:ignore="MissingConstraints,RtlCompat"
-        tools:layout_editor_absoluteX="26dp"
-        tools:layout_editor_absoluteY="25dp" />
+        android:src="@drawable/logo"
+        tools:ignore="MissingConstraints,RtlCompat"/>
+
 
     <TextView
         android:id="@+id/tv_user_name"
@@ -27,19 +33,19 @@
         tools:ignore="RtlCompat" />
 
 
+    <!-- android:visibility="gone"
+     android:layout_marginBottom="6dp"
+     android:layout_marginEnd="24dp"
+     app:layout_constraintTop_toTopOf="@+id/iv_user_paint"
+     app:layout_constraintVertical_bias="0.57"
+     tools:ignore="RtlCompat"
+     app:layout_constraintBottom_toBottomOf="@+id/iv_user_paint"-->
     <ImageView
         android:id="@+id/iv_mine_msg"
         android:layout_width="22dp"
         android:layout_height="20dp"
-        android:layout_marginBottom="6dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/mine_msg_ic"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_user_paint"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/iv_user_paint"
-        app:layout_constraintVertical_bias="0.57"
-        tools:ignore="RtlCompat" />
+        android:layout_marginTop="2dp"
+        android:src="@drawable/mine_msg_ic_selector" />
 
 </android.support.constraint.ConstraintLayout>

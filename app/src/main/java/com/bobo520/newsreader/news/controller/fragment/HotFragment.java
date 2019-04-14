@@ -21,7 +21,7 @@ import com.bobo520.newsreader.news.controller.adapter.HotNewsAdater;
 import com.bobo520.newsreader.news.model.HotNewsBean;
 import com.bobo520.newsreader.news.model.HotNewsListBean;
 import com.bobo520.newsreader.customDialog.LEloadingView;
-import com.bobo520.newsreader.fragment.LogFragment;
+import com.bobo520.newsreader.app.LogFragment;
 import com.bobo520.newsreader.http.HttpHelper;
 import com.bobo520.newsreader.http.OnResponseListener;
 import com.bobo520.newsreader.util.IsNotFastClickUtils;

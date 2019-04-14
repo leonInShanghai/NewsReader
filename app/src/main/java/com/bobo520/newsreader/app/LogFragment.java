@@ -1,4 +1,4 @@
-package com.bobo520.newsreader.fragment;
+package com.bobo520.newsreader.app;
 
 import android.content.Context;
 import android.os.Bundle;

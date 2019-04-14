@@ -4,13 +4,18 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.bobo520.newsreader"
-        minSdkVersion 15
+
+        /** 处理编译时错误 将 minSdkVersion 15 修改到 17
+         * uses-sdk:minSdkVersion 15 cannot be smaller than version 17
+         * declared in library [pl.droidsonroids.gif:android-gif-drawable:1.2.16]
+         */
+        minSdkVersion 17
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-       //-----------------------JPush↓------------------------------------------
+        //-----------------------JPush↓------------------------------------------
         ndk {
             //选择要添加的对应 cpu 类型的 .so 库。
             abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
@@ -21,9 +26,9 @@ android {
         //incremental = false
 
         manifestPlaceholders = [
-                JPUSH_PKGNAME : applicationId,
+                JPUSH_PKGNAME: applicationId,
                 JPUSH_APPKEY : "b4f579a33774f5308eac89f2", //JPush 上注册的包名对应的 Appkey.
-                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
         ]
         //-----------------------JPush↑------------------------------------------
     }
@@ -95,7 +100,7 @@ dependencies {
     //引入本地libs的aar文件 注意先要在外层的gradle文件中配置  PhotoView-1.3.0 README.md中写的
     //第二中配置方法现在用的https://blog.csdn.net/github_27263697/article/details/79196273
     implementation(name: 'PhotoView-1.3.0', ext: 'aar')
-    implementation(name:'circleimageview-3.0.0',ext: 'aar');
+    implementation(name: 'circleimageview-3.0.0', ext: 'aar');
 
     //----------------JPush ↓-----------------------------------------------
     implementation 'cn.jiguang.sdk:jpush:3.2.0'  // 此处以JPush 3.2.0 版本为例。
@@ -108,4 +113,7 @@ dependencies {
     //[已过时。 🚀适用于Android的适配器（BaseAdapter，RecyclerView.Adapter）包装器。
     // 一个适配器同时适用RecyclerView，ListView中，GridView的等。
     implementation 'org.byteam.superadapter:superadapter:3.6.8'
+
+    //Android 加载GIF图最佳实践方案
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.16'
 }

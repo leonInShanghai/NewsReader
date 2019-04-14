@@ -1,4 +1,4 @@
-package com.bobo520.newsreader.me.model;
+package com.bobo520.newsreader.me.model.bean;
 
 /**
  * Created by 求知自学网 on 2019/4/13 Copyright © Leon. All rights reserved.

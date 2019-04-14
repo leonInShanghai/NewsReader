@@ -5,24 +5,32 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context="com.bobo520.newsreader.me.MeFragment">
+    tools:context="com.bobo520.newsreader.me.fragment.MeFragment">
 
-    <ImageView
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/head"
-        android:src="@drawable/leloading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
+    <!-- 加上这两个属性上拉的时候什么都没有
+        app:srlEnableOverScrollDrag="true"
+        app:srlEnablePureScrollMode="true"-->
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srlEnableOverScrollDrag="true"
-        app:srlEnablePureScrollMode="true"
-        android:background="#EEEEEE">
+        android:id="@+id/refreshLayout"
+        android:background="#EEEEEE"
+        app:srlEnablePreviewInEditMode="true">
 
+        <!--这个控件已经异常也是实现的一种办法-->
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/head"
+            android:visibility="gone"
+            android:src="@drawable/loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-        <!--android:background="@color/white"-->
+        <!--加载时的动画这里也可以用 GifImageView-->
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">

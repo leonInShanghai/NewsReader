@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import com.bobo520.newsreader.me.activity.MessageActivity;
 
 import com.bobo520.newsreader.app.HomeActivity;
 import com.bobo520.newsreader.util.LELog;
@@ -29,8 +30,10 @@ public class MyReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         try {
             Bundle bundle = intent.getExtras();
-            LELog.showLogWithLineNum(5,"MyReceiver");
-            Log.e("TAG", "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
+            LELog.showLogWithLineNum(5,"MyReceiver----------------------32");
+            Log.e("TAG", "[MyReceiver] onReceive - " + intent.getAction() + ", extras000000: "
+                    + printBundle(bundle));
+            LELog.showLogWithLineNum(5,"MyReceiver----------------------32");
 
             if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
                 String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
@@ -52,10 +55,11 @@ public class MyReceiver extends BroadcastReceiver {
 
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
                 Log.e(TAG, "[MyReceiver] 用户点击打开了通知");
+                //TODO:用户从安卓手机的通知栏点击了消息 HomeActivity 将来要跳到MessageActivity
 
                 //打开自定义的Activity
                 LELog.showLogWithLineNum(5,"MyReceiver");
-                Intent i = new Intent(context, HomeActivity.class);
+                Intent i = new Intent(context, MessageActivity.class);
                 i.putExtras(bundle);
                 //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
@@ -85,9 +89,12 @@ public class MyReceiver extends BroadcastReceiver {
     private static String printBundle(Bundle bundle) {
         StringBuilder sb = new StringBuilder();
         for (String key : bundle.keySet()) {
+            //key:cn.jpush.android.NOTIFICATION_ID, value:507642723
             if (key.equals(JPushInterface.EXTRA_NOTIFICATION_ID)) {
+                LELog.showLogWithLineNum(5,"--------------89");
                 sb.append("\nkey:" + key + ", value:" + bundle.getInt(key));
             }else if(key.equals(JPushInterface.EXTRA_CONNECTION_CHANGE)){
+                LELog.showLogWithLineNum(5,"--------------92");
                 sb.append("\nkey:" + key + ", value:" + bundle.getBoolean(key));
             } else if (key.equals(JPushInterface.EXTRA_EXTRA)) {
                 if (TextUtils.isEmpty(bundle.getString(JPushInterface.EXTRA_EXTRA))) {
@@ -102,6 +109,7 @@ public class MyReceiver extends BroadcastReceiver {
 
                     while (it.hasNext()) {
                         String myKey = it.next();
+                        LELog.showLogWithLineNum(5,"--------------107");
                         sb.append("\nkey:" + key + ", value: [" +
                                 myKey + " - " +json.optString(myKey) + "]");
                     }
@@ -111,7 +119,13 @@ public class MyReceiver extends BroadcastReceiver {
                 }
 
             } else {
-                sb.append("\nkey:" + key + ", value:" + bundle.get(key));
+                LELog.showLogWithLineNum(5,"--------------117"+bundle.get(key));
+                sb.append("\nkey:" + key + ", value:" + bundle.get(key)+"8888");
+                //发送通知(非自定义消息)
+                if (key.equals(JPushInterface.EXTRA_ALERT)){
+                    //TODO: 将接收到的消息insert到数据库
+                    LELog.showLogWithLineNum(5,bundle.get(key)+"刘波");
+                }
             }
         }
         return sb.toString();
@@ -119,8 +133,8 @@ public class MyReceiver extends BroadcastReceiver {
 
     //send msg to MainActivity
     private void processCustomMessage(Context context, Bundle bundle) {
-        LELog.showLogWithLineNum(5,"processCustomMessage(Context context, Bundle bundle)");
-        Log.e(TAG, "context"+context.toString()+"bundle"+ bundle.toString());
+//        LELog.showLogWithLineNum(5,"processCustomMessage(Context context, Bundle bundle)");
+//        Log.e(TAG, "context"+context.toString()+"bundle"+ bundle.toString());
 //        if (MainActivity.isForeground) {
 //            String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
 //            String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
@@ -144,29 +158,26 @@ public class MyReceiver extends BroadcastReceiver {
 
 
 
-
-
-//import android.content.BroadcastReceiver;
+//package com.bobo520.newsreader.Receiver;
+//
+//        import android.content.BroadcastReceiver;
 //        import android.content.Context;
 //        import android.content.Intent;
 //        import android.os.Bundle;
-//        import android.support.constraint.solver.Cache;
 //        import android.util.Log;
 //        import android.widget.Toast;
 //
 //
 //        import com.bobo520.newsreader.app.HomeActivity;
-//        import com.bobo520.newsreader.app.MainActivity;
 //        import com.bobo520.newsreader.util.LELog;
 //
-//
 //        import cn.jpush.android.api.JPushInterface;
-//
-//
-///**
-// * Created by 求知自学网 on 2019/4/7. Copyright © Leon. All rights reserved.
-// * Functions: * 自定义接收器 如果不定义这个 Receiver，则： 1) 默认用户会打开主界面 2) 接收不到自定义消息
-// */
+
+
+/**
+ * Created by 求知自学网 on 2019/4/7. Copyright © Leon. All rights reserved.
+ * Functions: * 自定义接收器 如果不定义这个 Receiver，则： 1) 默认用户会打开主界面 2) 接收不到自定义消息
+ */
 //public class MyReceiver extends BroadcastReceiver {
 //
 //    private static final String TAG = "JIGUANG-Example";
@@ -255,4 +266,3 @@ public class MyReceiver extends BroadcastReceiver {
 //
 //
 //}
-

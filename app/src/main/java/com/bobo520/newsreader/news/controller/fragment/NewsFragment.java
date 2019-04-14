@@ -22,7 +22,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.bobo520.newsreader.fragment.LogFragment;
+import com.bobo520.newsreader.app.LogFragment;
 import com.bobo520.newsreader.util.LELog;
 import com.bobo520.newsreader.R;
 import com.bobo520.newsreader.util.SpUtils;

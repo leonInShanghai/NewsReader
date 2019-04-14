@@ -74,3 +74,79 @@ webView的设置类，能够去设置webView的各种详细参数
 在Android4.2版本（API 17）以下的手机中有一个问题：webView会被javaScript注入，造成手机出现信息安全的问题，比如javaScript中操作手机去下载木马软件，发送付费短信等等。这个问题的关键就出在addJavascriptInterface方法。javaScript通过调用这个接口可以直接操作系统的java方法。
 
 google在4.2版本中解决了这个问题，方案是在被js调用的方法上加一个声明`@JavascriptInterface`，但是4.2版本一下的手机就无法应用这个方案了。
+
+
+//----------------------------------↓ 下面是知识点与本项目的使用无关↓-----------------------------------</br>
+#用到的知识点 数据本地持久化保存，主线程发消息给子线程。</br>
+#依赖三方库的方式：</br>
+1.依赖一个文件（jar/aar） aar文件的区别：除了包含jar文件外，还包含了一些资源文件。</br>
+    //aar文件在第一次依赖时，需要进行一些配置 首先在project外层build.gradle文件中添加如下代码：
+
+        allprojects {
+            repositories {
+                jcenter()
+                //第一次引入aar文件时,需要配置libs文件夹作为本地的代码仓库
+                flatDir {
+                    dirs 'libs'
+                }
+            }
+        }
+
+        //然后，将aar文件复制到对应的module的libs文件夹里，然后再module的build.gradle文件当中
+        //添加一下依赖：
+        //依赖某个aar文件 格式:compile(name:'这个aar文件的文件名(不含后缀)', ext:'aar')
+        dependencies {
+            //...
+            //依赖某个aar文件 格式implementation(name:'这个aar文件的文件名(不含后缀)', ext:'aar')
+            implementation(name:'FlycoTabLayout_Lib-debug', ext:'aar')
+            // ...
+        }
+
+
+2.依赖一个module（一个Library形式的module）</br>
+3.通过远程仓库进行依赖（缺点它的代码无法更改 因为别人通常是打包好上传到远程仓库的打包好的文件代码你怎么修改呢）
+比如：implementation  'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'</br>
+加载图片的几种方法：</br>
+1.Glide 2.自己写 3.UIL（老牌的图片加载三方库）</br>
+
+-------------------------------------------------------------------------------------------------------------</br>
+1.下拉刷新控件PtrFragmeLayout的触摸逻辑</br>
+   有两个方法：</br>
+        dispatchTouchEventSupper 默认的super分发方法，该方法会正常的将触摸事件发给子控件</br>
+        dispatchTouchEvent 系统的分发方发，内部有自定义的业务逻辑</br>
+            自定义的业务逻辑：当能够响应下拉刷新的手势时，就会直接去下拉刷新并return true，</br>
+                              触摸事件是不会分发给内部子控件的</br>
+                              当不响应下拉刷新时，就调用dispatchTouchEventSuper方法，正常的将触摸事件发下去</br>
+
+2.复写这个控件（PtrFragmeLayout）的分发方法dispatchTouchEvent：</br>
+    当手势的X方向偏移大于Y方向的偏移时，说明不是下拉刷新的手势，
+    将事件正常的分发下去（return dispatchTouchEventSupper）;</br>
+
+-------------------------------------------------------------------------------------------------------------</br>
+三方库SwipeBackActivity 划动关闭（Activity）页面的工作原理:</br>
+每个activity都有一个window窗体，窗体当中都会有一个根布局，我们平时写的setContentView方法就是将xml对应的view</br>
+添加到整个根布局中。</br>
+--------------------------------------------------------------------------------------------------------------</br>
+```java
+ /**
+     *  解决错误
+     * All com.android.support libraries must use the exact same version specification
+     * (mixing versions can lead to runtime crashes). Found versions 28.0.0-alpha1, 28.0.0. Examples
+     * include com.android.support:recyclerview-v7:28.0.0-alpha1 and com.android.support:animated-vector-drawable:28.0.0
+     * less... (Ctrl+F1)
+     * There are some combinations of libraries, or tools and libraries, that are incompatible, or can lead to bugs.
+     * One such incompatibility is compiling with a version of the Android support libraries that is not the latest version
+     * (or in particular, a version lower than your targetSdkVersion).  Issue id: GradleCompatible
+     */
+    //强制让所有模块都用相同的支持库版本
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            def requested = details.requested
+            if (requested.group == 'com.android.support') {
+                if (!requested.name.startsWith("multidex")) {
+                    details.useVersion '28.0.0'
+                }
+            }
+        }
+    }
+```

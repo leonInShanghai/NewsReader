@@ -6,6 +6,12 @@ package com.bobo520.newsreader.util;
  */
 public class Constant {
 
+    /**发送用户进入消息详情页的广播KEY（此时铃铛不需要再为绿色）*/
+    public static final String USER_ENTERS_MESSAGE_DETAILS_PA = "USER_ENTERS_MESSAGE_DETAILS_PA";
+
+    /**发送用户收到新的极光消息的广播KEY*/
+    public static final String RECEIVED_A_NEW_MESSAGE = "RECEIVED_A_NEW_MESSAGE";
+
     /**广告图片的json请求url  2019-4-6 这个接口不提供数据了自己造数据*/
     public static final String ADS_URL = "http://g1.163.com/madr?app=7A16FBB" +
             "6&platform=android&category=STARTUP&location=1";

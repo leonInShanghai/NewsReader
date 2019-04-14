@@ -1,8 +1,13 @@
 package com.bobo520.newsreader.me.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bobo520.newsreader.me.activity.MessageActivity;
 import com.bobo520.newsreader.me.adapter.MineWorkAdapter;
 import com.bobo520.newsreader.me.model.bean.MineWorkMap;
 import android.widget.TextView;
@@ -20,6 +26,7 @@ import com.bobo520.newsreader.R;
 import com.bobo520.newsreader.customDialog.DensityUtil;
 import com.bobo520.newsreader.app.LogFragment;
 import com.bobo520.newsreader.me.decoration.GridWHSpaceDecoration;
+import com.bobo520.newsreader.util.Constant;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -58,12 +65,29 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
     //一款不错的上拉加载下拉刷新控件-SmartRefreshLayout
     private RefreshLayout mRefreshLayout;
 
+    //这里主要时为了接收广播-接收一定onDestroy() 关闭
+    private LocalBroadcastManager mLBM;
 
 
+    //接收到收到新极光推送广播的处理@drawable/mine_msg_ic_selector
+    private BroadcastReceiver ReceivedANewMessage = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mIvMineMsg.setImageResource(R.drawable.right_new_message);
+        }
+    };
+
+    //接收到用户通过安卓手机的通知中心点击直接进入消息详情的通知（即用户已经看过消息了）
+    private BroadcastReceiver MessageDetailsPag = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mIvMineMsg.setImageResource(R.drawable.mine_msg_ic_selector);
+        }
+    };
 
     @Override
     public View getChildView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.e(getClass().getSimpleName() + "xmg", "onCreateView: " + "");
+        Log.e(getClass().getSimpleName() + "xmg", "onCreateView: " + "MeFragment");
         View view = inflater.inflate(R.layout.me_fragment, container, false);
         head = (GifImageView)view.findViewById( R.id.head );
         mIvUserPaint = (CircleImageView)view.findViewById(R.id.iv_user_paint);
@@ -87,6 +111,12 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
 
         //初始化RecyclerView
         initWorkPieces();
+
+        //注册广播
+        mLBM = LocalBroadcastManager.getInstance(getActivity());
+        //定义接收广播的方法
+        mLBM.registerReceiver(ReceivedANewMessage,new IntentFilter(Constant.RECEIVED_A_NEW_MESSAGE));
+        mLBM.registerReceiver(MessageDetailsPag,new IntentFilter(Constant.USER_ENTERS_MESSAGE_DETAILS_PA));
 
         return view;
     }
@@ -113,7 +143,9 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
     @Override
     public void onClick(View v) {
         if (v == mIvMineMsg){
-            Toast.makeText(getContext(),"1111111",Toast.LENGTH_SHORT).show();
+            if (getContext() == null){return;}
+            Intent intent = new Intent(getContext(), MessageActivity.class);
+            startActivity(intent);
         }else if (v == mIvUserPaint){
             Toast.makeText(getContext(),"22222",Toast.LENGTH_SHORT).show();
         }
@@ -187,11 +219,17 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
 
         @Override
         public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-            //GifDrawable gifDrawable = (GifDrawable) head.getDrawable();
-            //gifDrawable.start();//开始播放gif动画
+           //TODO:做一些刷新操作
 
             mRefreshLayout.finishRefresh();
-            //gifDrawable.stop(); //停止播放gif动画
         }
+    }
+
+    @Override
+    public void onDestroy() {
+         //注册的广播一定要关掉
+        mLBM.unregisterReceiver(ReceivedANewMessage);
+        mLBM.unregisterReceiver(MessageDetailsPag);
+        super.onDestroy();
     }
 }

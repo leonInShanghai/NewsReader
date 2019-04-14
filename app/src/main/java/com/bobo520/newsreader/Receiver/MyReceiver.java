@@ -4,11 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 import com.bobo520.newsreader.me.activity.MessageActivity;
 
-import com.bobo520.newsreader.app.HomeActivity;
+import com.bobo520.newsreader.util.Constant;
 import com.bobo520.newsreader.util.LELog;
 
 import org.json.JSONException;
@@ -24,10 +25,20 @@ import cn.jpush.android.api.JPushInterface;
  * 如果不定义这个 Receiver，则： 1) 默认用户会打开主界面 2) 接收不到自定义消息
  */
 public class MyReceiver extends BroadcastReceiver {
+    
+    //从极光文档复制的时候就带的
     private static final String TAG = "JIGUANG-Example";
+
+    //广播收到后台推送的小消息后改变铃铛你的状态
+    private static LocalBroadcastManager mLBM;
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        //创建一个发送广播的管理者对象
+        mLBM = LocalBroadcastManager.getInstance(context);
+
         try {
             Bundle bundle = intent.getExtras();
             LELog.showLogWithLineNum(5,"MyReceiver----------------------32");
@@ -56,6 +67,8 @@ public class MyReceiver extends BroadcastReceiver {
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
                 Log.e(TAG, "[MyReceiver] 用户点击打开了通知");
                 //TODO:用户从安卓手机的通知栏点击了消息 HomeActivity 将来要跳到MessageActivity
+                //发送广播-用户直接进入了消息详情页
+                mLBM.sendBroadcast(new Intent(Constant.USER_ENTERS_MESSAGE_DETAILS_PA));
 
                 //打开自定义的Activity
                 LELog.showLogWithLineNum(5,"MyReceiver");
@@ -124,6 +137,8 @@ public class MyReceiver extends BroadcastReceiver {
                 //发送通知(非自定义消息)
                 if (key.equals(JPushInterface.EXTRA_ALERT)){
                     //TODO: 将接收到的消息insert到数据库
+                    //发送广播-收到新极光推送的消息
+                    mLBM.sendBroadcast(new Intent(Constant.RECEIVED_A_NEW_MESSAGE));
                     LELog.showLogWithLineNum(5,bundle.get(key)+"刘波");
                 }
             }

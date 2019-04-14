@@ -66,7 +66,7 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
     private RefreshLayout mRefreshLayout;
 
     //这里主要时为了接收广播-接收一定onDestroy() 关闭
-    private LocalBroadcastManager mLBM;
+    protected LocalBroadcastManager mLBM;
 
 
     //接收到收到新极光推送广播的处理@drawable/mine_msg_ic_selector
@@ -84,6 +84,12 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
             mIvMineMsg.setImageResource(R.drawable.mine_msg_ic_selector);
         }
     };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Toast.makeText(getContext(),"onResume",Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public View getChildView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -114,6 +120,7 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
 
         //注册广播
         mLBM = LocalBroadcastManager.getInstance(getActivity());
+
         //定义接收广播的方法
         mLBM.registerReceiver(ReceivedANewMessage,new IntentFilter(Constant.RECEIVED_A_NEW_MESSAGE));
         mLBM.registerReceiver(MessageDetailsPag,new IntentFilter(Constant.USER_ENTERS_MESSAGE_DETAILS_PA));

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +21,13 @@ public abstract class LogFragment extends Fragment {
 
     public static final String FRAG_KEY = "STR";
 
+
     //创建Fragment的视图
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.e(getClass().getSimpleName() + "xmg", "onCreateView: " + "");
+
         /*mString = getClass().getSimpleName();
 
         Bundle bundle = getArguments();

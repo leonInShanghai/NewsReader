@@ -80,12 +80,15 @@ public class Constant {
 
 /**
  *（热门回帖URL）
- http://comment.api.163.com/api/v1/products/a2869674571f77b5a0867c3d71db5856/threads/C85DDFSQ00964J4O/app/comments/hotList?offset=0&limit=10&showLevelThreshold=10&headLimit=2&tailLimit=2
+ http://comment.api.163.com/api/v1/products/a2869674571f77b5a0867c3d71db5856/threads/C85DDFSQ00964J4O/app/comm
+ ents/hotList?offset=0&limit=10&showLevelThreshold=10&headLimit=2&tailLimit=2
 
  （最新回帖URL）
- http://comment.api.163.com/api/v1/products/a2869674571f77b5a0867c3d71db5856/threads/C85DDFSQ00964J4O/app/comments/newList?offset=0&limit=20&showLevelThreshold=10&headLimit=2&tailLimit=2
+ http://comment.api.163.com/api/v1/products/a2869674571f77b5a0867c3d71db5856/threads/C85DDFSQ00964J4O/app/comme
+ nts/newList?offset=0&limit=20&showLevelThreshold=10&headLimit=2&tailLimit=2
  （一直往下拉，加载更多评论时的请求URL）
- http://comment.api.163.com/api/v1/products/a2869674571f77b5a0867c3d71db5856/threads/C85DDFSQ00964J4O/app/comments/newList?offset=20&limit=20&showLevelThreshold=10&headLimit=2&tailLimit=2
+ http://comment.api.163.com/api/v1/products/a2869674571f77b5a0867c3d71db5856/threads/C85DDFSQ00964J4O/app/comme
+ nts/newList?offset=20&limit=20&showLevelThreshold=10&headLimit=2&tailLimit=2
 
 
  PS：

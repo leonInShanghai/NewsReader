@@ -101,8 +101,8 @@
                         android:textSize="14sp" />
 
                     <ImageView
-                        android:layout_width="8dp"
-                        android:layout_height="10dp"
+                        android:layout_width="10dp"
+                        android:layout_height="12dp"
                         android:layout_gravity="right|center_vertical"
                         android:src="@drawable/mine_big_right" />
                 </FrameLayout>
@@ -125,8 +125,8 @@
                         android:textSize="14sp" />
 
                     <ImageView
-                        android:layout_width="8dp"
-                        android:layout_height="10dp"
+                        android:layout_width="10dp"
+                        android:layout_height="12dp"
                         android:layout_gravity="right|center_vertical"
                         android:src="@drawable/mine_big_right" />
                 </FrameLayout>
@@ -149,8 +149,8 @@
                         android:textSize="14sp" />
 
                     <ImageView
-                        android:layout_width="8dp"
-                        android:layout_height="10dp"
+                        android:layout_width="10dp"
+                        android:layout_height="12dp"
                         android:layout_gravity="right|center_vertical"
                         android:src="@drawable/mine_big_right" />
                 </FrameLayout>

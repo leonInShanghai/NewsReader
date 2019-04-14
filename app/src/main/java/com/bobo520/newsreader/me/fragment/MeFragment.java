@@ -4,6 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -88,6 +91,7 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
     @Override
     public void onResume() {
         super.onResume();
+        //TODO：在这里做一些类似刷新的操作
         Toast.makeText(getContext(),"onResume",Toast.LENGTH_SHORT).show();
     }
 
@@ -102,6 +106,7 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
         mIvMineMsg = (ImageView)view.findViewById(R.id.iv_mine_msg);
         mRefreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout);
         mRefreshLayout.setEnableRefresh(true);//启用刷新
+        mRefreshLayout.setEnableLoadMore(false);//不启用上拉加载更多
         //设置 Header 为 贝塞尔雷达 样式 getResources().getColor(R.color.color_center_red)
         if (getContext() != null){
             mRefreshLayout.setRefreshHeader(new BezierRadarHeader(getContext())
@@ -109,6 +114,7 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
                     .setPrimaryColor(ContextCompat.getColor(getContext(),R.color.color_center_red)));
             mRefreshLayout.setOnRefreshListener(new MyOnRefreshListener());
         }
+
 
         //设置监听事件的代理为this
         mIvMineMsg.setOnClickListener(this);

@@ -8,14 +8,14 @@
     tools:context="com.bobo520.newsreader.me.fragment.MeFragment">
 
 
-    <!-- 加上这两个属性上拉的时候什么都没有
-        app:srlEnableOverScrollDrag="true"
+    <!-- 加上这个属性上拉的时候什么都没有
         app:srlEnablePureScrollMode="true"-->
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/refreshLayout"
         android:background="#EEEEEE"
+        app:srlEnableOverScrollDrag="true"
         app:srlEnablePreviewInEditMode="true">
 
         <!--这个控件已经异常也是实现的一种办法-->

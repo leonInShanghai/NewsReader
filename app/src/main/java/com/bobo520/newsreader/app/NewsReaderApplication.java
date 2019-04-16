@@ -3,6 +3,7 @@ package com.bobo520.newsreader.app;
 import android.app.Application;
 import android.graphics.ImageDecoder;
 
+import com.bobo520.newsreader.me.model.Model;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -47,6 +48,8 @@ public class NewsReaderApplication extends Application {
 
         ImageLoader.getInstance().init(config);
 
+        //初始化数据模型层类 极光推送消息本地创建数据库用到
+        Model.getInstance().init(this);
 
         //初始化 JPush
         JPushInterface.setDebugMode(true);

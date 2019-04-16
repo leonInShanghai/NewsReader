@@ -6,6 +6,9 @@ package com.bobo520.newsreader.util;
  */
 public class Constant {
 
+    /**发送用户收到消息的 持久化Boolean变量*/
+    public static final String IS_NES_MESSAGE = "IS_NES_MESSAGE";
+
     /**发送用户进入消息详情页的广播KEY（此时铃铛不需要再为绿色）*/
     public static final String USER_ENTERS_MESSAGE_DETAILS_PA = "USER_ENTERS_MESSAGE_DETAILS_PA";
 

@@ -9,8 +9,11 @@ import android.text.TextUtils;
 import android.util.Log;
 import com.bobo520.newsreader.me.activity.MessageActivity;
 
+import com.bobo520.newsreader.me.model.Model;
+import com.bobo520.newsreader.me.model.bean.InvationInfo;
 import com.bobo520.newsreader.util.Constant;
 import com.bobo520.newsreader.util.LELog;
+import com.bobo520.newsreader.util.SpUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +34,7 @@ public class MyReceiver extends BroadcastReceiver {
 
     //广播收到后台推送的小消息后改变铃铛你的状态
     private static LocalBroadcastManager mLBM;
+    private static Context context;
 
 
     @Override
@@ -38,6 +42,7 @@ public class MyReceiver extends BroadcastReceiver {
 
         //创建一个发送广播的管理者对象
         mLBM = LocalBroadcastManager.getInstance(context);
+        this.context = context;
 
         try {
             Bundle bundle = intent.getExtras();
@@ -134,13 +139,23 @@ public class MyReceiver extends BroadcastReceiver {
             } else {
                 LELog.showLogWithLineNum(5,"--------------117"+bundle.get(key));
                 sb.append("\nkey:" + key + ", value:" + bundle.get(key)+"8888");
+
                 //发送通知(非自定义消息)
                 if (key.equals(JPushInterface.EXTRA_ALERT)){
                     //TODO: 将接收到的消息insert到数据库
                     //发送广播-收到新极光推送的消息
                     mLBM.sendBroadcast(new Intent(Constant.RECEIVED_A_NEW_MESSAGE));
-                    LELog.showLogWithLineNum(5,bundle.get(key)+"刘波");
-                }
+                    //保存持久化全局变量 收到信息为true
+                    SpUtils.setBoolean(context,Constant.IS_NES_MESSAGE,true);
+
+                    //数据更新
+                    InvationInfo invationInfo = new InvationInfo();
+                    invationInfo.setMessage((String) bundle.get(key));
+                    invationInfo.setCurrentTime(System.currentTimeMillis());
+                    Model.getInstance().getDbManager().getInviteTableDao().addInvitation(invationInfo);
+                    LELog.showLogWithLineNum(5,"--------收到新的信息------2019：04：16："+bundle.get(key));
+
+               }
             }
         }
         return sb.toString();

@@ -30,6 +30,7 @@ import com.bobo520.newsreader.customDialog.DensityUtil;
 import com.bobo520.newsreader.app.LogFragment;
 import com.bobo520.newsreader.me.decoration.GridWHSpaceDecoration;
 import com.bobo520.newsreader.util.Constant;
+import com.bobo520.newsreader.util.SpUtils;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -92,7 +93,11 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
     public void onResume() {
         super.onResume();
         //TODO：在这里做一些类似刷新的操作
-        Toast.makeText(getContext(),"onResume",Toast.LENGTH_SHORT).show();
+        if (getContext() != null && SpUtils.getBoolean(getContext(),Constant.IS_NES_MESSAGE)){
+            mIvMineMsg.setImageResource(R.drawable.right_new_message);
+        }else {
+            mIvMineMsg.setImageResource(R.drawable.mine_msg_ic_selector);
+        }
     }
 
     @Override

@@ -18,7 +18,7 @@ import com.bobo520.newsreader.util.LeTimeUtils;
  * Created by 求知自学网 on 2019/4/16. Copyright © Leon. All rights reserved.
  * Functions:
  */
-public class InviteAdapter extends BaseAdapter {
+public class MessageAdapter extends BaseAdapter {
 
     private Context mContext;
 
@@ -31,7 +31,7 @@ public class InviteAdapter extends BaseAdapter {
     /**解決bug 把 position倒過來*/
     private InvationInfo lEinvationInfo;
 
-    public InviteAdapter(Context context,OnInviteListener onInviteListener){
+    public MessageAdapter(Context context, OnInviteListener onInviteListener){
         this.mContext = context;
         this.mOnInviteListener = onInviteListener;
     }

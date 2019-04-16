@@ -10,7 +10,7 @@ import android.widget.ListView;
 
 import com.bobo520.newsreader.R;
 
-import com.bobo520.newsreader.me.adapter.InviteAdapter;
+import com.bobo520.newsreader.me.adapter.MessageAdapter;
 import com.bobo520.newsreader.me.model.Model;
 import com.bobo520.newsreader.me.model.bean.InvationInfo;
 import com.bobo520.newsreader.util.Constant;
@@ -30,7 +30,7 @@ public class MessageActivity extends Activity {
     private ListView iv_invite;
 
     //显示内容ListView的适配器
-    private InviteAdapter inviteAdapter;
+    private MessageAdapter inviteAdapter;
 
     private ImageButton backImageBtn;
 
@@ -51,14 +51,14 @@ public class MessageActivity extends Activity {
     }
 
     //Adapter中按钮点击事件的处理
-    private InviteAdapter.OnInviteListener mOnInviteListener = new InviteAdapter.OnInviteListener() {
+    private MessageAdapter.OnInviteListener mOnInviteListener = new MessageAdapter.OnInviteListener() {
         //refresh();
     };
 
 
     private void initData(){
         //初始化ListView
-        inviteAdapter = new InviteAdapter(MessageActivity.this,mOnInviteListener);
+        inviteAdapter = new MessageAdapter(MessageActivity.this,mOnInviteListener);
         iv_invite.setAdapter(inviteAdapter);
 
         //刷新方法
@@ -92,7 +92,7 @@ public class MessageActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        //发送广播-用户直接进入了消息详情页
+        //发送广播-用户直接进入了消息详情页 只用下面的一个方法也可以 MeFragment每次都会刷新
         mLBM.sendBroadcast(new Intent(Constant.USER_ENTERS_MESSAGE_DETAILS_PA));
         SpUtils.setBoolean(MessageActivity.this,Constant.IS_NES_MESSAGE,false);
         super.onBackPressed();

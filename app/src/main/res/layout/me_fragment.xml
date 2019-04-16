@@ -18,7 +18,7 @@
         app:srlEnableOverScrollDrag="true"
         app:srlEnablePreviewInEditMode="true">
 
-        <!--这个控件已经异常也是实现的一种办法-->
+        <!--这个控件已经隐藏也是实现的一种办法-->
         <pl.droidsonroids.gif.GifImageView
             android:id="@+id/head"
             android:visibility="gone"

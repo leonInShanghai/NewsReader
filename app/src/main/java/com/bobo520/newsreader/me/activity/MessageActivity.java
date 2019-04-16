@@ -15,6 +15,7 @@ import com.bobo520.newsreader.me.model.Model;
 import com.bobo520.newsreader.me.model.bean.InvationInfo;
 import com.bobo520.newsreader.util.Constant;
 import com.bobo520.newsreader.util.LETrtStBarUtil;
+import com.bobo520.newsreader.util.SpUtils;
 
 import java.util.List;
 
@@ -93,6 +94,7 @@ public class MessageActivity extends Activity {
     public void onBackPressed() {
         //发送广播-用户直接进入了消息详情页
         mLBM.sendBroadcast(new Intent(Constant.USER_ENTERS_MESSAGE_DETAILS_PA));
+        SpUtils.setBoolean(MessageActivity.this,Constant.IS_NES_MESSAGE,false);
         super.onBackPressed();
     }
 }

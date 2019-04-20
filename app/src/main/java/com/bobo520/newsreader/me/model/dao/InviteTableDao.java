@@ -22,7 +22,7 @@ public class InviteTableDao {
         this.mHelper = helper;
     }
 
-    /**添加邀请信息*/
+    /**添加信息*/
     public void addInvitation(InvationInfo invationInfo){
 
         //1.获取数据库连接
@@ -36,6 +36,9 @@ public class InviteTableDao {
 
         //为了排序倒顺序----------Leon新增加---------------------------------------
         values.put(InviteTable.CURRENTTIME,invationInfo.getCurrentTime());//邀请的时间
+
+        //增加 Boolean 类型的用户是否查看详情
+        values.put(InviteTable.LOOK_DETAIS,String.valueOf(invationInfo.getLook_detais()));
 
         //Leon修改bug
         //db.insert(InviteTable.TABLE_NAME,null,values);.//這個方法插入有問題 primary key 不可重複
@@ -60,6 +63,10 @@ public class InviteTableDao {
             invationInfo.setMessage(cursor.getString(cursor.getColumnIndex(InviteTable.COL_REASON)));
             invationInfo.setCurrentTime(cursor.getLong(cursor.getColumnIndex(InviteTable.CURRENTTIME)));
 
+            //String转Boolean
+            boolean isLookDetals = Boolean.valueOf(cursor.getString(cursor.getColumnIndex(InviteTable.LOOK_DETAIS)));
+            invationInfo.setLook_detais(isLookDetals);
+
             //添加遍历的邀请信息
             invationInfos.add(invationInfo);
         }
@@ -77,14 +84,32 @@ public class InviteTableDao {
      */
     public void removeInvitation(Long currentTime){
         //避免空指针
-        if (currentTime == 0){ return; }
+        //if (currentTime == 0){ return; }
 
         //获取数据库连接
         SQLiteDatabase db = mHelper.getReadableDatabase();
 
         //执行删除语句
-        //执行删除语句
         db.delete(InviteTable.TABLE_NAME, InviteTable.CURRENTTIME + "=?;",new String[]{String.valueOf(currentTime)});
+    }
+
+    /**
+     * 根据时间修改用户是否查看过消息详情
+     * @param currentTime
+     */
+    public void userToSeeDetails(Long currentTime){
+        //避免空指针
+        //if (currentTime == 0){ return; }
+
+        //获取数据库连接
+        SQLiteDatabase db = mHelper.getReadableDatabase();
+
+        //将 InviteTable.LOOK_DETAIS 字段更新为true
+        ContentValues values = new ContentValues();
+        values.put(InviteTable.LOOK_DETAIS,String.valueOf(true));
+        //db.update(InviteTable.TABLE_NAME,values,strFilter,null);
+        db.update(InviteTable.TABLE_NAME,values,InviteTable.CURRENTTIME + "=?",new String[]{String.
+                valueOf(currentTime)});
     }
 
 

@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bobo520.newsreader.me.activity.LoginActivity;
 import com.bobo520.newsreader.me.activity.MessageActivity;
 import com.bobo520.newsreader.me.adapter.MineWorkAdapter;
 import com.bobo520.newsreader.me.model.bean.MineWorkMap;
@@ -165,7 +166,9 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
             Intent intent = new Intent(getContext(), MessageActivity.class);
             startActivity(intent);
         }else if (v == mIvUserPaint){
-            Toast.makeText(getContext(),"22222",Toast.LENGTH_SHORT).show();
+            if (getContext() == null){return;}
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivity(intent);
         }
     }
 

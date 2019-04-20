@@ -71,29 +71,52 @@ public class MessageAdapter extends BaseAdapter {
         ViewHodler hodler = null;
         if (convertView == null){
             hodler = new ViewHodler();
+
             convertView = View.inflate(mContext,R.layout.item_message,null);
+
             hodler.messageTime = (TextView)convertView.findViewById(R.id.tv_message_time);
-            hodler.messageDetail = (TextView)convertView.findViewById(R.id.tv_message_details);
-            hodler.delete = (Button)convertView.findViewById(R.id.bt_delete);
+            hodler.messageDetails = (TextView)convertView.findViewById(R.id.tv_message_details);
+            hodler.redDot = (View) convertView.findViewById(R.id.red_dot);
+            hodler.delete = (TextView)convertView.findViewById(R.id.main_tv_delete);
+            hodler.delete.setTag(position);
+
             convertView.setTag(hodler);
         }else {
             hodler = (ViewHodler)convertView.getTag();
         }
 
-        int lePostion = 0;
-
-        //----解決bug 因爲之前爲了用戶體驗把 InviteTable 表中數據倒序了 這裏把 position 也 倒過來-----
-        if (mInvationInfos.size() - position >= 0){
-            lePostion = mInvationInfos.size() - position -1;
-        }
-        lEinvationInfo = mInvationInfos.get(lePostion);
-        //----解決bug 因爲之前爲了用戶體驗把 InviteTable 表中數據倒序了 這裏把 position 也 倒過來-----
-
         //2.获取当前item数据
         invationInfo = mInvationInfos.get(position);
 
         hodler.messageTime.setText(LeTimeUtils.getStrTime(String.valueOf(invationInfo.getCurrentTime())));
-        hodler.messageDetail.setText(invationInfo.getMessage());
+        //hodler.messageTime.setText(String.valueOf(invationInfo.getCurrentTime()));
+        hodler.messageDetails.setText(invationInfo.getMessage());
+
+        //设置红点显示不显示
+        if (invationInfo.getLook_detais()){//Look_detais 为true 则不显示
+            hodler.redDot.setVisibility(View.GONE);
+        }else{//Look_detais 为false 则显示
+            hodler.redDot.setVisibility(View.VISIBLE);
+        }
+
+
+        //用户左划点击了删除
+        hodler.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //自定义控件 SlideListView 有个小缺陷 会数组越界处理一下
+                // indexOutBoundsException Invalid index 1,size is 1
+                if ((int)v.getTag() > (mInvationInfos.size() -1)){return;}
+
+                lEinvationInfo = mInvationInfos.get((int)v.getTag());
+
+                //调用接口交给 MessageActivity 来实现
+                mOnInviteListener.onDelete(lEinvationInfo.getCurrentTime());
+
+            }
+        });
+
 
         //返回View
         return convertView;
@@ -102,29 +125,14 @@ public class MessageAdapter extends BaseAdapter {
     /**内部类 ViewHodler*/
     private class ViewHodler{
         private TextView messageTime;
-        private TextView messageDetail ;
+        private TextView messageDetails;
+        private View redDot;
 
-        private Button delete;
+        private TextView delete;
     }
 
     public interface OnInviteListener{
-//        //联系人接受按钮的点击事件
-//        void onAccept(InvationInfo invationInfo);
-//
-//        //联系人拒绝按钮的点击事件
-//        void onReject(InvationInfo invationInfo);
-//
-//        /**接受邀请按钮处理(群)*/
-//        void onInviteAccept(InvationInfo invationInfo);
-//
-//        /**拒绝邀请按钮处理*/
-//        void onInviteReject(InvationInfo invationInfo);
-//
-//        /**接受申请按钮处理*/
-//        void  onApplicationAccept(InvationInfo invationInfo);
-//
-//        /**拒绝申请按钮处理*/
-//        void onApplicationReject(InvationInfo invationInfo);
+        void onDelete(long currentTime);
     }
 
 }

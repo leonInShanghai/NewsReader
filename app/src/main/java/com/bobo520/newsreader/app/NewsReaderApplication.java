@@ -1,6 +1,7 @@
 package com.bobo520.newsreader.app;
 
 import android.app.Application;
+import android.content.Context;
 import android.graphics.ImageDecoder;
 
 import com.bobo520.newsreader.me.model.Model;
@@ -23,9 +24,16 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class NewsReaderApplication extends Application {
 
+
+    //全局上下文
+    private static Context mContext;
+
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        mContext = getApplicationContext();
 
         //缓存目录 File.separator ：文件的分割符相当于 /
         File cacheDir = new File(getExternalCacheDir().getAbsolutePath()+File.separator+"pic");
@@ -55,4 +63,14 @@ public class NewsReaderApplication extends Application {
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
     }
+
+
+    /**
+     * 获取全局上下文的方法
+     * @return mContext
+     */
+    public static Context getContext() {
+        return mContext;
+    }
+
 }

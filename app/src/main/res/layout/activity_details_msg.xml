@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".me.activity.MessageActivity">
+    android:orientation="vertical"
+    tools:context=".me.activity.MesDetailedActivity">
 
-    下面这个view是为了设置沉浸式状态栏 id 必须是status_placeholder 放在最上面
+    <!--下面这个view是为了设置沉浸式状态栏 id 必须是status_placeholder 放在最上面-->
     <View
         android:id="@+id/status_placeholder"
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
         android:background="@drawable/shape_le">
 
         <ImageButton
-            android:id="@+id/back_button"
+            android:id="@+id/details_back_button"
             android:layout_height="match_parent"
             android:layout_width="50dp"
             android:background="@drawable/bg_btn_back"
@@ -34,15 +34,18 @@
             android:layout_width="0dp"
             android:layout_weight="1"/>
 
+        <ImageButton
+            android:layout_height="match_parent"
+            android:layout_width="50dp"
+            android:background="@drawable/bg_btn_back"
+            android:src="@drawable/news_title_menu"/>
 
     </LinearLayout>
 
-    <!--展示内容的listView-->
-    <com.bobo520.newsreader.weiget.SlideListView
-        android:id="@+id/iv_invite"
+    <TextView
+        android:id="@+id/only_message"
+        android:textSize="16sp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="#CCCCCC"
-        android:dividerHeight="0.5dp"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

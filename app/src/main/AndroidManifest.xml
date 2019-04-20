@@ -237,6 +237,8 @@
             android:value="b4f579a33774f5308eac89f2" />
 
         <activity android:name=".me.activity.MessageActivity"></activity>
+        <activity android:name=".me.activity.MesDetailedActivity"></activity>
+        <activity android:name=".me.activity.LoginActivity"></activity>
     </application>
 
 </manifest>

@@ -6,28 +6,31 @@ package com.bobo520.newsreader.me.model.bean;
  */
 public class InvationInfo {
 
-
     /**信息内容*/
     private String message;
 
     /**用户接收到信息的时间*/
     private Long currentTime;
 
+    /**用户是否查看了信息详情默认为false  0*/
+    private Boolean look_detais;
+
     public InvationInfo() {
 
     }
 
-    public InvationInfo(String message,Long currentTime) {
+    public InvationInfo(String message,Long currentTime,Boolean look_detais) {
         this.message = message;
         this.currentTime = currentTime;
+        this.look_detais = look_detais;
     }
-
 
     @Override
     public String toString() {
         return "InvationInfo{" +
                 "message='" + message + '\'' +
                 ", currentTime=" + currentTime +
+                ", look_detais=" + look_detais +
                 '}';
     }
 
@@ -45,5 +48,13 @@ public class InvationInfo {
 
     public void setCurrentTime(Long currentTime) {
         this.currentTime = currentTime;
+    }
+
+    public Boolean getLook_detais() {
+        return look_detais;
+    }
+
+    public void setLook_detais(Boolean look_detais) {
+        this.look_detais = look_detais;
     }
 }

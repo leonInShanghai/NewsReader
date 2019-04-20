@@ -2,9 +2,12 @@ package com.bobo520.newsreader.http;
 
 
 
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.webkit.WebSettings;
 
+import com.bobo520.newsreader.app.NewsReaderApplication;
 import com.bobo520.newsreader.util.LELog;
 
 import java.io.IOException;
@@ -12,8 +15,10 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
@@ -90,18 +95,18 @@ public class HttpHelper {
 
                 //让onFailure在主线程中执行避免异常
                 mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        listener.onFail(e);
-                    }
-                });
-            }
+                @Override
+                public void run() {
+                    listener.onFail(e);
+                }
+            });
+        }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 //请求不成功的处理
                 if (!response.isSuccessful()){
-                    LELog.showLogWithLineNum(5,"响应未成功");
+                    LELog.showLogWithLineNum(5,"HttpHelper 响应未成功");
                     mHandler.post(new Runnable() {//运行在创建handler时对应的线程中
                         @Override
                         public void run() {
@@ -123,5 +128,124 @@ public class HttpHelper {
             }
         });
     }
+
+    /**
+     * POST请求方法
+     * @param url 请求的url
+     * @param listener 请求(成功 | 失败)回掉方法的实现（接口）
+     * @param tokenInterceptor 请求头 可以传null
+     * @param requestBody 请求体
+     */
+    public void requestPost(String url,Interceptor tokenInterceptor, RequestBody requestBody
+            , final OnResponseListener listener){
+
+        OkHttpClient httpClient;
+
+        if (tokenInterceptor != null) {
+            httpClient = new OkHttpClient.Builder()
+                    .addInterceptor(tokenInterceptor)
+                    .build();
+        }else{
+            Interceptor interceptor = new Interceptor() {
+                @Override
+                public Response intercept(Chain chain) throws IOException {
+                    Request request = chain.request();
+
+                    //获取用户设备 property（特性，属性）
+                    String property = System.getProperty("http.agent");
+                    request = request.newBuilder()
+                            .header("Charset", "UTF-8")
+                            .header("User-Agent", property)
+                            .build();
+                    return chain.proceed(request);
+
+                }
+            };
+
+            httpClient = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .build();
+
+        }
+
+
+        // 构造Request->call->执行
+        final Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)//参数放在body体里
+                .build();
+        Call call = httpClient.newCall(request);
+
+        //这里用的异步加载
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call,final IOException e) {
+
+                //让onFailure在主线程中执行避免异常
+                LELog.showLogWithLineNum(5,"HttpHelperP 响应未成功");
+
+                //让onFailure在主线程中执行避免异常
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listener.onFail(e);
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                //请求不成功的处理
+                if (!response.isSuccessful()){
+                    LELog.showLogWithLineNum(5,"响应未成功P"+response.toString());
+                    mHandler.post(new Runnable() {//运行在创建handler时对应的线程中
+                        @Override
+                        public void run() {
+                            listener.onFail(new IOException());
+                        }
+                    });
+                    return;
+                }
+                //后续的业务需要交给不同的页面来实现-自定义接口来实现
+                final String string = response.body().string();
+                //让onSuccess方法直接运行在主线程
+                LELog.showLogWithLineNum(5,"HttpHelperP 请求成功");
+                //让onSuccess方法直接运行在主线程
+                mHandler.post(new Runnable() {//运行在创建handler时对应的线程中
+                    @Override
+                    public void run() {
+                        listener.onSuccess(string);
+                    }
+                });
+            }
+        });
+
+    }
+
+
+    /**获取用户设备 property（特性，属性） 注意：获取的太详细了这里没有用到*/
+    private static String getUserAgent() {
+        String userAgent = "";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            try {
+                userAgent = WebSettings.getDefaultUserAgent(NewsReaderApplication.getContext());
+            } catch (Exception e) {
+                userAgent = System.getProperty("http.agent");
+            }
+        } else {
+            userAgent = System.getProperty("http.agent");
+        }
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0, length = userAgent.length(); i < length; i++) {
+            char c = userAgent.charAt(i);
+            if (c <= '\u001f' || c >= '\u007f') {
+                sb.append(String.format("\\u%04x", (int) c));
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+
 
 }

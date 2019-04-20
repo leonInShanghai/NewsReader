@@ -43,7 +43,7 @@ import static com.bobo520.newsreader.news.controller.activity.NewsDetailActivity
  * Created by Leon on 2019/1/13. Copyright © Leon. All rights reserved.
  * Functions: 头条fragment
  */
-public class HotFragment extends LogFragment {
+public class ImportantNewsFragment extends LogFragment {
 
     private ListView mLvHot;
 

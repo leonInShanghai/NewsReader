@@ -6,6 +6,9 @@ package com.bobo520.newsreader.util;
  */
 public class Constant {
 
+    /**百思不得姐的接口*/
+    public static final String BAISHI = "http://api.budejie.com/api/api_open.php";
+
     /**发送用户收到消息的 持久化Boolean变量*/
     public static final String IS_NES_MESSAGE = "IS_NES_MESSAGE";
 

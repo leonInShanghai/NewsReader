@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".me.activity.LoginActivity"
+    android:orientation="vertical">
+    <!--android:background="@color/white"-->
+
+    <!--下面这个view是为了设置沉浸式状态栏 id 必须是status_placeholder 放在最上面-->
+    <View
+        android:id="@+id/status_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@drawable/shape_le"/>
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="46dp"
+    android:layout_marginTop="87dp"
+    android:text="hello"
+    android:textColor="@color/color_gray"
+    android:textSize="28sp" />
+
+    <RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="46dp"
+    android:layout_marginTop="31dp">
+
+    <TextView
+    android:id="@+id/tv_register_front"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:includeFontPadding="false"
+    android:text="Welcome to newsReader"
+    android:layout_marginTop="3dp"
+    android:textColor="@color/color_gray" />
+
+    </RelativeLayout>
+
+
+    <EditText
+    android:id="@+id/edt_login_id"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="46dp"
+    android:layout_marginRight="63dp"
+    android:layout_marginTop="86dp"
+    android:background="@null"
+    android:hint="请输入手机号"
+    android:inputType="text"
+    android:paddingBottom="6dp"
+    android:paddingLeft="10dp"
+    android:paddingTop="6dp"
+    android:textColorHint="@color/color_center_gray"
+    android:textSize="14sp"/>
+
+    <View
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:layout_marginLeft="46dp"
+    android:layout_marginRight="63dp"
+    android:background="@color/gray_f3f2f7" />
+
+    <EditText
+    android:id="@+id/edt_password"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="46dp"
+    android:layout_marginRight="63dp"
+    android:layout_marginTop="35dp"
+    android:background="@null"
+    android:hint="请输入密码"
+    android:inputType="textPassword"
+    android:paddingBottom="6dp"
+    android:paddingLeft="10dp"
+    android:paddingTop="6dp"
+    android:textColorHint="@color/color_center_gray"
+    android:textSize="14sp"/>
+
+    <View
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:layout_marginLeft="46dp"
+    android:layout_marginRight="63dp"
+    android:background="@color/gray_f3f2f7" />
+
+    <TextView
+    android:id="@+id/tv_password_error"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="58dp"
+    android:layout_marginTop="2dp"
+    android:text="密码输入错误，请重新输入密码"
+    android:textColor="@color/red_E83828"
+    android:textSize="10sp"
+    android:visibility="invisible"/>
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="63dp"
+    android:layout_marginRight="63dp"
+    android:orientation="vertical"
+    >
+
+    <Button
+    android:layout_marginTop="30dp"
+    android:id="@+id/btn_login"
+    android:layout_width="88dp"
+    android:layout_height="40dp"
+    android:layout_gravity="right"
+    android:background="@drawable/five_corner_ff7e72_bg"
+    android:gravity="center"
+    android:text="登录"
+    android:textColor="@color/white"
+    android:textSize="16sp" />
+    </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
+
+<!--</android.support.v4.widget.NestedScrollView>-->
+
+
+

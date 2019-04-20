@@ -19,9 +19,17 @@ public class InviteTable {
     public static final String CURRENTTIME = "currentTime";
 
 
+    /**用户是否查看信息详情 long time=System.currentTimeMillis(); Leon新增加*/
+    public static final String LOOK_DETAIS = "look_detais";
+
+
+
     /**建表的语句-"create table "后面少了空格产生bug*/
     public static final String CREATE_TAB = "create table "
             + TABLE_NAME +" ("
             + COL_REASON +" text,"
-            + CURRENTTIME + " integer);";
+            + CURRENTTIME + " integer,"
+            + LOOK_DETAIS + " text);";
+
+
 }

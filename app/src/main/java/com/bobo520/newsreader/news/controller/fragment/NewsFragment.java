@@ -395,7 +395,7 @@ public class NewsFragment extends LogFragment {
         ArrayList<String> showTitleList = mShowTitleAdapter.getList();
         for (int i = 0;i < showTitleList.size();i++){
             if (i == 0){
-                fragments.add(new HotFragment());
+                fragments.add(new ImportantNewsFragment());
             }else {
                 //这里均展示占位fragment 有空了自己慢慢实现
                 fragments.add(new EmptyFragment());
@@ -494,10 +494,10 @@ public class NewsFragment extends LogFragment {
 
         ArrayList<Fragment> fragments = new ArrayList<Fragment>();
 
-        fragments.add(new HotFragment());
-        fragments.add(new DisportFragment());
+        fragments.add(new JokeFragment());
         fragments.add(new EmptyFragment());
         fragments.add(new EmptyFragment());
+        fragments.add(new ImportantNewsFragment());
 //        fragments.add(new EmptyFragment());
 //        fragments.add(new EmptyFragment());
 //        fragments.add(new EmptyFragment());
@@ -559,7 +559,7 @@ public class NewsFragment extends LogFragment {
 
 //        for (int i = 0;i < titles.length;i++){
 //            if (i == 0){
-//                fragments.add(new HotFragment());
+//                fragments.add(new ImportantNewsFragment());
 //            }else {
 //                //这里均展示占位fragment 有空了自己慢慢实现
 //                fragments.add(new EmptyFragment());

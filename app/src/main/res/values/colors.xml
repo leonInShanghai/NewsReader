@@ -9,6 +9,7 @@
     <color name="color_red">#FF0000</color>
     <color name="color_main">#EA403C</color>
     <color name="color_white">#FFFFFF</color>
+    <color name="color_center_gray">#3333</color>
     <color name="color_transparent">#00000000</color>
     <color name="color_light_gray">#EEEEEEEE</color>
     <color name="red_E83828">#E83828</color>

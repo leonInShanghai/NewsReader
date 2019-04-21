@@ -75,8 +75,13 @@
 
             <TextView
                 android:id="@+id/is_picture_gif"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:textSize="12sp"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingBottom="1dp"
                 android:background="@drawable/bg_change_title_selector" />
             <!--<de.hdodenhof.circleimageview.CircleImageView-->
                 <!--android:id="@+id/iv_joke_comment"-->

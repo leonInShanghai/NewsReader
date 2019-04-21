@@ -88,20 +88,11 @@ public class PictureAdater extends LeBaseAdapter<PictureBean.ListBean> {
             viewHolder.isPictureGif.setText("GIF");
         }
 
-        //计算ibtnArrow的宽度
-        WindowManager wm = (WindowManager)mContext.getSystemService(mContext.WINDOW_SERVICE);
-        DisplayMetrics dm = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels;// 屏幕宽度（像素）
-        int height= dm.heightPixels; // 屏幕高度（像素）
-        float density = dm.density;//屏幕密度（0.75 / 1.0 / 1.5）
 
-        //屏幕宽度：屏幕宽度（像素）/ 屏幕密度
-        int screenWidth = (int) (width / density);
-
-        //设置图片到image控件
+        //设置图片到image控件 fit 它会自动测量我们的View的大小，然后内部调用reszie方法把图片裁剪到View的大小，
+        // 这就帮我们做了计算size和调用resize fit会出现拉伸扭曲的情况，因此最好配合前面的centerCrop使用
         Picasso.get().load(listBean.getImage0()).centerCrop().placeholder(R.drawable.booth_map)
-                .resize(screenWidth,screenWidth)
+                .fit()
                 .into(viewHolder.ivPictureText);
 
         //喜欢的（点赞）人数

@@ -24,7 +24,9 @@ import com.bobo520.newsreader.weiget.SlideListView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageActivity extends Activity {
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+
+public class MessageActivity extends SwipeBackActivity {
 
 
     //广播收到后台推送的小消息后改变铃铛你的状态

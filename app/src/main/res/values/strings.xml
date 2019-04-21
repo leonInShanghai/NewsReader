@@ -10,30 +10,17 @@
     </array>
 
     <array name="news_titles">
-        <item>娱乐</item>
-        <item>图文</item>
+        <item>笑话</item>
+        <item>图片</item>
         <item>娱乐</item>
         <item>要闻</item>
-        <!--<item>网易号</item>-->
-        <!--<item>北京</item>-->
-        <!--<item>视频</item>-->
-        <!--<item>财经</item>-->
-        <!--<item>科技</item>-->
-        <!--<item>汽车</item>-->
-        <!--<item>时尚</item>-->
-        <!--<item>图片</item>-->
-        <!--<item>直播</item>-->
-        <!--<item>热点</item>-->
-        <!--<item>跟贴</item>-->
-        <!--<item>房产</item>-->
-        <!--<item>股票</item>-->
     </array>
 
     <array name="news_titles_all">
-        <item>头条</item>
-        <item>要闻</item>
+        <item>笑话</item>
+        <item>图片</item>
         <item>娱乐</item>
-        <item>提议</item>
+        <item>要闻</item>
         <item>网易号</item>
         <item>北京</item>
         <item>视频</item>

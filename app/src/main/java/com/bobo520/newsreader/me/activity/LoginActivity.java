@@ -16,6 +16,7 @@ import com.bobo520.newsreader.util.LETrtStBarUtil;
 import java.io.IOException;
 import java.util.HashMap;
 
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -30,7 +31,7 @@ import okhttp3.Response;
  * Created by Leon on 2019/4/18 Copyright  Leon. All rights reserved.
  * Functions:  AppCompatActivity
  */
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends SwipeBackActivity implements View.OnClickListener {
 
     /**注册的入口这里先不做*/
     private TextView tvRegisterFront;

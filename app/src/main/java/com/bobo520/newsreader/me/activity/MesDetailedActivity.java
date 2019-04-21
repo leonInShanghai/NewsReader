@@ -9,9 +9,12 @@ import android.widget.TextView;
 
 import com.bobo520.newsreader.R;
 import com.bobo520.newsreader.util.LETrtStBarUtil;
+
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+
 import static com.bobo520.newsreader.me.activity.MessageActivity.JPUSH_MESSGAE;
 
-public class MesDetailedActivity extends AppCompatActivity implements View.OnClickListener {
+public class MesDetailedActivity extends SwipeBackActivity implements View.OnClickListener {
 
     private TextView bodyMessage;
     private ImageButton backButton;

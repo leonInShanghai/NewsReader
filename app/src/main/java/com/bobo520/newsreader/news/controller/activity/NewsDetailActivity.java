@@ -53,7 +53,7 @@ public class NewsDetailActivity extends SwipeBackActivity implements View.OnClic
     //webview
     private WebView mWebView;
 
-    //文本输入框et_reply
+    //文本输入框et_reply 后来隐藏了
     private EditText mEtReply;
 
     //多少人跟帖的textview右边是图tv_reply
@@ -93,7 +93,7 @@ public class NewsDetailActivity extends SwipeBackActivity implements View.OnClic
         //webview
         mWebView = (WebView)findViewById(R.id.webView);
 
-        //文本输入框et_reply
+        //文本输入框et_reply  后来隐藏了
         mEtReply = (EditText)findViewById(R.id.et_reply);
 
         //多少人跟帖的textview右边是图tv_reply
@@ -234,6 +234,8 @@ public class NewsDetailActivity extends SwipeBackActivity implements View.OnClic
             List<NewsDetailBean.ImgBean> imgList = newsDetailBean.getImg();
             for (int i = 0; i < imgList.size(); i++) {
                 NewsDetailBean.ImgBean imgBean = imgList.get(i);
+                //"ref":"<!--IMG#3-->",
+                // "src":"http://cms-bucket.ws.126.net/2019/04/21/1d65c7a7d4ad456c9060fd96698b09d6.jpeg"
                 String ref = imgBean.getRef();
                 String src = imgBean.getSrc();
                 //在这里把索引i传递送给JavaScript

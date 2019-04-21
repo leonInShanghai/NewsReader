@@ -85,6 +85,14 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 
+    //和glide 类似加载图片的第三方工具 因为 glide不能设置占位图所以又找了这个
+    implementation ('com.squareup.picasso:picasso:2.71828'){
+        //AGPBI: {"kind":"error","text":"Program type already present:
+        // okhttp3.Authenticator$1","sources":[{}],"tool":"D8"}
+        exclude module: 'okio'
+        exclude module: 'okhttp'
+    }
+
     //FlycoTabLayout的依赖 用到的地方例如：新闻fragment又分成若干个view pager
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
 

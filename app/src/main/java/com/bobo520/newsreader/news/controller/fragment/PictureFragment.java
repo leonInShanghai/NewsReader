@@ -10,18 +10,19 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.bobo520.newsreader.news.controller.adapter.JokeAdater;
-import com.bobo520.newsreader.news.model.JokeBean;
-import com.bobo520.newsreader.util.Constant;
-import com.bobo520.newsreader.util.LELog;
 import com.bobo520.newsreader.R;
-import com.bobo520.newsreader.customDialog.LEloadingView;
 import com.bobo520.newsreader.app.LogFragment;
+import com.bobo520.newsreader.customDialog.LEloadingView;
 import com.bobo520.newsreader.http.HttpHelper;
 import com.bobo520.newsreader.http.OnResponseListener;
+import com.bobo520.newsreader.news.controller.adapter.JokeAdater;
+import com.bobo520.newsreader.news.controller.adapter.PictureAdater;
+import com.bobo520.newsreader.news.model.JokeBean;
+import com.bobo520.newsreader.news.model.PictureBean;
 import com.bobo520.newsreader.news.view.BannerView;
+import com.bobo520.newsreader.util.Constant;
+import com.bobo520.newsreader.util.LELog;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -38,9 +39,9 @@ import okhttp3.RequestBody;
 
 /**
  * Created by Leon on 2019/1/13. Copyright © Leon. All rights reserved.
- * Functions: 笑话 fragment
+ * Functions: 图片 fragment
  */
-public class JokeFragment extends LogFragment {
+public class PictureFragment extends LogFragment {
 
         private ListView mLvHot;
 
@@ -51,7 +52,7 @@ public class JokeFragment extends LogFragment {
         private String maxtime = null;
 
         /**listview的adater*/
-        private JokeAdater mJokeAdater;
+        private PictureAdater mPictureAdater;
 
         /**网络请求成功的变量-默认为true*/
         private boolean isSuccess = true;
@@ -191,7 +192,8 @@ public class JokeFragment extends LogFragment {
                             .add("a", "list")
                             .add("c", "data")
                             .add("page", String.valueOf(page))
-                            .add("type", "29")
+                            //type  false  int  1为全部，10为图片，29为段子，31为音频，41为视频，默认为1
+                            .add("type", "10")
                             .build();
                 }else{
                     //下拉刷新
@@ -199,7 +201,7 @@ public class JokeFragment extends LogFragment {
                             .add("a", "list")
                             .add("c", "data")
                             .add("page", String.valueOf(page))
-                            .add("type", "29")
+                            .add("type", "10")
                             .add("maxtime",maxtime)
                             .build();
                 }
@@ -209,7 +211,7 @@ public class JokeFragment extends LogFragment {
                     .add("a", "list")
                     .add("c", "data")
                     .add("page", String.valueOf(page))
-                    .add("type", "29")
+                    .add("type", "10")
                     .add("maxtime",maxtime)
                     .build();
             }
@@ -234,7 +236,7 @@ public class JokeFragment extends LogFragment {
                 @Override
                 public void onSuccess(String response) {
 
-                   // LELog.showLogWithLineNum(5,response.toString());
+                   LELog.showLogWithLineNum(5,response.toString());
 
                     //结束下拉刷新（无论成功失败本次发起请求已经结束）
                     mPtrFrame.refreshComplete();
@@ -247,21 +249,15 @@ public class JokeFragment extends LogFragment {
 
                     //解析 gson fastjson
                     Gson gson = new Gson();
-                    JokeBean  jokeBean = null;
-                    
-                    try {
-                        jokeBean = gson.fromJson(response, JokeBean.class);
-                    }catch (JsonSyntaxException e){
-                        //TODO：后台返回数据异常寻求解决方案
-                        LELog.showLogWithLineNum(5,"后台返回数据异常寻求解决方案");
-                    }
+                    PictureBean pictureBean = gson.fromJson(response, PictureBean.class);
+
                     
 
                     //用户下拉刷新时的变量
-                    if (jokeBean != null && jokeBean.getInfo() != null){
-                        maxtime = jokeBean.getInfo().getMaxtime();
+                    if (pictureBean != null && pictureBean.getInfo() != null){
+                        maxtime = pictureBean.getInfo().getMaxtime();
                     }
-                    setListViewData(jokeBean,isLoadMore);
+                    setListViewData(pictureBean,isLoadMore);
 
                     page++;
                 }
@@ -269,24 +265,24 @@ public class JokeFragment extends LogFragment {
 
  }
 
-        /**设置list view的数据*/
-        private void setListViewData(JokeBean jokeBean,boolean isLoadMore){
+        /**设置list view的数据  mPictureAdater*/
+        private void setListViewData(PictureBean pictureBean,boolean isLoadMore){
 
             //获取到 数据数组
-            List<JokeBean.ListBean> listBeans = jokeBean.getList();
+            List<PictureBean.ListBean> listBeans = pictureBean.getList();
 
 
             //第一次进来需要创建adater适配器
-            if (mJokeAdater == null){
-                mJokeAdater = new JokeAdater(listBeans);
-                mLvHot.setAdapter(mJokeAdater);
+            if (mPictureAdater == null && getContext() != null){
+                mPictureAdater = new PictureAdater(listBeans,getContext());
+                mLvHot.setAdapter(mPictureAdater);
             }else {
                 //判断是否为加载更多
                 if (isLoadMore){
-                    mJokeAdater.loadData(listBeans);
+                    mPictureAdater.loadData(listBeans);
                 }else {
                     //下拉刷新-添加之前先清空数据再添加
-                    mJokeAdater.updateData(listBeans);
+                    mPictureAdater.updateData(listBeans);
                 }
             }
         }

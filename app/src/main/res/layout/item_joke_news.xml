@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="8dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_joke_user"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/logo" />
+
+        <!-- android:layout_marginTop="16dp"-->
+        <TextView
+            android:id="@+id/tv_joke_user_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="10dp"
+            android:text="1111"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/passtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/color_joke_gray"/>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_marginTop="12dp"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:id="@+id/tv_joke_text"
+        android:layout_marginBottom="5dp"
+        android:textSize="16sp"
+        android:textColor="#000"
+        android:text="内容"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/comment_user_area"
+        android:background="@color/color_joke_gray">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="40dp"
+            android:src="@drawable/icon_hot_comment"/>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:padding="6dp"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_joke_comment"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/logo" />
+
+            <TextView
+                android:id="@+id/icon_item_post_like_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textSize="12sp"
+                android:text="111"/>
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                app:layout_constraintEnd_toStartOf="@id/icon_item_post_like_count"
+                android:layout_marginRight="2dp"
+                android:id="@+id/post_like_normal"
+                android:src="@drawable/icon_item_post_like_normal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                app:layout_constraintStart_toEndOf="@id/iv_joke_comment"
+                android:id="@+id/username"
+                android:text="username"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/post_like_normal"
+                android:id="@+id/content"
+                android:text="用户评论的内容"
+                android:textColor="@color/black"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

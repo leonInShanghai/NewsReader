@@ -44,13 +44,13 @@
     <!--ScaleType.CENTER_CROP这是我最喜欢的模式，因为在该模式下，图片会被等比缩放直到完全填充整个
     ImageView，并居中显示。该模式也是最常用的模式了。如图可以看到，图片的高度是能完全展示出来的：-->
     <ImageView
+        android:layout_marginTop="12dp"
         android:layout_width="match_parent"
-        android:layout_height="380dp"
+        android:layout_height="360dp"
         android:scaleType="centerCrop"
         android:id="@+id/iv_picture_text"
         android:src="@drawable/booth_map"
         android:layout_marginBottom="5dp" />
-
 
     <RelativeLayout
         android:layout_width="match_parent"

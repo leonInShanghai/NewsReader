@@ -45,7 +45,28 @@ public class MyReceiver extends BroadcastReceiver {
         this.context = context;
 
         try {
+
             Bundle bundle = intent.getExtras();
+
+            if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
+                Log.e(TAG, "[MyReceiver] 用户点击打开了通知");
+                //TODO:用户从安卓手机的通知栏点击了消息 HomeActivity 将来要跳到MessageActivity
+                //发送广播-用户直接进入了消息详情页
+                mLBM.sendBroadcast(new Intent(Constant.USER_ENTERS_MESSAGE_DETAILS_PA));
+
+                //打开自定义的Activity
+                LELog.showLogWithLineNum(5,"MyReceiver");
+                Intent i = new Intent(context, MessageActivity.class);
+                i.putExtras(bundle);
+                //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
+                context.startActivity(i);
+
+                //用户从安卓手机的通知栏点击了消息 就不要再往下执行了避免创建重复的消息
+                return;
+            }
+
+
             LELog.showLogWithLineNum(5,"MyReceiver----------------------32");
             Log.e("TAG", "[MyReceiver] onReceive - " + intent.getAction() + ", extras000000: "
                     + printBundle(bundle));
@@ -69,21 +90,7 @@ public class MyReceiver extends BroadcastReceiver {
                 LELog.showLogWithLineNum(5,"MyReceiver");
                 Log.e(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
 
-            } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-                Log.e(TAG, "[MyReceiver] 用户点击打开了通知");
-                //TODO:用户从安卓手机的通知栏点击了消息 HomeActivity 将来要跳到MessageActivity
-                //发送广播-用户直接进入了消息详情页
-                mLBM.sendBroadcast(new Intent(Constant.USER_ENTERS_MESSAGE_DETAILS_PA));
-
-                //打开自定义的Activity
-                LELog.showLogWithLineNum(5,"MyReceiver");
-                Intent i = new Intent(context, MessageActivity.class);
-                i.putExtras(bundle);
-                //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
-                context.startActivity(i);
-
-            } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
+            } else  if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
                 LELog.showLogWithLineNum(5,"MyReceiver");
                 Log.e(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
                 //在这里根据 JPushInterface.EXTRA_EXTRA 的内容处理代码，比如打开新的Activity， 打开一个网页等..

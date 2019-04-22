@@ -228,6 +228,7 @@ public class JokeFragment extends LogFragment {
                     //loading结束（无论成功失败本次发起请求已经结束）
                     mKProgressHUD.dismiss();
 
+                    Toast.makeText(getActivity(), "請求失败請檢查網絡", Toast.LENGTH_SHORT).show();
                     LELog.showLogWithLineNum(5,e.toString());
                 }
 
@@ -247,10 +248,10 @@ public class JokeFragment extends LogFragment {
 
                     //解析 gson fastjson
                     Gson gson = new Gson();
-                    JokeBean  jokeBean = null;
+                    JokeBean jokeBean = jokeBean = gson.fromJson(response, JokeBean.class);
                     
                     try {
-                        jokeBean = gson.fromJson(response, JokeBean.class);
+
                     }catch (JsonSyntaxException e){
                         //TODO：后台返回数据异常寻求解决方案
                         LELog.showLogWithLineNum(5,"后台返回数据异常寻求解决方案");

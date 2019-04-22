@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.bobo520.newsreader.R;
 import com.bobo520.newsreader.app.LogFragment;
@@ -230,6 +231,7 @@ public class PictureFragment extends LogFragment {
                     //loading结束（无论成功失败本次发起请求已经结束）
                     mKProgressHUD.dismiss();
 
+                    Toast.makeText(getActivity(), "請求失败請檢查網絡", Toast.LENGTH_SHORT).show();
                     LELog.showLogWithLineNum(5,e.toString());
                 }
 

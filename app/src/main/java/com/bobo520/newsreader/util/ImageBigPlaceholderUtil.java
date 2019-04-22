@@ -32,7 +32,7 @@ public class ImageBigPlaceholderUtil {
     //私有你构造方法单例
     private ImageBigPlaceholderUtil(){
         mOptions = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.booth_map) // resource or drawable
+                .showImageOnLoading(R.drawable.splash) // resource or drawable
                 .cacheInMemory(true) // default false
                 .cacheOnDisk(true) // default false
                 .build();

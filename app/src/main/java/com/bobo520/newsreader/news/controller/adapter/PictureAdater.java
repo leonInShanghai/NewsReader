@@ -1,21 +1,20 @@
 package com.bobo520.newsreader.news.controller.adapter;
 
 import android.content.Context;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bobo520.newsreader.R;
 import com.bobo520.newsreader.app.LeBaseAdapter;
-import com.bobo520.newsreader.news.model.JokeBean;
 import com.bobo520.newsreader.news.model.PictureBean;
-import com.bobo520.newsreader.util.ImageBigPlaceholderUtil;
 import com.bobo520.newsreader.util.ImageUtil;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -79,21 +78,25 @@ public class PictureAdater extends LeBaseAdapter<PictureBean.ListBean> {
 
         //设置图片的内容 上面一句代码不能加载GIF图  listBean.getIs_gif().equals("0")*/
         //ImageBigPlaceholderUtil.getSinstance().displayPic(listBean.getImage0(), viewHolder.ivPictureText);
-        //Glide.with(mContext).load(listBean.getImage0()).into(viewHolder.ivPictureText);
 
 
         if (listBean.getIs_gif().equals("0")){
             viewHolder.isPictureGif.setText("长图");
+            //设置图片到image控件 fit 它会自动测量我们的View的大小，然后内部调用reszie方法把图片裁剪到View的大小，
+            // 这就帮我们做了计算size和调用resize fit会出现拉伸扭曲的情况，因此最好配合前面的centerCrop使用
+            Picasso.get().load(listBean.getImage0()).centerCrop().placeholder(R.drawable.booth_map)
+                    .fit()
+                    .into(viewHolder.ivPictureText);
         }else if (listBean.getIs_gif().equals("1")){
             viewHolder.isPictureGif.setText("GIF");
+            RequestOptions options = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.drawable.booth_map)
+                    .error(R.drawable.error)
+                    .priority(Priority.HIGH)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE);
+            Glide.with(mContext).load(listBean.getImage0()) .apply(options).into(viewHolder.ivPictureText);
         }
-
-
-        //设置图片到image控件 fit 它会自动测量我们的View的大小，然后内部调用reszie方法把图片裁剪到View的大小，
-        // 这就帮我们做了计算size和调用resize fit会出现拉伸扭曲的情况，因此最好配合前面的centerCrop使用
-        Picasso.get().load(listBean.getImage0()).centerCrop().placeholder(R.drawable.booth_map)
-                .fit()
-                .into(viewHolder.ivPictureText);
 
         //喜欢的（点赞）人数
         viewHolder.iconItemPostLikeCount.setText(listBean.getLove());

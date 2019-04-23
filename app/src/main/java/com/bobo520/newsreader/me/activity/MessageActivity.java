@@ -130,6 +130,18 @@ public class MessageActivity extends SwipeBackActivity {
         //titlebar_invite.setLeftImageResource(R.drawable.back_button_selecter);
     }
 
+
+
+    //用户右划关闭消息 返回键的处理 MessageActivity
+    @Override
+    protected void onDestroy() {
+        //发送广播-用户直接进入了消息详情页
+        mLBM.sendBroadcast(new Intent(Constant.USER_ENTERS_MESSAGE_DETAILS_PA));
+        SpUtils.setBoolean(MessageActivity.this,Constant.IS_NES_MESSAGE,false);
+        super.onDestroy();
+    }
+
+
     //titleBar左上角点击返回键的处理
     private void initListener(){
 
@@ -158,9 +170,7 @@ public class MessageActivity extends SwipeBackActivity {
 
     @Override
     public void onBackPressed() {
-        //发送广播-用户直接进入了消息详情页
-        mLBM.sendBroadcast(new Intent(Constant.USER_ENTERS_MESSAGE_DETAILS_PA));
-        SpUtils.setBoolean(MessageActivity.this,Constant.IS_NES_MESSAGE,false);
+
         super.onBackPressed();
     }
 

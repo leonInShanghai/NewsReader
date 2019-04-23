@@ -52,7 +52,7 @@ public class MyReceiver extends BroadcastReceiver {
                 Log.e(TAG, "[MyReceiver] 用户点击打开了通知");
                 //TODO:用户从安卓手机的通知栏点击了消息 HomeActivity 将来要跳到MessageActivity
                 //发送广播-用户直接进入了消息详情页
-                mLBM.sendBroadcast(new Intent(Constant.USER_ENTERS_MESSAGE_DETAILS_PA));
+                //mLBM.sendBroadcast(new Intent(Constant.USER_ENTERS_MESSAGE_DETAILS_PA));
 
                 //打开自定义的Activity
                 LELog.showLogWithLineNum(5,"MyReceiver");

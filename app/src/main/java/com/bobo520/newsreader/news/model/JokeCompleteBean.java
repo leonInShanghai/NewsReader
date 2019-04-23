@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Created by 求知自学网 on 2019/4/21. Copyright © Leon. All rights reserved.
- * Functions:
+ * Functions: 复制了JokeBean 没有用到
  */
 public class JokeCompleteBean {
 

@@ -6,6 +6,19 @@ package com.bobo520.newsreader.util;
  */
 public class Constant {
 
+    /**从最新版百思不得姐获取的诗词 url*/
+    public static final String POETRY = "http://d.api.budejie.com/topic/forum/60660/1/new/" +
+            "budejie-android-8.0.5/ID-20.json";
+
+    /**
+     * 上次获取的的时间戳用作下次下拉刷新
+     * @param id 上次获取的的时间戳
+     * @return 诗词的url
+     */
+    public static String getPoetry(String id){
+        return POETRY.replace("ID",id);
+    }
+
     /**百思不得姐的接口*/
     public static final String BAISHI = "http://api.budejie.com/api/api_open.php";
 

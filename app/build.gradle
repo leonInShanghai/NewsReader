@@ -133,4 +133,7 @@ dependencies {
 
     //Android 加载GIF图最佳实践方案
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.16'
+
+    //用这个框架主要是为了实现 下载图片到相册  依赖中包含 universalimageloader.jar
+    implementation 'liji.library.dev:imagezoom:1.3.1'
 }

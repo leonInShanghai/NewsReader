@@ -129,6 +129,103 @@ public class HttpHelper {
         });
     }
 
+
+
+    /**
+     * GET请求方法的封装 针对百思不得姐又做了封装
+     * @param url 请求的url
+     * @param listener 请求(成功 | 失败)回掉方法的实现（接口）
+     */
+    public void requestHeaderGET(String url, final OnResponseListener listener){
+        //通过OK HTTP来请求网络
+        OkHttpClient httpClient;
+
+        Interceptor interceptor = new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+
+                Request request = chain.request();
+
+                //.header("Charset", "UTF-8")
+                //.header("Charset", "UTF-8")
+                //获取用户设备 property（特性，属性）
+                String property = System.getProperty("http.agent");
+                String t = System.currentTimeMillis()+"";
+
+                //
+                request = request.newBuilder()
+                        .header("ver","8.0.5")
+                        .header("client","android")
+                        .header("market","tencentyingyongbao")
+                        .header("mac","02:00:00:00:00:00")
+                        .header("udid","868380035192837")
+                        .header("os","8.1.0")
+                        .header("appname","budejie")
+                        .header("User-Agent","budejie/8.0.5 (PACM00) android/8.1.0")
+                        .header("visiting","")
+                        .addHeader("Referer","http://www.budejie.com")
+                        .header("t", t)
+                        .header("a", "90fbdc159a0a8fe9171927b6cfb9a221")
+                        .header("m","s8u04dr2")
+                        .addHeader("Host","d.api.budejie.com")
+                        .header("Connection","Keep-Alive")
+                        .header("Accept-Encoding","gzip")
+                        .build();
+                return chain.proceed(request);
+
+            }
+        };
+
+        //.addInterceptor(interceptor)
+        httpClient = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .build();
+
+        Request request = new Request.Builder().url(url).build();
+
+        Call call = httpClient.newCall(request);
+        //这里用的异步加载
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call,final IOException e) {
+
+                //让onFailure在主线程中执行避免异常
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listener.onFail(e);
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                //请求不成功的处理
+                if (!response.isSuccessful()){
+                    LELog.showLogWithLineNum(5,"HttpHelper 响应未成功");
+                    mHandler.post(new Runnable() {//运行在创建handler时对应的线程中
+                        @Override
+                        public void run() {
+                            listener.onFail(new IOException());
+                        }
+                    });
+                    return;
+                }
+
+                //后续的业务需要交给不同的页面来实现-自定义接口来实现
+                final String string = response.body().string();
+                //让onSuccess方法直接运行在主线程
+                mHandler.post(new Runnable() {//运行在创建handler时对应的线程中
+                    @Override
+                    public void run() {
+                        listener.onSuccess(string);
+                    }
+                });
+            }
+        });
+    }
+
+
     /**
      * POST请求方法
      * @param url 请求的url

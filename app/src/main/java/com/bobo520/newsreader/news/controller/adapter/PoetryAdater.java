@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bobo520.newsreader.R;
 import com.bobo520.newsreader.app.LeBaseAdapter;
 import com.bobo520.newsreader.news.model.PictureBean;
+import com.bobo520.newsreader.news.model.PoetryBean;
 import com.bobo520.newsreader.util.ImageUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -23,19 +24,19 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Leon on 2019/2/2. Copyright © Leon. All rights reserved.
- * Functions: 图片fragment中listview的适配器
+ * Functions: 诗词fragment中listview的适配器
  */
-public class PictureAdater extends LeBaseAdapter<PictureBean.ListBean> {
+public class PoetryAdater extends LeBaseAdapter<PoetryBean.ListBean> {
 
     private Context mContext;
 
-    public PictureAdater(List<PictureBean.ListBean> list,Context context) {
+    public PoetryAdater(List<PoetryBean.ListBean> list, Context context) {
         super(list);
         this.mContext = context;
     }
 
     /**添加(更新)数据的方法-下拉刷新上拉加载更多*/
-    public void loadData(List<PictureBean.ListBean> list){
+    public void loadData(List<PoetryBean.ListBean> list){
         mList.addAll(list);
         //刷新页面-通知已更改的数据集
         notifyDataSetChanged();
@@ -45,10 +46,11 @@ public class PictureAdater extends LeBaseAdapter<PictureBean.ListBean> {
     public View getView(int position, View convertView, ViewGroup parent) {
         HotNewsViewHolder viewHolder;
         if (convertView == null){
-            convertView = View.inflate(parent.getContext(), R.layout.item_picture_news,null);
+            convertView = View.inflate(parent.getContext(), R.layout.item_poetry_news,null);
             viewHolder = new HotNewsViewHolder();
             viewHolder.ivJokeUser = (CircleImageView)convertView.findViewById( R.id.iv_picture_user );
             viewHolder.tvJokeUserName = (TextView)convertView.findViewById( R.id.tv_picture_user_name);
+            viewHolder.tvInfo = (TextView)convertView.findViewById(R.id.tv_info);
             viewHolder.ivPictureText = (ImageView)convertView.findViewById(R.id.iv_picture_text);
             viewHolder.isPictureGif = (TextView)convertView.findViewById( R.id.is_picture_gif );
             viewHolder.iconItemPostLikeCount = (TextView)convertView.findViewById( R.id.icon_item_post_like_count );
@@ -68,27 +70,34 @@ public class PictureAdater extends LeBaseAdapter<PictureBean.ListBean> {
         return convertView;
     }
 
-    private void changeUI(HotNewsViewHolder viewHolder,PictureBean.ListBean listBean){
+    private void changeUI(HotNewsViewHolder viewHolder,PoetryBean.ListBean listBean){
 
         //设置用户的头像
-        ImageUtil.getSinstance().displayPic(listBean.getProfile_image(),viewHolder.ivJokeUser);
+        ImageUtil.getSinstance().displayPic(listBean.getU().getHeader().get(0),viewHolder.ivJokeUser);
 
         //设置用户的名称
-        viewHolder.tvJokeUserName.setText(listBean.getName());
+        viewHolder.tvJokeUserName.setText(listBean.getU().getName());
 
         //设置图片的内容 上面一句代码不能加载GIF图  listBean.getIs_gif().equals("0")*/
         //ImageBigPlaceholderUtil.getSinstance().displayPic(listBean.getImage0(), viewHolder.ivPictureText);
 
+        //动态计算最佳的图片宽高
+        int width = viewHolder.ivPictureText.getWidth();
+        int height = (int) (listBean.getImage().getHeight()  /  (float)listBean.getImage().getWidth() * width);
 
-        if (listBean.getIs_gif().equals("0")){
-            viewHolder.isPictureGif.setText("长图");
+        Picasso.get().load(listBean.getImage().getBig().get(0)).centerCrop().placeholder(R.drawable.booth_map)
+                    .resize(width,height)
+                    .into(viewHolder.ivPictureText);
+
+//        if (listBean.getIs_gif().equals("0")){
+//            viewHolder.isPictureGif.setText("长图");
             //设置图片到image控件 fit 它会自动测量我们的View的大小，然后内部调用reszie方法把图片裁剪到View的大小，
             // 这就帮我们做了计算size和调用resize fit会出现拉伸扭曲的情况，因此最好配合前面的centerCrop使用
 //            Picasso.get().load(listBean.getImage0()).centerCrop().placeholder(R.drawable.booth_map)
 //                    .fit()
 //                    .into(viewHolder.ivPictureText);
-        }else if (listBean.getIs_gif().equals("1")){
-            viewHolder.isPictureGif.setText("GIF");
+//        }else if (listBean.getIs_gif().equals("1")){
+//            viewHolder.isPictureGif.setText("GIF");
 //            RequestOptions options = new RequestOptions()
 //                    .centerCrop()
 //                    .placeholder(R.drawable.booth_map)
@@ -96,27 +105,27 @@ public class PictureAdater extends LeBaseAdapter<PictureBean.ListBean> {
 //                    .priority(Priority.HIGH)
 //                    .diskCacheStrategy(DiskCacheStrategy.NONE);
 //            Glide.with(mContext).load(listBean.getImage0()) .apply(options).into(viewHolder.ivPictureText);
-        }
+//        }
 
         //发现 同时交叉使用 Picasso 和 Glide listView item 重用的时候缓存有问题
-        RequestOptions options = new RequestOptions()
-                .centerCrop()
-                .placeholder(R.drawable.booth_map)
-                .error(R.drawable.error)
-                .priority(Priority.HIGH)
-                .diskCacheStrategy(DiskCacheStrategy.NONE);
-        Glide.with(mContext).load(listBean.getImage0()) .apply(options).into(viewHolder.ivPictureText);
-
-        //喜欢的（点赞）人数
-        viewHolder.iconItemPostLikeCount.setText(listBean.getLove());
-
-        viewHolder.username.setText(listBean.getTheme_name());
-
-        viewHolder.content.setText(listBean.getText());
+//        RequestOptions options = new RequestOptions()
+//                .centerCrop()
+//                .placeholder(R.drawable.booth_map)
+//                .error(R.drawable.error)
+//                .priority(Priority.HIGH)
+//                .diskCacheStrategy(DiskCacheStrategy.NONE);
+//        Glide.with(mContext).load(listBean.getImage0()) .apply(options).into(viewHolder.ivPictureText);
+//
+//        //喜欢的（点赞）人数
+//        viewHolder.iconItemPostLikeCount.setText(listBean.getLove());
+//
+//        viewHolder.username.setText(listBean.getTheme_name());
+//
+//        viewHolder.content.setText(listBean.getText());
     }
 
     /**用于下拉刷新时调用的方法*/
-    public void updateData(List<PictureBean.ListBean> list){
+    public void updateData(List<PoetryBean.ListBean> list){
         //先清空一下之前的数据
         mList.clear();
 
@@ -133,6 +142,9 @@ public class PictureAdater extends LeBaseAdapter<PictureBean.ListBean> {
 
         /**用户的名称*/
         private TextView tvJokeUserName;
+
+        /**诗词（info）内容的文本*/
+        private TextView tvInfo;
 
         /**图片的内容的文本*/
         private ImageView ivPictureText;

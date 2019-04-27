@@ -388,28 +388,6 @@ public class NewsFragment extends LogFragment {
         }
     }
 
-    //更新view page中的数据，以及标题控件 tablayout 中的数据
-    private void updateViewPager() {
-
-       ArrayList<Fragment> fragments = new ArrayList<Fragment>();
-        ArrayList<String> showTitleList = mShowTitleAdapter.getList();
-        for (int i = 0;i < showTitleList.size();i++){
-            if (i == 0){
-                fragments.add(new ImportantNewsFragment());
-            }else {
-                //这里均展示占位fragment 有空了自己慢慢实现
-                fragments.add(new EmptyFragment());
-            }
-        }
-        //刷新界面AdapterUI
-        if (mNewsFragmentAdapter != null){
-            mNewsFragmentAdapter.update(fragments,showTitleList);
-        }
-
-        //还需要更新TabLayout标题
-        mTablayout.setViewPager(mViewPager);
-    }
-
     //保存标题数据到SP里面
     private void saveCache() {
         //避免用户快速切换造成空指针异常
@@ -496,7 +474,7 @@ public class NewsFragment extends LogFragment {
 
         fragments.add(new JokeFragment());
         fragments.add(new PictureFragment());
-        fragments.add(new EmptyFragment());
+        fragments.add(new PoetryFragment());
         fragments.add(new ImportantNewsFragment());
 
         //嵌套使用的时候要使用ChildFragmentManager
@@ -552,3 +530,27 @@ public class NewsFragment extends LogFragment {
 //                fragments.add(new EmptyFragment());
 //            }
 //        }
+
+
+
+    //更新view page中的数据，以及标题控件 tablayout 中的数据
+//    private void updateViewPager() {
+//
+//        ArrayList<Fragment> fragments = new ArrayList<Fragment>();
+//        ArrayList<String> showTitleList = mShowTitleAdapter.getList();
+//        for (int i = 0;i < showTitleList.size();i++){
+//            if (i == 0){
+//                fragments.add(new ImportantNewsFragment());
+//            }else {
+//                //这里均展示占位fragment 有空了自己慢慢实现
+//                fragments.add(new EmptyFragment());
+//            }
+//        }
+//        //刷新界面AdapterUI
+//        if (mNewsFragmentAdapter != null){
+//            mNewsFragmentAdapter.update(fragments,showTitleList);
+//        }
+//
+//        //还需要更新TabLayout标题
+//        mTablayout.setViewPager(mViewPager);
+//    }

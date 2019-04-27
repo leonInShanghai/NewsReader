@@ -10,6 +10,11 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <!-- 文件读取的权限 为了保存图片 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!-- 向SD卡中创建或者删除的权限 为了保存图片 -->
+    <uses-permission android:name="andorid.permission.MONUN_UNMOUNT_FILESYSTEMS"/>
+
     <!-- JPush ↓ Required -->
     <permission
         android:name="com.bobo520.newsreader"
@@ -169,7 +174,7 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <!-- Required SDK 核心功能 -->
         <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
@@ -236,9 +241,11 @@
             android:name="JPUSH_APPKEY"
             android:value="b4f579a33774f5308eac89f2" />
 
-        <activity android:name=".me.activity.MessageActivity"></activity>
-        <activity android:name=".me.activity.MesDetailedActivity"></activity>
-        <activity android:name=".me.activity.LoginActivity"></activity>
+        <activity android:name=".me.activity.MessageActivity" />
+        <activity android:name=".me.activity.MesDetailedActivity" />
+        <activity android:name=".me.activity.LoginActivity" />
+        <activity android:name=".news.controller.activity.PictureActivity"/>
+        <activity android:name=".news.controller.activity.GifPictureActivity"/>
     </application>
 
 </manifest>

@@ -33,23 +33,23 @@
     </LinearLayout>
 
 
-    <!--用户通过审核的时间 这里没有用到-->
     <TextView
+        android:layout_marginTop="12dp"
         android:id="@+id/tv_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:textColor="@color/color_joke_gray"/>
+        android:textColor="@color/color_gray"/>
 
     <!--ScaleType.CENTER_CROP这是我最喜欢的模式，因为在该模式下，图片会被等比缩放直到完全填充整个
-    ImageView，并居中显示。该模式也是最常用的模式了。如图可以看到，图片的高度是能完全展示出来的：-->
+    ImageView，并居中显示。该模式也是最常用的模式了。如图可以看到，图片的高度是能完全展示出来的：
+    动态计算了最佳宽高则不用 android:scaleType="centerCrop"-->
     <ImageView
         android:layout_marginTop="12dp"
         android:layout_width="match_parent"
         android:layout_height="360dp"
-        android:scaleType="centerCrop"
         android:id="@+id/iv_picture_text"
-        android:src="@drawable/booth_map"
+        android:scaleType="centerCrop"
         android:layout_marginBottom="5dp" />
 
     <RelativeLayout
@@ -105,19 +105,19 @@
                 android:id="@+id/post_like_normal"
                 android:src="@drawable/icon_item_post_like_normal" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                app:layout_constraintStart_toEndOf="@id/is_picture_gif"
-                android:id="@+id/username"
-                android:text="username"
-                android:textColor="@color/black"/>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="6dp"-->
+                <!--app:layout_constraintStart_toEndOf="@id/is_picture_gif"-->
+                <!--android:id="@+id/username"-->
+                <!--android:text="username"-->
+                <!--android:textColor="@color/black"/>-->
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/post_like_normal"
                 android:id="@+id/content"

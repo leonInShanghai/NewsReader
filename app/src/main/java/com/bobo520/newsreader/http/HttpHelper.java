@@ -146,30 +146,15 @@ public class HttpHelper {
 
                 Request request = chain.request();
 
-                //.header("Charset", "UTF-8")
-                //.header("Charset", "UTF-8")
                 //获取用户设备 property（特性，属性）
                 String property = System.getProperty("http.agent");
                 String t = System.currentTimeMillis()+"";
 
-                //
+                //解决 okhttp git请求 403 Forbidden https://blog.csdn.net/qq_38228254/article/details/79506149
                 request = request.newBuilder()
-                        .header("ver","8.0.5")
-                        .header("client","android")
-                        .header("market","tencentyingyongbao")
-                        .header("mac","02:00:00:00:00:00")
-                        .header("udid","868380035192837")
-                        .header("os","8.1.0")
-                        .header("appname","budejie")
-                        .header("User-Agent","budejie/8.0.5 (PACM00) android/8.1.0")
-                        .header("visiting","")
-                        .addHeader("Referer","http://www.budejie.com")
-                        .header("t", t)
-                        .header("a", "90fbdc159a0a8fe9171927b6cfb9a221")
-                        .header("m","s8u04dr2")
-                        .addHeader("Host","d.api.budejie.com")
-                        .header("Connection","Keep-Alive")
-                        .header("Accept-Encoding","gzip")
+                        .removeHeader("User-Agent")
+                        .addHeader("User-Agent","Mozilla/5.0 " +
+                                "(Windows; U; Windows NT 5.1; en-US; rv:0.9.4)")
                         .build();
                 return chain.proceed(request);
 

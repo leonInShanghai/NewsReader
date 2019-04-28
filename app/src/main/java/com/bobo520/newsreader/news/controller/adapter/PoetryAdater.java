@@ -1,9 +1,12 @@
 package com.bobo520.newsreader.news.controller.adapter;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,6 +20,7 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
+import com.wuhenzhizao.titlebar.utils.ScreenUtils;
 
 import java.util.List;
 
@@ -70,58 +74,54 @@ public class PoetryAdater extends LeBaseAdapter<PoetryBean.ListBean> {
         return convertView;
     }
 
-    private void changeUI(HotNewsViewHolder viewHolder,PoetryBean.ListBean listBean){
+    private void changeUI(HotNewsViewHolder viewHolder,PoetryBean.ListBean listBean) {
 
         //设置用户的头像
-        ImageUtil.getSinstance().displayPic(listBean.getU().getHeader().get(0),viewHolder.ivJokeUser);
+        ImageUtil.getSinstance().displayPic(listBean.getU().getHeader().get(0), viewHolder.ivJokeUser);
 
         //设置用户的名称
         viewHolder.tvJokeUserName.setText(listBean.getU().getName());
 
-        //设置图片的内容 上面一句代码不能加载GIF图  listBean.getIs_gif().equals("0")*/
-        //ImageBigPlaceholderUtil.getSinstance().displayPic(listBean.getImage0(), viewHolder.ivPictureText);
+        //设置诗词neirong
+        viewHolder.tvInfo.setText(listBean.getText());
+
 
         //动态计算最佳的图片宽高
-        int width = viewHolder.ivPictureText.getWidth();
-        int height = (int) (listBean.getImage().getHeight()  /  (float)listBean.getImage().getWidth() * width);
+        WindowManager wm = (WindowManager) mContext.getSystemService(mContext.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(dm);
+        float density = dm.density;//屏幕密度（0.75 / 1.0 / 1.5）
+        int width = dm.widthPixels;// 屏幕宽度（像素）
+        // 减去padding="8dp" 以后要是XML文件里面改了这里也要改
+        int screenWidth = (int) (width - ScreenUtils.dp2Px(mContext,16));
+        int height = (int) (listBean.getImage().getHeight() / (float) listBean.getImage().getWidth() * screenWidth);
+
+         if (height <= ScreenUtils.dp2Px(mContext,360)) {
+            viewHolder.isPictureGif.setVisibility(View.GONE);
+            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) viewHolder.ivPictureText.getLayoutParams();
+            lp.width = screenWidth;
+            lp.height = height;
+            viewHolder.ivPictureText.setLayoutParams(lp);
+         } else {
+            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) viewHolder.ivPictureText.getLayoutParams();
+            lp.width = screenWidth;
+            lp.height = (int) ScreenUtils.dp2Px(mContext,360);
+            viewHolder.ivPictureText.setLayoutParams(lp);
+            viewHolder.isPictureGif.setVisibility(View.VISIBLE);
+            viewHolder.isPictureGif.setText("长图");
+        }
 
         Picasso.get().load(listBean.getImage().getBig().get(0)).centerCrop().placeholder(R.drawable.booth_map)
-                    .resize(width,height)
-                    .into(viewHolder.ivPictureText);
+                .fit()
+                .into(viewHolder.ivPictureText);
 
-//        if (listBean.getIs_gif().equals("0")){
-//            viewHolder.isPictureGif.setText("长图");
-            //设置图片到image控件 fit 它会自动测量我们的View的大小，然后内部调用reszie方法把图片裁剪到View的大小，
-            // 这就帮我们做了计算size和调用resize fit会出现拉伸扭曲的情况，因此最好配合前面的centerCrop使用
-//            Picasso.get().load(listBean.getImage0()).centerCrop().placeholder(R.drawable.booth_map)
-//                    .fit()
-//                    .into(viewHolder.ivPictureText);
-//        }else if (listBean.getIs_gif().equals("1")){
-//            viewHolder.isPictureGif.setText("GIF");
-//            RequestOptions options = new RequestOptions()
-//                    .centerCrop()
-//                    .placeholder(R.drawable.booth_map)
-//                    .error(R.drawable.error)
-//                    .priority(Priority.HIGH)
-//                    .diskCacheStrategy(DiskCacheStrategy.NONE);
-//            Glide.with(mContext).load(listBean.getImage0()) .apply(options).into(viewHolder.ivPictureText);
-//        }
+        //喜欢的（点赞）人数
+        viewHolder.iconItemPostLikeCount.setText(listBean.getUp());
 
-        //发现 同时交叉使用 Picasso 和 Glide listView item 重用的时候缓存有问题
-//        RequestOptions options = new RequestOptions()
-//                .centerCrop()
-//                .placeholder(R.drawable.booth_map)
-//                .error(R.drawable.error)
-//                .priority(Priority.HIGH)
-//                .diskCacheStrategy(DiskCacheStrategy.NONE);
-//        Glide.with(mContext).load(listBean.getImage0()) .apply(options).into(viewHolder.ivPictureText);
-//
-//        //喜欢的（点赞）人数
-//        viewHolder.iconItemPostLikeCount.setText(listBean.getLove());
-//
-//        viewHolder.username.setText(listBean.getTheme_name());
-//
-//        viewHolder.content.setText(listBean.getText());
+       //评论用户的用户名这里没有用
+       //viewHolder.username.setText(listBean.getTags().get(0).getTail());
+
+        viewHolder.content.setText(listBean.getPasstime());
     }
 
     /**用于下拉刷新时调用的方法*/

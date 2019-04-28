@@ -16,7 +16,7 @@ public class PoetryBean {
      */
 
     private InfoBean info;
-    private List<?> top_list;
+    //private List<?> top_list;
     private List<ListBean> list;
 
     public InfoBean getInfo() {
@@ -27,13 +27,13 @@ public class PoetryBean {
         this.info = info;
     }
 
-    public List<?> getTop_list() {
-        return top_list;
-    }
+   // public List<?> getTop_list() {
+//        return top_list;
+//    }
 
-    public void setTop_list(List<?> top_list) {
-        this.top_list = top_list;
-    }
+//    public void setTop_list(List<?> top_list) {
+//        this.top_list = top_list;
+//    }
 
     public List<ListBean> getList() {
         return list;

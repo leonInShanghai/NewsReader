@@ -82,6 +82,8 @@ public class PoetryFragment extends LogFragment {
         public View getChildView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View inflate = inflater.inflate(R.layout.frag_protry,container,false);
             mPtrFrame = (PtrClassicFrameLayout)inflate.findViewById(R.id.joke_ptr_frame);
+            //关闭下拉刷新
+            mPtrFrame.setEnabled(false);
             mLvHot = (ListView)inflate.findViewById(R.id.joke_lv_hot);
             return inflate;
         }
@@ -95,7 +97,7 @@ public class PoetryFragment extends LogFragment {
         private void initData(){
 
             //设置下拉刷新的配置
-            setPullToRefres();
+            //setPullToRefres();
 
             //设置ListView的脚布局-上拉加载更多的加载框
             setFooter();
@@ -110,9 +112,9 @@ public class PoetryFragment extends LogFragment {
                     LELog.showLogWithLineNum(5,"JokeFragment点击了Item"+position);
                     //加上避免用户重复点击开启两个activity的方法
                     if (IsNotFastClickUtils.isNotFastClick()){
-//                            Intent intent = new Intent(getContext(), PictureActivity.class);
-//                            intent.putExtra(PICTURE_URL,mList.get(position).getImage0());
-//                            startActivity(intent);
+                            Intent intent = new Intent(getContext(), PictureActivity.class);
+                            intent.putExtra(PICTURE_URL,mList.get(position).getImage().getBig().get(0));
+                            startActivity(intent);
                     }
                 }
             });
@@ -201,7 +203,7 @@ public class PoetryFragment extends LogFragment {
                 url = Constant.getPoetry("0");
             }else {
                 //加载更多
-                url = Constant.getPoetry("");
+                url = Constant.getPoetry(maxtime);
             }
 
             //开始进行网络请求
@@ -223,8 +225,7 @@ public class PoetryFragment extends LogFragment {
                 @Override
                 public void onSuccess(String response) {
 
-                    LELog.showLogWithLineNum(5,"11111111111111111111111111111");
-                    LELog.showLogWithLineNum(5,response.toString());
+                    //LELog.showLogWithLineNum(5,response.toString());
 
                     //结束下拉刷新（无论成功失败本次发起请求已经结束）
                     mPtrFrame.refreshComplete();
@@ -238,48 +239,15 @@ public class PoetryFragment extends LogFragment {
                     //解析 gson fastjson
                     Gson gson = new Gson();
 
-                   // PoetryBean poetryBean = gson.fromJson(response, PoetryBean.class);
+                    PoetryBean poetryBean = gson.fromJson(response, PoetryBean.class);
 
                     //用户下拉刷新时的变量
-//                    if (poetryBean != null && poetryBean.getInfo() != null){
-//                        maxtime = poetryBean.getInfo().getNp()+"";
-//                    }
-//                    setListViewData(poetryBean,isLoadMore);
+                    if (poetryBean != null && poetryBean.getInfo() != null){
+                        maxtime = poetryBean.getInfo().getNp()+"";
+                    }
+                    setListViewData(poetryBean,isLoadMore);
                 }
             });
-//            HttpHelper.getInstance().requestPost(Constant.BAISHI,null
-//                    ,requestBody,new OnResponseListener() {
-//                @Override
-//                public void onFail(IOException e) {
-//
-//
-//                }
-//
-//                @Override
-//                public void onSuccess(String response) {
-//
-//                   LELog.showLogWithLineNum(5,response.toString());
-//
-//                    //结束下拉刷新（无论成功失败本次发起请求已经结束）
-//                    mPtrFrame.refreshComplete();
-//
-//                    //当前正请求已经结束（无论成功失败本次发起请求已经结束）变量置为true
-//                    isSuccess = true;
-//
-//                    //loading结束（无论成功失败本次发起请求已经结束）
-//                    mKProgressHUD.dismiss();
-//
-//                    //解析 gson fastjson
-//                    Gson gson = new Gson();
-//                    PictureBean pictureBean = gson.fromJson(response, PictureBean.class);
-//
-//                    //用户下拉刷新时的变量
-//                    if (pictureBean != null && pictureBean.getInfo() != null){
-//                        maxtime = pictureBean.getInfo().getMaxtime();
-//                    }
-//                    setListViewData(pictureBean,isLoadMore);
-//                }
-//            });
 
  }
 

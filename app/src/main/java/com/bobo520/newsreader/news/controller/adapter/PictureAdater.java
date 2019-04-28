@@ -104,6 +104,7 @@ public class PictureAdater extends LeBaseAdapter<PictureBean.ListBean> {
                 .placeholder(R.drawable.booth_map)
                 .error(R.drawable.error)
                 .priority(Priority.HIGH)
+                //.fitCenter()//fit  （使）适合
                 .diskCacheStrategy(DiskCacheStrategy.NONE);
         Glide.with(mContext).load(listBean.getImage0()) .apply(options).into(viewHolder.ivPictureText);
 

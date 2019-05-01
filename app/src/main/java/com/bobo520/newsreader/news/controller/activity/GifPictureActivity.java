@@ -26,11 +26,8 @@ import android.widget.Toast;
 
 import com.bobo520.newsreader.R;
 import com.bobo520.newsreader.customDialog.LEloadingView;
+import com.bobo520.newsreader.util.Constant;
 import com.bobo520.newsreader.util.LETrtStBarUtil;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.liji.imagezoom.activity.ImageDetailFragment;
 import com.liji.imagezoom.util.BottomMenuDialog;
@@ -45,15 +42,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-import pl.droidsonroids.gif.GifImageView;
-
-import static com.bobo520.newsreader.news.controller.fragment.PictureFragment.PICTURE_URL;
 
 /**
  * Created by Leon on 2019/4/27.
  * Functions: 点击查看大图activity 专门处理GIF图
  */
-
 public class GifPictureActivity extends AppCompatActivity implements View.OnLongClickListener {
 
 
@@ -74,7 +67,7 @@ public class GifPictureActivity extends AppCompatActivity implements View.OnLong
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_gif_picture);
-        uri = getIntent().getStringExtra(PICTURE_URL);
+        uri = getIntent().getStringExtra(Constant.PICTURE_URL);
 //        gifImageView = (GifImageView)findViewById(R.id.gif_view);
 //        gifImageView.setOnLongClickListener(this);
 

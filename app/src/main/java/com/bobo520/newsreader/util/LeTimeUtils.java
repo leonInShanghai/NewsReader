@@ -28,7 +28,13 @@ public class LeTimeUtils {
     /**时间戳转字符串*/
     public static String getStrTime(String timeStamp){
         String timeString = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 hh:mm");
+
+        //24小时计时法
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
+
+        //12小时计时法
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 hh:mm");
+
         long  l = Long.valueOf(timeStamp);
         timeString = sdf.format(new Date(l));//单位秒
         return timeString;

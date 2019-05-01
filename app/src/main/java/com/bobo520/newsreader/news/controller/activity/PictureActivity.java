@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.bobo520.newsreader.R;
 import com.bobo520.newsreader.customDialog.LEloadingView;
+import com.bobo520.newsreader.util.Constant;
 import com.bobo520.newsreader.util.LETrtStBarUtil;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.liji.imagezoom.activity.ImageDetailFragment;
@@ -41,8 +42,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-import static com.bobo520.newsreader.app.NewsReaderApplication.getContext;
-import static com.bobo520.newsreader.news.controller.fragment.PictureFragment.PICTURE_URL;
 
 /**
  * Created by Leon on 2018/10/21.
@@ -68,7 +67,7 @@ public class PictureActivity extends AppCompatActivity implements View.OnLongCli
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_picture);
-        uri = getIntent().getStringExtra(PICTURE_URL);
+        uri = getIntent().getStringExtra(Constant.PICTURE_URL);
 
         //Leon设置了最近淘宝等各大app流行的沉浸式状态栏
         LETrtStBarUtil.setTransparentToolbar(this);

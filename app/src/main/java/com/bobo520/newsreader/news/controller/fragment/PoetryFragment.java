@@ -74,8 +74,6 @@ public class PoetryFragment extends LogFragment {
         /**数据源数组集合*/
         private List<PoetryBean.ListBean> mList;
 
-        /**传递 给PictutrActivity的 键值*/
-        public static final String PICTURE_URL = "PICTURE_URL";
 
 
     @Override
@@ -113,7 +111,7 @@ public class PoetryFragment extends LogFragment {
                     //加上避免用户重复点击开启两个activity的方法
                     if (IsNotFastClickUtils.isNotFastClick()){
                             Intent intent = new Intent(getContext(), PictureActivity.class);
-                            intent.putExtra(PICTURE_URL,mList.get(position).getImage().getBig().get(0));
+                            intent.putExtra(Constant.PICTURE_URL,mList.get(position).getImage().getBig().get(0));
                             startActivity(intent);
                     }
                 }
@@ -225,7 +223,7 @@ public class PoetryFragment extends LogFragment {
                 @Override
                 public void onSuccess(String response) {
 
-                    //LELog.showLogWithLineNum(5,response.toString());
+                   // LELog.showLogWithLineNum(5,response.toString());
 
                     //结束下拉刷新（无论成功失败本次发起请求已经结束）
                     mPtrFrame.refreshComplete();

@@ -248,14 +248,14 @@ public class JokeFragment extends LogFragment {
 
                     //解析 gson fastjson
                     Gson gson = new Gson();
-                    JokeBean jokeBean = jokeBean = gson.fromJson(response, JokeBean.class);
+                    JokeBean jokeBean = gson.fromJson(response, JokeBean.class);
                     
-                    try {
-
-                    }catch (JsonSyntaxException e){
-                        //TODO：后台返回数据异常寻求解决方案
-                        LELog.showLogWithLineNum(5,"后台返回数据异常寻求解决方案");
-                    }
+//                    try {
+//
+//                    }catch (JsonSyntaxException e){
+//                        //TODO：后台返回数据异常寻求解决方案
+//                        LELog.showLogWithLineNum(5,"后台返回数据异常寻求解决方案");
+//                    }
                     
 
                     //用户下拉刷新时的变量

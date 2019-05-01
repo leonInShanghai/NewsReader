@@ -13,12 +13,15 @@ import com.bobo520.newsreader.event.ShowTabEvent;
 import com.bobo520.newsreader.me.fragment.MeFragment;
 import com.bobo520.newsreader.news.controller.fragment.NewsFragment;
 import com.bobo520.newsreader.fragment.TopicFragment;
-import com.bobo520.newsreader.fragment.VaFragment;
 import com.bobo520.newsreader.util.LETrtStBarUtil;
+import com.bobo520.newsreader.video.controller.fragment.VaFragment;
+import com.bobo520.newsreader.video.controller.fragment.VideoFragment;
 import com.bobo520.newsreader.weiget.MyFragmentTabHost;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
  * Created by Leon on 2019/1/1 Copyright © Leon. All rights reserved.
@@ -61,7 +64,7 @@ public class HomeActivity extends AppCompatActivity  {
 
     private void initData(){
         //给FragmentTabHost控件设置数据 Fragment数组
-        Class[] fragments = new Class[]{NewsFragment.class,VaFragment.class,
+        Class[] fragments = new Class[]{NewsFragment.class,VideoFragment.class,
                 TopicFragment.class,MeFragment.class};
 
         //图片选择器数组
@@ -110,4 +113,12 @@ public class HomeActivity extends AppCompatActivity  {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
+
+   public void onBackPressed() {
+        if (JCVideoPlayerStandard.backPress()) {
+            return;
+        }
+        super.onBackPressed();
+    }
+
 }

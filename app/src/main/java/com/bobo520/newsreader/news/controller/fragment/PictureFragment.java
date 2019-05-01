@@ -75,8 +75,6 @@ public class PictureFragment extends LogFragment {
         /**数据源数组集合*/
         private List<PictureBean.ListBean> mList;
 
-        /**传递 给PictutrActivity的 键值*/
-        public static final String PICTURE_URL = "PICTURE_URL";
 
     @Override
         public View getChildView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -114,13 +112,13 @@ public class PictureFragment extends LogFragment {
                         //普通图片跳转到 PictureActivity
                         if (mList.get(position).getIs_gif().equals("0")){
                             Intent intent = new Intent(getContext(), PictureActivity.class);
-                            intent.putExtra(PICTURE_URL,mList.get(position).getImage0());
+                            intent.putExtra(Constant.PICTURE_URL,mList.get(position).getImage0());
                             startActivity(intent);
 
                         //gif图片跳转到
                         }else if (mList.get(position).getIs_gif().equals("1")){
                             Intent intent = new Intent(getContext(), GifPictureActivity.class);
-                            intent.putExtra(PICTURE_URL,mList.get(position).getImage0());
+                            intent.putExtra(Constant.PICTURE_URL,mList.get(position).getImage0());
                             startActivity(intent);
                         }
 

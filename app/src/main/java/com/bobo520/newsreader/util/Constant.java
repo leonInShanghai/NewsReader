@@ -6,6 +6,9 @@ package com.bobo520.newsreader.util;
  */
 public class Constant {
 
+    /**传递 给PictutrActivity的 键值*/
+    public static final String PICTURE_URL = "PICTURE_URL";
+
     /**从最新版百思不得姐获取的诗词 url*/
     public static final String POETRY = "http://d.api.budejie.com/topic/forum/60660/1/new/" +
             "budejie-android-8.0.5/ID-20.json";

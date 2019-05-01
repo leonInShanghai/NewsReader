@@ -85,35 +85,41 @@ public class PoetryAdater extends LeBaseAdapter<PoetryBean.ListBean> {
         //设置诗词neirong
         viewHolder.tvInfo.setText(listBean.getText());
 
+        //发现百思的后台有时候不返回 image
+        if (listBean.getImage() != null) {
+            viewHolder.ivPictureText.setVisibility(View.VISIBLE);
+            //动态计算最佳的图片宽高
+            WindowManager wm = (WindowManager) mContext.getSystemService(mContext.WINDOW_SERVICE);
+            DisplayMetrics dm = new DisplayMetrics();
+            wm.getDefaultDisplay().getMetrics(dm);
+            float density = dm.density;//屏幕密度（0.75 / 1.0 / 1.5）
+            int width = dm.widthPixels;// 屏幕宽度（像素）
+            // 减去padding="8dp" 以后要是XML文件里面改了这里也要改
+            int screenWidth = (int) (width - ScreenUtils.dp2Px(mContext, 16));
+            int height = (int) (listBean.getImage().getHeight() / (float) listBean.getImage().getWidth() * screenWidth);
 
-        //动态计算最佳的图片宽高
-        WindowManager wm = (WindowManager) mContext.getSystemService(mContext.WINDOW_SERVICE);
-        DisplayMetrics dm = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(dm);
-        float density = dm.density;//屏幕密度（0.75 / 1.0 / 1.5）
-        int width = dm.widthPixels;// 屏幕宽度（像素）
-        // 减去padding="8dp" 以后要是XML文件里面改了这里也要改
-        int screenWidth = (int) (width - ScreenUtils.dp2Px(mContext,16));
-        int height = (int) (listBean.getImage().getHeight() / (float) listBean.getImage().getWidth() * screenWidth);
+            if (height <= ScreenUtils.dp2Px(mContext, 360)) {
+                viewHolder.isPictureGif.setVisibility(View.GONE);
+                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) viewHolder.ivPictureText.getLayoutParams();
+                lp.width = screenWidth;
+                lp.height = height;
+                viewHolder.ivPictureText.setLayoutParams(lp);
+            } else {
+                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) viewHolder.ivPictureText.getLayoutParams();
+                lp.width = screenWidth;
+                lp.height = (int) ScreenUtils.dp2Px(mContext, 360);
+                viewHolder.ivPictureText.setLayoutParams(lp);
+                viewHolder.isPictureGif.setVisibility(View.VISIBLE);
+                viewHolder.isPictureGif.setText("长图");
+            }
 
-         if (height <= ScreenUtils.dp2Px(mContext,360)) {
+            Picasso.get().load(listBean.getImage().getBig().get(0)).centerCrop().placeholder(R.drawable.booth_map)
+                    .fit()
+                    .into(viewHolder.ivPictureText);
+        }else{
             viewHolder.isPictureGif.setVisibility(View.GONE);
-            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) viewHolder.ivPictureText.getLayoutParams();
-            lp.width = screenWidth;
-            lp.height = height;
-            viewHolder.ivPictureText.setLayoutParams(lp);
-         } else {
-            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) viewHolder.ivPictureText.getLayoutParams();
-            lp.width = screenWidth;
-            lp.height = (int) ScreenUtils.dp2Px(mContext,360);
-            viewHolder.ivPictureText.setLayoutParams(lp);
-            viewHolder.isPictureGif.setVisibility(View.VISIBLE);
-            viewHolder.isPictureGif.setText("长图");
+            viewHolder.ivPictureText.setVisibility(View.GONE);
         }
-
-        Picasso.get().load(listBean.getImage().getBig().get(0)).centerCrop().placeholder(R.drawable.booth_map)
-                .fit()
-                .into(viewHolder.ivPictureText);
 
         //喜欢的（点赞）人数
         viewHolder.iconItemPostLikeCount.setText(listBean.getUp());

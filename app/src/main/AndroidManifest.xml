@@ -73,7 +73,11 @@
             android:exported="false" />
 
         <activity android:name=".app.AdDetailActivity" />
-        <activity android:name=".app.HomeActivity" />
+        <!--饺子播放器添加 android:configChanges="orientation|screenSize|keyboardHidden"
+         android:screenOrientation="portrait"-->
+        <activity android:name=".app.HomeActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"/>
         <!-- theme属性是解决划动关闭activity 时屏幕黑屏的问题（我倒没有遇到黑屏的情况） -->
         <activity
             android:name=".news.controller.activity.NewsDetailActivity"

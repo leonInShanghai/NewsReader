@@ -4,15 +4,21 @@
     android:layout_height="50dp"
     android:background="@drawable/shape_le">
 
+    <!--芳草飞舞字体  fragrant.ttf
+    设置了android:fontFamily="@fonts/fragrant" 不起作用
+    安卓全局字体设置https://www.jianshu.com/p/d1e42218a1e2
+    android:textStyle="bold"-->
+
     <TextView
+        android:id="@+id/video_title"
         android:layout_marginLeft="8dp"
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="視頻"
+        android:textStyle="bold"
         android:textColor="@color/white"
-        android:textSize="25sp"
-        android:textStyle="bold"/>
+        android:textSize="25sp" />
 
     <!--<ImageView-->
         <!--android:layout_marginLeft="8dp"-->

@@ -1,5 +1,6 @@
 package com.bobo520.newsreader.video.controller.fragment;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,6 +27,7 @@ public class VideoFragment extends LogFragment {
 
 
     private ViewPager mViewPager;
+    private TextView videoTitle;
    // private SlidingTabLayout mTablayout;
 
     @Override
@@ -34,8 +36,16 @@ public class VideoFragment extends LogFragment {
         View view = inflater.inflate(R.layout.frag_video, container, false);
 
         mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        videoTitle = (TextView)view.findViewById(R.id.video_title);
         //mTablayout = (SlidingTabLayout) view.findViewById(R.id.tablayout);
 
+
+        //安卓全局字体设置https://www.jianshu.com/p/d1e42218a1e2
+        //textView.setText("zhang phil");
+        //java代码中设置 星星下的恋爱手机字体 star.ttf
+//        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/fragrant.ttf");
+//        videoTitle.setTypeface(typeface);
+//        videoTitle.setText("视频");
         return view;
     }
 

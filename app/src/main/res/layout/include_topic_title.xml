@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@drawable/shape_le">
+
+    <!--芳草飞舞字体  fragrant.ttf
+    设置了android:fontFamily="@fonts/fragrant" 不起作用
+    安卓全局字体设置https://www.jianshu.com/p/d1e42218a1e2
+    android:textStyle="bold"-->
+
+    <TextView
+        android:id="@+id/video_title"
+        android:layout_marginLeft="8dp"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="話題"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="25sp" />
+
+    <!--<ImageView-->
+        <!--android:layout_marginLeft="8dp"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:src="@drawable/ic_main_logo"/>-->
+
+    <!--<ImageView-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:id="@+id/iv_va"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:src="@drawable/va"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginRight="8dp"/>-->
+
+    <!--<ImageView-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:src="@drawable/ic_main_menu_search"-->
+        <!--android:layout_toLeftOf="@+id/iv_va"-->
+        <!--android:layout_marginRight="16dp"/>-->
+
+</RelativeLayout>

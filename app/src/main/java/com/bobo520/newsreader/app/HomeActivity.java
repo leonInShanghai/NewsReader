@@ -12,9 +12,8 @@ import com.bobo520.newsreader.R;
 import com.bobo520.newsreader.event.ShowTabEvent;
 import com.bobo520.newsreader.me.fragment.MeFragment;
 import com.bobo520.newsreader.news.controller.fragment.NewsFragment;
-import com.bobo520.newsreader.fragment.TopicFragment;
+import com.bobo520.newsreader.topic.controller.fragment.TopicFragment;
 import com.bobo520.newsreader.util.LETrtStBarUtil;
-import com.bobo520.newsreader.video.controller.fragment.VaFragment;
 import com.bobo520.newsreader.video.controller.fragment.VideoFragment;
 import com.bobo520.newsreader.weiget.MyFragmentTabHost;
 

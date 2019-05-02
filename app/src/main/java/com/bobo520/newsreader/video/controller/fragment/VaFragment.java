@@ -241,15 +241,15 @@ public class VaFragment extends LogFragment {
         if (!isLoadMore){
             page = 0;
             if (TextUtils.isEmpty(maxtime)) {
-                //正常加载
+                //正常加载  .add("page", String.valueOf(page))
                 requestBody =  new FormBody.Builder()
                         .add("a", "list")
                         .add("c", "data")
-                        .add("page", String.valueOf(page))
                         .add("type", "41")
                         .build();
             }else{
                 //下拉刷新
+                page = 0;
                 requestBody =  new FormBody.Builder()
                         .add("a", "list")
                         .add("c", "data")
@@ -260,6 +260,8 @@ public class VaFragment extends LogFragment {
             }
         }else {
             //上拉加载更多
+            page++;
+            Toast.makeText(getContext(),"上拉加载更多"+page+"--"+maxtime,Toast.LENGTH_SHORT).show();
             requestBody = new FormBody.Builder()
                     .add("a", "list")
                     .add("c", "data")
@@ -312,11 +314,8 @@ public class VaFragment extends LogFragment {
                             maxtime = vaBean.getInfo().getMaxtime();
                         }
                         setListViewData(vaBean,isLoadMore);
-
-                        page++;
                     }
                 });
-
 
     }
 

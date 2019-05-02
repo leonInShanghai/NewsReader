@@ -172,7 +172,8 @@ public class NewsDetailActivity extends SwipeBackActivity implements View.OnClic
         //动态生成当前新闻的详情url
         String newsDetailUrl = Constant.getNewsDetailUrl(mNewsId);
 
-        HttpHelper.getInstance().requestGET(newsDetailUrl, new OnResponseListener() {
+        //HttpHelper.getInstance().requestGET(newsDetailUrl, new OnResponseListener() {
+        HttpHelper.getInstance().requestHeaderGET(newsDetailUrl, new OnResponseListener() {
             @Override
             public void onFail(IOException e) {
 

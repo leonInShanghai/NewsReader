@@ -205,7 +205,6 @@ public class PictureFragment extends LogFragment {
 
             // 当需要加载下一页时：需要传入加载上一页时返回值字段“maxtime”中的内容。
             if (!isLoadMore){
-               // page = 0;
                 if (TextUtils.isEmpty(maxtime)) {
                     //正常加载  .add("page", String.valueOf(page))
                     requestBody =  new FormBody.Builder()
@@ -215,6 +214,7 @@ public class PictureFragment extends LogFragment {
                             .add("type", "10")
                             .build();
                 }else{
+                    page = 0;
                     //下拉刷新.add("page", String.valueOf(page))
                     requestBody =  new FormBody.Builder()
                             .add("a", "list")
@@ -225,6 +225,7 @@ public class PictureFragment extends LogFragment {
                 }
             }else {
                 page++;
+                Toast.makeText(getContext(),"上拉加载更多"+page+"--"+maxtime,Toast.LENGTH_SHORT).show();
                 //上拉加载更多
                 requestBody = new FormBody.Builder()
                     .add("a", "list")

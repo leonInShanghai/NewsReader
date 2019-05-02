@@ -1,5 +1,6 @@
 package com.bobo520.newsreader.topic.controller.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,20 +21,27 @@ import com.bobo520.newsreader.http.OnResponseListener;
 import com.bobo520.newsreader.news.controller.adapter.JokeAdater;
 import com.bobo520.newsreader.news.model.JokeBean;
 import com.bobo520.newsreader.news.view.BannerView;
+import com.bobo520.newsreader.topic.controller.activity.SubjectActivity;
+import com.bobo520.newsreader.topic.controller.adapter.TopicAdater;
+import com.bobo520.newsreader.topic.model.TopicBean;
 import com.bobo520.newsreader.util.Constant;
+import com.bobo520.newsreader.util.IsNotFastClickUtils;
 import com.bobo520.newsreader.util.LELog;
 import com.google.gson.Gson;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
-import okhttp3.FormBody;
-import okhttp3.RequestBody;
+
+import static com.bobo520.newsreader.topic.controller.activity.SubjectActivity.SUBJECT_OBJECT;
+
+
 
 /**
  * Created by Leon on 2019/1/13. Copyright © Leon. All rights reserved.
@@ -44,13 +52,13 @@ public class SubjectFragment extends LogFragment {
         private ListView mLvHot;
 
         /**用来记录加载更多分页的变量*/
-        private int page = 0;
+        private int page = 1;
 
         /**下拉刷新需要的参数*/
         private String maxtime = null;
 
         /**listview的adater*/
-        private JokeAdater mJokeAdater;
+        private TopicAdater mTopicAdapter;
 
         /**网络请求成功的变量-默认为true*/
         private boolean isSuccess = true;
@@ -64,10 +72,15 @@ public class SubjectFragment extends LogFragment {
         /**加载时像X方那样的loding动画*/
         private KProgressHUD mKProgressHUD;
 
+        /**数据源 集合*/
+        List<TopicBean.DataBean> mListBeans;
+
     @Override
         public View getChildView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View inflate = inflater.inflate(R.layout.frag_subject,container,false);
             mPtrFrame = (PtrClassicFrameLayout)inflate.findViewById(R.id.subject_ptr_frame);
+            //关闭下拉刷新
+            mPtrFrame.setEnabled(false);
             mLvHot = (ListView)inflate.findViewById(R.id.subject_lv_hot);
             return inflate;
         }
@@ -93,14 +106,18 @@ public class SubjectFragment extends LogFragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    LELog.showLogWithLineNum(5,"JokeFragment点击了Item"+position);
+                    LELog.showLogWithLineNum(5,"SubjectFragment点击了Item"+position);
                     //加上避免用户重复点击开启两个activity的方法
-//                    if (IsNotFastClickUtils.isNotFastClick()){
-//                        Intent intent = new Intent(getContext(), NewsDetailActivity.class);
-//                        //因为listView header 的原因这里的position要 - 1
-//                        intent.putExtra(NEWS_ID,((HotNewsBean)mHotNewsAdater.getItem(position - 1)).getId());
-//                        startActivity(intent);
-//                    }
+                    if (IsNotFastClickUtils.isNotFastClick()){
+                        Intent intent = new Intent(getContext(), SubjectActivity.class);
+                        //因为listView header 的原因这里的position要 - 1
+
+                        //传递图片数据对象需要序列化才能传递
+                        TopicBean.DataBean dataBean = mListBeans.get(position);
+                        intent.putExtra(SUBJECT_OBJECT, (Serializable) dataBean);
+
+                        startActivity(intent);
+                    }
                 }
             });
 
@@ -179,43 +196,23 @@ public class SubjectFragment extends LogFragment {
             }
 
             //请求体
-            RequestBody requestBody;
+           String url = "";
 
             // 当需要加载下一页时：需要传入加载上一页时返回值字段“maxtime”中的内容。
             if (!isLoadMore){
-                page = 0;
-                if (TextUtils.isEmpty(maxtime)) {
-                    //正常加载
-                    requestBody =  new FormBody.Builder()
-                            .add("a", "list")
-                            .add("c", "data")
-                            .add("page", String.valueOf(page))
-                            .add("type", "29")
-                            .build();
-                }else{
-                    //下拉刷新
-                    requestBody =  new FormBody.Builder()
-                            .add("a", "list")
-                            .add("c", "data")
-                            .add("page", String.valueOf(page))
-                            .add("type", "29")
-                            .add("maxtime",maxtime)
-                            .build();
-                }
+                page = 1;
+                url = Constant.TOPIC_URL+page;
             }else {
                 //上拉加载更多
-                requestBody = new FormBody.Builder()
-                    .add("a", "list")
-                    .add("c", "data")
-                    .add("page", String.valueOf(page))
-                    .add("type", "29")
-                    .add("maxtime",maxtime)
-                    .build();
+                url = Constant.TOPIC_URL+page;
             }
 
             //开始进行网络请求
-            HttpHelper.getInstance().requestPost(Constant.BAISHI,null
-                    ,requestBody,new OnResponseListener() {
+//            HttpHelper.getInstance().requestPost(Constant.BAISHI,null
+//                    ,requestBody,new OnResponseListener() {
+
+            HttpHelper.getInstance().requestHeaderGET(url, new OnResponseListener() {
+
                 @Override
                 public void onFail(IOException e) {
 
@@ -234,7 +231,7 @@ public class SubjectFragment extends LogFragment {
                 @Override
                 public void onSuccess(String response) {
 
-                   // LELog.showLogWithLineNum(5,response.toString());
+                   LELog.showLogWithLineNum(5,response.toString());
 
                     //结束下拉刷新（无论成功失败本次发起请求已经结束）
                     mPtrFrame.refreshComplete();
@@ -247,46 +244,43 @@ public class SubjectFragment extends LogFragment {
 
                     //解析 gson fastjson
                     Gson gson = new Gson();
-                    JokeBean jokeBean = gson.fromJson(response, JokeBean.class);
-                    
-//                    try {
-//
-//                    }catch (JsonSyntaxException e){
-//                        //TODO：后台返回数据异常寻求解决方案
-//                        LELog.showLogWithLineNum(5,"后台返回数据异常寻求解决方案");
-//                    }
-                    
-
-                    //用户下拉刷新时的变量
-                    if (jokeBean != null && jokeBean.getInfo() != null){
-                        maxtime = jokeBean.getInfo().getMaxtime();
-                    }
-                    setListViewData(jokeBean,isLoadMore);
+                    TopicBean topicBean = gson.fromJson(response, TopicBean.class);
 
                     page++;
+
+                    //用户下拉刷新时的变量
+                    setListViewData(topicBean,isLoadMore);
                 }
             });
 
  }
 
         /**设置list view的数据*/
-        private void setListViewData(JokeBean jokeBean,boolean isLoadMore){
+        private void setListViewData(TopicBean topicBean,boolean isLoadMore){
 
             //获取到 数据数组
-            List<JokeBean.ListBean> listBeans = jokeBean.getList();
+            List<TopicBean.DataBean> listBeans = topicBean.getData();
 
 
             //第一次进来需要创建adater适配器
-            if (mJokeAdater == null){
-                mJokeAdater = new JokeAdater(listBeans);
-                mLvHot.setAdapter(mJokeAdater);
+            if (mTopicAdapter == null){
+                mTopicAdapter = new TopicAdater(listBeans);
+                mListBeans = listBeans;
+                mLvHot.setAdapter(mTopicAdapter);
             }else {
                 //判断是否为加载更多
                 if (isLoadMore){
-                    mJokeAdater.loadData(listBeans);
+                    mTopicAdapter.loadData(listBeans);
+                    mListBeans.addAll(listBeans);
                 }else {
                     //下拉刷新-添加之前先清空数据再添加
-                    mJokeAdater.updateData(listBeans);
+                    mTopicAdapter.updateData(listBeans);
+
+                    //先清空一下之前的数据
+                    mListBeans.clear();
+
+                    //LELog.showLogWithLineNum(5,"先清空一下之前的数据");
+                    mListBeans.addAll(listBeans);
                 }
             }
         }

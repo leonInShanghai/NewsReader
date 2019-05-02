@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.widget.EditText;
@@ -264,6 +265,24 @@ public class NewsDetailActivity extends SwipeBackActivity implements View.OnClic
         if (v == mBackButton){
             finish();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        //這裏解決本頁面finish后音樂還在播放的問題
+        //mWebView.destroy();
+
+        ///销毁webview比较正规的写法
+        if (mWebView != null) {
+            mWebView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+            mWebView.clearHistory();
+
+            ((ViewGroup) mWebView.getParent()).removeView(mWebView);
+            mWebView.destroy();
+            mWebView = null;
+        }
+
+        super.onDestroy();
     }
 }
 

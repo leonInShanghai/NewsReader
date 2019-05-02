@@ -23,7 +23,7 @@ import uk.co.senab.photoview.PhotoView;
 
 public class ShowPicActivity extends AppCompatActivity {
 
-    /**用来哦传递图片集合的键（名称）*/
+    /**用来传递图片集合的键（名称）*/
     public static final String IMG_LIST = "IMG_LIST";
 
     /**用来哦传递图片索引的键（名称）*/

@@ -11,9 +11,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- 文件读取的权限 为了保存图片 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- 向SD卡中创建或者删除的权限 为了保存图片 -->
-    <uses-permission android:name="andorid.permission.MONUN_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="andorid.permission.MONUN_UNMOUNT_FILESYSTEMS" />
 
     <!-- JPush ↓ Required -->
     <permission
@@ -73,11 +73,14 @@
             android:exported="false" />
 
         <activity android:name=".app.AdDetailActivity" />
-        <!--饺子播放器添加 android:configChanges="orientation|screenSize|keyboardHidden"
-         android:screenOrientation="portrait"-->
-        <activity android:name=".app.HomeActivity"
+        <!--
+         饺子播放器添加 android:configChanges="orientation|screenSize|keyboardHidden"
+         android:screenOrientation="portrait"
+        -->
+        <activity
+            android:name=".app.HomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- theme属性是解决划动关闭activity 时屏幕黑屏的问题（我倒没有遇到黑屏的情况） -->
         <activity
             android:name=".news.controller.activity.NewsDetailActivity"
@@ -248,8 +251,9 @@
         <activity android:name=".me.activity.MessageActivity" />
         <activity android:name=".me.activity.MesDetailedActivity" />
         <activity android:name=".me.activity.LoginActivity" />
-        <activity android:name=".news.controller.activity.PictureActivity"/>
-        <activity android:name=".news.controller.activity.GifPictureActivity"/>
+        <activity android:name=".news.controller.activity.PictureActivity" />
+        <activity android:name=".news.controller.activity.GifPictureActivity" />
+        <activity android:name=".topic.controller.activity.SubjectActivity"></activity>
     </application>
 
 </manifest>

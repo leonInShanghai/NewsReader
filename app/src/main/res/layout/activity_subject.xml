@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".topic.controller.activity.SubjectActivity">
+
+    <!--下面这个view是为了设置沉浸式状态栏 id 必须是status_placeholder 放在最上面-->
+    <View
+        android:id="@+id/status_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@drawable/shape_le"/>
+
+
+    <!--android:background="@drawable/shape_le"-->
+    <LinearLayout
+        android:id="@+id/nav_layout"
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:background="@drawable/shape_le">
+
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_height="match_parent"
+            android:layout_width="50dp"
+            android:background="@drawable/bg_btn_back"
+            android:src="@drawable/news_title_back"/>
+
+        <!--Space已经提示过时查看源代码显示继承自view就用view代替了-->
+        <View
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"/>
+
+        <!--<ImageButton-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:background="@drawable/bg_btn_back"-->
+            <!--android:src="@drawable/news_title_menu"/>-->
+
+    </LinearLayout>
+
+    <WebView
+        app:layout_constraintTop_toBottomOf="@+id/nav_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/subject_webView" />
+
+</android.support.constraint.ConstraintLayout>

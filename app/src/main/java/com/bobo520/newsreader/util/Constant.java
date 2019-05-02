@@ -6,6 +6,9 @@ package com.bobo520.newsreader.util;
  */
 public class Constant {
 
+    /**话题模块请求的 URL*/
+    public static final String TOPIC_URL = "https://www.pocketfunny.com/api/joke/topic/?page=";
+
     /**传递 给PictutrActivity的 键值*/
     public static final String PICTURE_URL = "PICTURE_URL";
 

@@ -44,7 +44,7 @@ public class ShareActivity extends AppCompatActivity {
 
 
     ShareUtil.ShareWeb(ShareActivity.this, "1", "NewsReader",
-            "https://github.com/leonInShanghai/NewsReader", "这是描述",
+            "https://github.com/leonInShanghai/NewsReader", describe,
             R.drawable.login_icon, new UMShareListener() {
                 @Override
                 public void onStart(SHARE_MEDIA share_media) {

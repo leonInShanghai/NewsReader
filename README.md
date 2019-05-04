@@ -8,6 +8,8 @@
 使用的第三方开源框架点击查看大图chrisbanes/PhotoView  ：https://github.com/chrisbanes/PhotoView</br>
 集成了极光推送</br>
 
+![image](https://github.com/leonInShanghai/NewsReader/blob/master/otherPic/gif1.gif)
+
 
 
 

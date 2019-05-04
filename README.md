@@ -17,9 +17,9 @@ com.github.bumptech.glide:glide  com.squareup.picasso:picasso  universalimageloa
 
 </br>
 ![image](https://github.com/leonInShanghai/NewsReader/blob/master/otherPic/gif1.gif)
-</br>
+
 ![image](https://github.com/leonInShanghai/NewsReader/blob/master/otherPic/gif2.gif)
-</br>
+
 ![image](https://github.com/leonInShanghai/NewsReader/blob/master/otherPic/gif3.gif)
 
 

@@ -252,7 +252,6 @@
         </receiver>
         <!-- 新的 tag/alias 接口结果返回需要开发者配置一个自定的广播 可以不实现 ↑ -->
 
-
         <!-- Required. For publish channel feature -->
         <!-- JPUSH_CHANNEL 是为了方便开发者统计 APK 分发渠道。 -->
         <!-- 例如: -->

@@ -34,12 +34,15 @@ public class SubjectActivity extends SwipeBackActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject);
+
+        //Leon设置了最近淘宝等各大app流行的沉浸式状态栏
+        LETrtStBarUtil.setTransparentToolbar(this);
+
         backButton = (ImageButton)findViewById(R.id.back_button);
         mWebView = (WebView)findViewById(R.id.subject_webView);
         backButton.setOnClickListener(this);
 
-        //Leon设置了最近淘宝等各大app流行的沉浸式状态栏
-        LETrtStBarUtil.setTransparentToolbar(this);
+
 
         //获话题详情对象
         Intent intent = getIntent();

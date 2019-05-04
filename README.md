@@ -22,7 +22,7 @@ com.github.bumptech.glide:glide  com.squareup.picasso:picasso  universalimageloa
 
 ![image](https://github.com/leonInShanghai/NewsReader/blob/master/otherPic/gif3.gif)
 
-
+发生大幅度改动不大是v
 
 
 

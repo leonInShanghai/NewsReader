@@ -63,6 +63,7 @@ android {
             signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
         release {
             minifyEnabled false
             //增加这里和debug
@@ -112,7 +113,6 @@ dependencies {
     //implementation("com.squareup.okhttp3:okhttp:3.12.0")
 
     //gson
-
     //implementation 'com.google.code.gson:gson:2.8.5'
     implementation project(':library')
 
@@ -179,9 +179,7 @@ dependencies {
     implementation 'com.jph.takephoto:takephoto_library:4.0.3'
 
     //友盟分享
-
     //implementation  'com.umeng.umsdk:analytics:7.5.4'
-
     //implementation  'com.umeng.umsdk:common:1.5.4'
     implementation files('libs/umeng-share-wechat-simplify-6.9.4.jar')
     implementation files('libs/umeng-share-QQ-simplify-6.9.4.jar')

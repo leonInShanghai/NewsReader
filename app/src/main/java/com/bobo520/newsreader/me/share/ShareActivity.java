@@ -34,18 +34,14 @@ public class ShareActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-    String describe = "内存小，省流量，使用流畅，为你提供有温度有价值的新闻资讯。\n" +
-            "\n" +
-            "　　高品质内容传递有温度有价值的新闻资讯。\n" +
-            "\n" +
-            "　　热点及时达热点新闻，及时聚焦，一键刷新即可触达。\n" +
-            "\n" +
-            "　　海量内容源时事，热点，视频，体育，财经，时尚，美女，汽车等海量内容等你来看。";
+    String describe = "内存小，省流量，使用流畅，为你提供有温度有价值的新闻资讯。"+
+            "高品质内容传递有温度有价值的新闻资讯。热点及时达热点新闻，及时聚焦，一键刷新即可触达。" +
+            "海量内容源时事，热点，视频，体育，财经，时尚，美女，汽车等海量内容等你来看。";
 
 
     ShareUtil.ShareWeb(ShareActivity.this, "1", "NewsReader",
             "https://github.com/leonInShanghai/NewsReader", describe,
-            R.drawable.login_icon, new UMShareListener() {
+            R.drawable.umeng_socialize_menu_default, new UMShareListener() {
                 @Override
                 public void onStart(SHARE_MEDIA share_media) {
                     LELog.showLogWithLineNum(5,share_media.toString());

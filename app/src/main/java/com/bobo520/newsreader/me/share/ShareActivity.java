@@ -40,7 +40,7 @@ public class ShareActivity extends AppCompatActivity {
 
 
     ShareUtil.ShareWeb(ShareActivity.this, "1", "NewsReader",
-            "https://github.com/leonInShanghai/NewsReader", describe,
+            "https://github.com/leonInShanghai/NewsReader/blob/master/README.md", describe,
             R.drawable.umeng_socialize_menu_default, new UMShareListener() {
                 @Override
                 public void onStart(SHARE_MEDIA share_media) {

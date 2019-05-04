@@ -15,14 +15,14 @@ pl.droidsonroids.gif:android-gif-drawable org.byteam.superadapter:superadapter c
 com.kaopiz:kprogresshud me.imid.swipebacklayout.lib:library  com.flyco.tablayout:FlycoTabLayout_Lib </br>
 com.github.bumptech.glide:glide  com.squareup.picasso:picasso  universalimageloader
 
-</br>
+
 ![image](https://github.com/leonInShanghai/NewsReader/blob/master/otherPic/gif1.gif)
 
 ![image](https://github.com/leonInShanghai/NewsReader/blob/master/otherPic/gif2.gif)
 
 ![image](https://github.com/leonInShanghai/NewsReader/blob/master/otherPic/gif3.gif)
 
-发生大幅度改动不大是v
+
 
 
 

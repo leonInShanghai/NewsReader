@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".me.activity.HelpCenterActivity">
+
+    <!--下面这个view是为了设置沉浸式状态栏 id 必须是status_placeholder 放在最上面-->
+    <View
+        android:id="@+id/status_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@drawable/shape_le"/>
+
+    <!--顶部的导航栏-->
+    <LinearLayout
+        android:id="@+id/top_nav"
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:background="@drawable/shape_le">
+
+        <ImageButton
+            android:id="@+id/help_back_button"
+            android:layout_height="match_parent"
+            android:layout_width="50dp"
+            android:background="@drawable/bg_btn_back"
+            android:src="@drawable/news_title_back"/>
+
+        <!--Space已经提示过时查看源代码显示继承自view就用view代替了-->
+        <View
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"/>
+
+        <!--<ImageButton-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_width="50dp"-->
+        <!--android:background="@drawable/bg_btn_back"-->
+        <!--android:src="@drawable/news_title_menu"/>-->
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_content"
+        app:layout_constraintTop_toBottomOf="@+id/top_nav"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/black"/>
+
+    <ImageView
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/footer" />
+
+</android.support.constraint.ConstraintLayout>

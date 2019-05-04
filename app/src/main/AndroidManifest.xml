@@ -272,17 +272,17 @@
         <activity android:name=".news.controller.activity.PictureActivity" />
         <activity android:name=".news.controller.activity.GifPictureActivity" />
         <activity android:name=".topic.controller.activity.SubjectActivity" />
+        <activity android:name=".me.activity.OpenSourceActivity" />
+        <activity android:name=".me.activity.JianshuActivity" />
+        <activity android:name=".me.activity.SettingActivity" />
 
-        <!-- 友盟分享 ↓ qq（请注意将我们的qq appkey替换成您自己的qq appkey）： -->
+        <!-- 友盟分享 ↓ qq（请注意将我们的qq appkey替换成您自己的qq appkey）：tencent101572053 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-
-
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -293,7 +293,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="tencent101572053" />
+                <data android:scheme="a57dfb9a54c2af792120514a64cb9733" />
             </intent-filter>
         </activity>
         <activity
@@ -303,10 +303,11 @@
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5ccac6b83fc195d00f0012e5"/>
+            android:value="5ccac6b83fc195d00f0012e5" />
         <!-- 友盟分享 ↑ -->
 
-        <activity android:name=".me.share.ShareActivity"></activity>
+        <activity android:name=".me.share.ShareActivity" />
+        <activity android:name=".me.activity.HelpCenterActivity"></activity>
     </application>
 
 </manifest>

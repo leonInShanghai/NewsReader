@@ -72,55 +72,55 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="帮助中心"
-                        android:textColor="@color/tab_text_color_click"
-                        android:textSize="14sp" />
-
-                    <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="14dp"
-                        android:layout_gravity="right|center_vertical"
-                        android:src="@drawable/mine_big_right" />
-                </FrameLayout>
-
-                <include layout="@layout/layout_line_f3f2f7" />
-
-                <FrameLayout
-                    android:id="@+id/mine_complain_proposal"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:paddingLeft="24dp"
-                    android:paddingRight="24dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="投诉建议"
-                        android:textColor="@color/tab_text_color_click"
-                        android:textSize="14sp" />
-
-                    <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="14dp"
-                        android:layout_gravity="right|center_vertical"
-                        android:src="@drawable/mine_big_right" />
-                </FrameLayout>
-
-                <include layout="@layout/layout_line_f3f2f7" />
-
-                <FrameLayout
-                    android:id="@+id/mine_about_us"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:paddingLeft="24dp"
-                    android:paddingRight="24dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
                         android:text="关于我们"
+                        android:textColor="@color/tab_text_color_click"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="14dp"
+                        android:layout_gravity="right|center_vertical"
+                        android:src="@drawable/mine_big_right" />
+                </FrameLayout>
+
+                <include layout="@layout/layout_line_f3f2f7" />
+
+                <FrameLayout
+                    android:id="@+id/open_source_community"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:paddingLeft="24dp"
+                    android:paddingRight="24dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="开源社区"
+                        android:textColor="@color/tab_text_color_click"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="14dp"
+                        android:layout_gravity="right|center_vertical"
+                        android:src="@drawable/mine_big_right" />
+                </FrameLayout>
+
+                <include layout="@layout/layout_line_f3f2f7" />
+
+                <FrameLayout
+                    android:id="@+id/jianshu"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:paddingLeft="24dp"
+                    android:paddingRight="24dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="简书部落"
                         android:textColor="@color/tab_text_color_click"
                         android:textSize="14sp" />
 

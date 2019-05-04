@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".app.AdDetailActivity">
+
+    <!--下面这个view是为了设置沉浸式状态栏 id 必须是status_placeholder 放在最上面-->
+    <View
+        android:id="@+id/status_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@drawable/shape_le"/>
+
+    <!--进度条解决轩尼诗广告隐藏了  gitHub没有轩尼诗那么操蛋 又打开了OpenSourceActivity-->
+    <ProgressBar
+        android:id="@+id/pb_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:indeterminateOnly="false"
+        android:max="100"
+        android:progressDrawable="@drawable/progress_bar_states" >
+    </ProgressBar>
+
+    <!--显示网页内容-->
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/webView"/>
+
+    <!--加载失败时出场的错误提示view-->
+    <ImageView
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:id="@+id/mErrorView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/h5_load_error"/>
+
+
+</LinearLayout>

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
@@ -21,14 +22,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.bobo520.newsreader.customDialog.LEloadingView;
 import com.bobo520.newsreader.customDialog.SelectDialog;
 import com.bobo520.newsreader.http.HttpHelper;
 import com.bobo520.newsreader.http.OnResponseListener;
+import com.bobo520.newsreader.me.activity.HelpCenterActivity;
+import com.bobo520.newsreader.me.activity.JianshuActivity;
 import com.bobo520.newsreader.me.activity.LoginActivity;
 import com.bobo520.newsreader.me.activity.MessageActivity;
+import com.bobo520.newsreader.me.activity.OpenSourceActivity;
+import com.bobo520.newsreader.me.activity.SettingActivity;
 import com.bobo520.newsreader.me.adapter.MineWorkAdapter;
 import com.bobo520.newsreader.me.model.bean.MineWorkMap;
 import android.widget.TextView;
@@ -39,6 +45,7 @@ import com.bobo520.newsreader.customDialog.DensityUtil;
 import com.bobo520.newsreader.app.LogFragment;
 import com.bobo520.newsreader.me.decoration.GridWHSpaceDecoration;
 import com.bobo520.newsreader.me.share.ShareActivity;
+import com.bobo520.newsreader.me.share.ShareUtil;
 import com.bobo520.newsreader.news.model.UserBean;
 import com.bobo520.newsreader.util.Constant;
 import com.bobo520.newsreader.util.ImageUtil;
@@ -60,6 +67,9 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.squareup.picasso.Picasso;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import org.byteam.superadapter.OnItemClickListener;
 
@@ -123,6 +133,18 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
 
     private InvokeParam invokeParam;
 
+    //帮助中心 后来放的关于我们的内容
+    private FrameLayout helpCenter;
+
+    //开源社区
+    private FrameLayout openSource;
+
+    //简书
+    private FrameLayout jianshu;
+
+    //系统设置
+    private FrameLayout setting;
+
 
     //接收到收到新极光推送广播的处理@drawable/mine_msg_ic_selector
     private BroadcastReceiver ReceivedANewMessage = new BroadcastReceiver() {
@@ -163,8 +185,17 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
         mWorkRecycler = (RecyclerView)view.findViewById(R.id.work_recycler);
         mIvMineMsg = (ImageView)view.findViewById(R.id.iv_mine_msg);
         mRefreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout);
+        helpCenter = (FrameLayout)view.findViewById(R.id.mine_help_center);
+        openSource = (FrameLayout)view.findViewById(R.id.open_source_community);
+        jianshu = (FrameLayout)view.findViewById(R.id.jianshu);
+        setting = (FrameLayout)view.findViewById(R.id.mine_system_setting);
+        helpCenter.setOnClickListener(this);
         mRefreshLayout.setEnableRefresh(true);//启用刷新
         mRefreshLayout.setEnableLoadMore(false);//不启用上拉加载更多
+        openSource.setOnClickListener(this);
+        jianshu.setOnClickListener(this);
+        setting.setOnClickListener(this);
+
         //设置 Header 为 贝塞尔雷达 样式 getResources().getColor(R.color.color_center_red)
         if (getContext() != null){
             mRefreshLayout.setRefreshHeader(new BezierRadarHeader(getContext())
@@ -185,7 +216,6 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
         //初始化上传图片的dialog
         initTakePhotoDialog();
 
-
         //注册广播
         mLBM = LocalBroadcastManager.getInstance(getActivity());
 
@@ -202,7 +232,6 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
         getTakePhoto().onCreate(savedInstanceState);
         super.onActivityCreated(savedInstanceState);
     }
-
 
 
     private void initWorkPieces() {
@@ -226,13 +255,27 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
 
     @Override
     public void onClick(View v) {
+
+        //加上这句比较严谨避免空指针
+        if (getContext() == null){return;}
+
         if (v == mIvMineMsg){
-            if (getContext() == null){return;}
             Intent intent = new Intent(getContext(), MessageActivity.class);
             startActivity(intent);
         }else if (v == mIvUserPaint){
-            if (getContext() == null){return;}
             Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivity(intent);
+        }else if (v == helpCenter){
+            Intent intent = new Intent(getContext(), HelpCenterActivity.class);
+            startActivity(intent);
+        }else if (v == openSource){
+            Intent intent = new Intent(getContext(), OpenSourceActivity.class);
+            startActivity(intent);
+        }else if (v == jianshu){
+            Intent intent = new Intent(getContext(), JianshuActivity.class);
+            startActivity(intent);
+        }else if (v == setting){
+            Intent intent = new Intent(getContext(), SettingActivity.class);
             startActivity(intent);
         }
     }
@@ -242,40 +285,32 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
     public void onItemClick(View itemView, int viewType, int position) {
         switch (position) {
             case 0:
-                    Intent intent = new Intent(getContext(), ShareActivity.class);
-                    startActivity(intent);
+                /**
+                 * DESCRIBE  ShareActivity.class只是一个试验类
+                 * Intent intent = new Intent(getContext(), ShareActivity.class);
+                 * startActivity(intent); 传如String平台：1 qq 2 qzone 3 wechat 4 wechatCircle
+                 */
+                shareMessage("3");
                 break;
             case 1:
-
+                //传如String平台：1 qq 2 qzone 3 wechat 4 wechatCircle
+                shareMessage("4");
                 break;
             case 2:
-
+                //传如String平台：1 qq 2 qzone 3 wechat 4 wechatCircle
+                shareMessage("1");
                 break;
             case 3:
-
+                //传如String平台：1 qq 2 qzone 3 wechat 4 wechatCircle
+                shareMessage("2");
                 break;
             case 4:
                 //头像设置
                 photoDialog.show(getActivity());
                 break;
             case 5:
-
+                //RecyclerView 只有5个item 往后的用不到 以后添加再扩展
                 break;
-            case 6:
-
-            case 7:
-
-
-                //我的会员
-//                if (loginIfNot()) {
-//                    Bundle bundle = new Bundle();
-//                    bundle.putLong("tag", 1);
-//                    openActivityWithBundle(HomeAppliancesLeaseActivity.class, bundle);
-//                }
-                break;
-            case 16:
-                break;
-
         }
     }
 
@@ -598,6 +633,36 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
     }
 
     //---------------------------------------------选择 裁剪 上传头像-------------------------------------------------
+
+    /**
+     * 分享工具类的二次封装
+     * @param platform   平台：1 qq 2 qzone 3 wechat 4 wechatCircle
+     */
+    private void shareMessage(String platform){
+        ShareUtil.ShareWeb(getActivity(), platform, "NewsReader",
+          "https://github.com/leonInShanghai/NewsReader/blob/master/README.md",Constant.DESCRIBE,
+                R.drawable.umeng_socialize_menu_default, new UMShareListener() {
+                    @Override
+                    public void onStart(SHARE_MEDIA share_media) {
+                        LELog.showLogWithLineNum(5,share_media.toString());
+                    }
+
+                    @Override
+                    public void onResult(SHARE_MEDIA share_media) {
+                        LELog.showLogWithLineNum(5,share_media.toString());
+                    }
+
+                    @Override
+                    public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+                        LELog.showLogWithLineNum(5,share_media.toString());
+                    }
+
+                    @Override
+                    public void onCancel(SHARE_MEDIA share_media) {
+                        LELog.showLogWithLineNum(5,share_media.toString());
+                    }
+                });
+    }
 
     @Override
     public void onDestroy() {

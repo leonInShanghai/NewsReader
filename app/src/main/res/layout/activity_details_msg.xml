@@ -34,11 +34,11 @@
             android:layout_width="0dp"
             android:layout_weight="1"/>
 
-        <ImageButton
-            android:layout_height="match_parent"
-            android:layout_width="50dp"
-            android:background="@drawable/bg_btn_back"
-            android:src="@drawable/news_title_menu"/>
+        <!--<ImageButton-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:background="@drawable/bg_btn_back"-->
+            <!--android:src="@drawable/news_title_menu"/>-->
 
     </LinearLayout>
 

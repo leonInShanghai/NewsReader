@@ -1,6 +1,8 @@
 package com.bobo520.newsreader.app;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -11,11 +13,13 @@ import android.widget.TextView;
 import com.bobo520.newsreader.R;
 import com.bobo520.newsreader.event.ShowTabEvent;
 import com.bobo520.newsreader.me.fragment.MeFragment;
+import com.bobo520.newsreader.me.share.ShareActivity;
 import com.bobo520.newsreader.news.controller.fragment.NewsFragment;
 import com.bobo520.newsreader.topic.controller.fragment.TopicFragment;
 import com.bobo520.newsreader.util.LETrtStBarUtil;
 import com.bobo520.newsreader.video.controller.fragment.VideoFragment;
 import com.bobo520.newsreader.weiget.MyFragmentTabHost;
+import com.umeng.socialize.UMShareAPI;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -104,6 +108,14 @@ public class HomeActivity extends AppCompatActivity  {
 
         /**设置默认选中的tab item*/
         mTabHost.setCurrentTab(0);
+    }
+
+    //友盟分享的回调 调用的起点是在 MeFragment里面  回调 友盟官方说必须在Activity中
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        UMShareAPI.get(HomeActivity.this).onActivityResult(requestCode,resultCode,data);
     }
 
     @Override

@@ -106,6 +106,10 @@ public class Constant {
             "IsInN1YiI6Ijc2NDNjNGU3ZTYzMDQyMTZhZGM0YjY4NzhkYTU2NzNjMzQ4N2M4MWI5NGNlNzhkODQ2OSIsIm" +
             "xvZ2luSWQiOiIxNzE4NjM5NjE5MiIsImV4cCI6MTU1NzQ3MjY5OSwiaWF0IjoxNTU2ODY3ODk5LCJqdGkiOi" +
             "JxbXgxNjMiLCJtZW1iZXJJZCI6MTkzfQ.mSJE70PrbFvNqeh6tlj0qEJeBqZicXrt8PlpX6ABD00";
+
+    public static final String DESCRIBE = "内存小，省流量，使用流畅，为你提供有温度有价值的新闻资讯。"+
+            "高品质内容传递有温度有价值的新闻资讯。热点及时达热点新闻，及时聚焦，一键刷新即可触达。" +
+            "海量内容源时事，热点，视频，体育，财经，时尚，美女，汽车等海量内容等你来看。";
 }
 
 

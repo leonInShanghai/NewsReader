@@ -46,8 +46,9 @@ public class SubjectActivity extends SwipeBackActivity implements View.OnClickLi
 
         if (intent != null){
             TopicBean.DataBean dataBean = (TopicBean.DataBean) intent.getSerializableExtra(SUBJECT_OBJECT);
-            content = "<html><head><meta charset='utf-8'/><title></title></head><body>"+
-                    dataBean.getContent()+ "</body></html>";
+            //加了img自适应宽高的代码
+            content = "<html><head><meta charset='utf-8'/><title></title><style>img{ max-width: 100%; height: auto; width: auto; width: auto; }" +
+                    "</style></head><body>"+ dataBean.getContent()+ "</body></html>";
 
             /* 测试代码写了 很多a标签测试过滤a标签的有效性
             content = "<html><head><meta charset='utf-8'/><title></title></head><body>"+

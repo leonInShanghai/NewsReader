@@ -7,6 +7,9 @@ buildscript {
         google()
         jcenter()
 
+        //友盟分享
+        //maven { url 'https://dl.bintray.com/umsdk/release' }
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.4'
@@ -25,6 +28,9 @@ allprojects {
     repositories {
         google()
         jcenter()
+
+        //友盟分享
+       // maven { url 'https://dl.bintray.com/umsdk/release' }
     }
 }
 

@@ -8,30 +8,22 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
     <!--准备一个半透明的activity主题 右划返回（SwipeBackLayout）用-->
     <style name="SwipeBackActivityTheme" parent="AppTheme">
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
 
-
-    <style name="BaseText">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:padding">15dp</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:shadowDx">-1</item>
-        <item name="android:shadowDy">-1</item>
-        <item name="android:textColor">#ffffff</item>
-        <item name="android:shadowColor">#000000</item>
-        <item name="android:shadowRadius">2</item>
-        <item name="android:gravity">center</item>
+    <!--用户选择  相册 拍照的 dialog 的style-->
+    <style name="default_dialog_style" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
-
-    <style name="card_style">
-        <item name="cardCornerRadius">4dp</item>
-    </style>
 
 
 </resources>

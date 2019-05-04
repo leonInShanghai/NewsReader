@@ -100,6 +100,12 @@ public class Constant {
             "githubusercontent.com/leonInShanghai/NewsReader/master/otherPic/launch4.jpg",
             "https://raw.githubusercontent.com/leonInShanghai/NewsReader/master/otherPic/launch5.jpg"
             ,"https://raw.githubusercontent.com/leonInShanghai/NewsReader/master/otherPic/launch6.gif"};
+
+
+    public static final String TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJDb2RlIjoiQ0YwMDAwMDE4My" +
+            "IsInN1YiI6Ijc2NDNjNGU3ZTYzMDQyMTZhZGM0YjY4NzhkYTU2NzNjMzQ4N2M4MWI5NGNlNzhkODQ2OSIsIm" +
+            "xvZ2luSWQiOiIxNzE4NjM5NjE5MiIsImV4cCI6MTU1NzQ3MjY5OSwiaWF0IjoxNTU2ODY3ODk5LCJqdGkiOi" +
+            "JxbXgxNjMiLCJtZW1iZXJJZCI6MTkzfQ.mSJE70PrbFvNqeh6tlj0qEJeBqZicXrt8PlpX6ABD00";
 }
 
 

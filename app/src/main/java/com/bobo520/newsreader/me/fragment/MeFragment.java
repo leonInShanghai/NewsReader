@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -150,7 +151,7 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
     private FrameLayout setting;
 
     /*获取权限的标识 目前就QQ需要获取*/
-    private final int PERMISSION_REQUEST_STOREAGE = 201955;
+    private final int PERMISSION_REQUEST_STOREAGE = 1955;
 
     //用户分享的内容 权限申请前赋值 权限回调后使用
     private String mPlatform = "";
@@ -213,7 +214,6 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
                     .setPrimaryColor(ContextCompat.getColor(getContext(),R.color.color_center_red)));
             mRefreshLayout.setOnRefreshListener(new MyOnRefreshListener());
         }
-
 
         //设置监听事件的代理为this
         mIvMineMsg.setOnClickListener(this);
@@ -554,20 +554,27 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
     //获取权限的回调
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         if (requestCode == PERMISSION_REQUEST_STOREAGE) {
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            // Permission Granted
-            if (!mPlatform.equals("")){
-                shareMessage(mPlatform);
-            }
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission Granted
+                if (!mPlatform.equals("")){
+                    shareMessage(mPlatform);
+                }
             } else {
                 // Permission Denied
-                Toast.makeText(getContext(),"您没有允许相机权限",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"您没有允许读写权限",Toast.LENGTH_SHORT).show();
+
+                //下面是跳转到设置的方法 有需求再用
+//                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                     Intent intent = new Intent();
+//                     intent.setAction(Settings.ACTION_APPLICATION_SETTINGS);
+//                     intent.putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName());
+//                      startActivity(intent);
+//                }
+
             }
         }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         PermissionManager.TPermissionType type = PermissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
         PermissionManager.handlePermissionsResult(getActivity(), type, invokeParam, this);
     }
@@ -578,7 +585,6 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
         }
         return takePhoto;
     }
-
 
 
     @Override
@@ -660,7 +666,7 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
 
 
 
-    //申请存储空间权限-注意这里是申请 有申请还有回调
+    //申请存储空间权限-注意这里是申请 注意：有申请还有回调
     private void requestPermissions(String platform) {
 
         mPlatform = platform;
@@ -672,7 +678,9 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 int permission = ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if (permission != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    //Toast.makeText(getContext(),"没有权限",Toast.LENGTH_SHORT).show();
+                    //requestPermissions
+                   requestPermissions( new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
                                     Manifest.permission.READ_EXTERNAL_STORAGE,},
                             PERMISSION_REQUEST_STOREAGE);
                 }else {
@@ -686,10 +694,6 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
         }
     }
 
-
-
-
-
     /**
      * 分享工具类的二次封装
      * @param platform   平台：1 qq 2 qzone 3 wechat 4 wechatCircle
@@ -700,22 +704,22 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
                 R.drawable.umeng_socialize_menu_default, new UMShareListener() {
                     @Override
                     public void onStart(SHARE_MEDIA share_media) {
-                        Toast.makeText(getContext(),"onStart"+share_media.toString(),Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getContext(),"onStart"+share_media.toString(),Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onResult(SHARE_MEDIA share_media) {
-                        Toast.makeText(getContext(),"onResult"+share_media.toString(),Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getContext(),"onResult"+share_media.toString(),Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-                        Toast.makeText(getContext(),"onError"+throwable.toString(),Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getContext(),"onError"+throwable.toString(),Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onCancel(SHARE_MEDIA share_media) {
-                        Toast.makeText(getContext(),"onCancel"+share_media.toString(),Toast.LENGTH_LONG).show();
+                       Toast.makeText(getContext(),"您取消了分享",Toast.LENGTH_LONG).show();
                     }
                 });
     }

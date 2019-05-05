@@ -119,32 +119,9 @@ public class HomeActivity extends AppCompatActivity  {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Toast.makeText(getApplicationContext(),"HomeonActivityResult",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),"HomeonActivityResult",Toast.LENGTH_SHORT).show();
         UMShareAPI.get(HomeActivity.this).onActivityResult(requestCode,resultCode,data);
     }
-
-    // Activity中 回掉 fragment 读写 权限回掉  QQ分享要用到了
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[]
-//            grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        // 获取到Activity下的Fragment
-//        List<Fragment> fragments = getSupportFragmentManager().getFragments();
-//        if (fragments == null)
-//        {
-//            return;
-//        }
-//        // 查找在Fragment中onRequestPermissionsResult方法并调用
-//        for (Fragment fragment : fragments)
-//        {
-//            if (fragment != null)
-//            {
-//                // 这里就会调用我们Fragment中的onRequestPermissionsResult方法
-//                fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//            }
-//        }
-//    }
-
 
     @Override
     protected void onDestroy() {

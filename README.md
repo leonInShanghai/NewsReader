@@ -18,9 +18,11 @@ com.github.bumptech.glide:glide  com.squareup.picasso:picasso  universalimageloa
 <div align="center">
 <img src="https://github.com/leonInShanghai/NewsReader/blob/master/otherPic/gif1.gif" >
  </div>
+ </br>
  <div align="center">
 <img src="https://github.com/leonInShanghai/NewsReader/blob/master/otherPic/gif2.gif" >
 </div>
+</br>
 <div align="center">
 <img src="https://github.com/leonInShanghai/NewsReader/blob/master/otherPic/gif3.gif" >
 </div>

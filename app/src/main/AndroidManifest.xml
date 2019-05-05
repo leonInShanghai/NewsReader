@@ -42,7 +42,6 @@
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
     <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" />
@@ -275,13 +274,15 @@
         <activity android:name=".me.activity.JianshuActivity" />
         <activity android:name=".me.activity.SettingActivity" />
 
-        <!-- 友盟分享 ↓ qq（请注意将我们的qq appkey替换成您自己的qq appkey）：tencent101572053 -->
+        <!-- 友盟分享 ↓微信 和 qq（请注意将我们的qq appkey替换成您自己的qq appkey）：tencent101572053 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <!-- 友盟分享 QQ -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -291,8 +292,8 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="a57dfb9a54c2af792120514a64cb9733" />
+                <!-- APPID，如果你使用的公用账号，则不需要修改；否则修改成你在QQ开放平台申请的APPID -->
+                <data android:scheme="tencent101572053" />
             </intent-filter>
         </activity>
         <activity
@@ -300,9 +301,27 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="5ccac6b83fc195d00f0012e5" />
+    <!--<activity-->
+            <!--android:name="com.tencent.tauth.AuthActivity"-->
+            <!--android:launchMode="singleTask"-->
+            <!--android:noHistory="true">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.VIEW" />-->
+
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+                <!--<category android:name="android.intent.category.BROWSABLE" />-->
+
+                <!--<data android:scheme="a57dfb9a54c2af792120514a64cb9733" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
+        <!--<activity-->
+            <!--android:name="com.tencent.connect.common.AssistActivity"-->
+            <!--android:configChanges="orientation|keyboardHidden|screenSize"-->
+            <!--android:theme="@android:style/Theme.Translucent.NoTitleBar" />-->
+
+        <!--<meta-data-->
+            <!--android:name="UMENG_APPKEY"-->
+            <!--android:value="5ccac6b83fc195d00f0012e5" />-->
         <!-- 友盟分享 ↑ -->
 
         <activity android:name=".me.share.ShareActivity" />

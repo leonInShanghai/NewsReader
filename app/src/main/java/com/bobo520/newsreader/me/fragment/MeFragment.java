@@ -1,18 +1,22 @@
 package com.bobo520.newsreader.me.fragment;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -144,6 +148,12 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
 
     //系统设置
     private FrameLayout setting;
+
+    /*获取权限的标识 目前就QQ需要获取*/
+    private final int PERMISSION_REQUEST_STOREAGE = 201955;
+
+    //用户分享的内容 权限申请前赋值 权限回调后使用
+    private String mPlatform = "";
 
 
     //接收到收到新极光推送广播的处理@drawable/mine_msg_ic_selector
@@ -298,11 +308,11 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
                 break;
             case 2:
                 //传如String平台：1 qq 2 qzone 3 wechat 4 wechatCircle
-                shareMessage("1");
+                requestPermissions("1");
                 break;
             case 3:
                 //传如String平台：1 qq 2 qzone 3 wechat 4 wechatCircle
-                shareMessage("2");
+                requestPermissions("2");
                 break;
             case 4:
                 //头像设置
@@ -427,7 +437,7 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
     }
 
 
-    //-----------------------------------选择 裁剪 上传头像---------------------------------------------
+    //-----------------------------------选择 裁剪 上传头像---↓------------------------------------------
 
     @Override
     public void takeSuccess(final TResult result) {
@@ -541,9 +551,23 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
         return type;
     }
 
+    //获取权限的回调
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == PERMISSION_REQUEST_STOREAGE) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            // Permission Granted
+            if (!mPlatform.equals("")){
+                shareMessage(mPlatform);
+            }
+            } else {
+                // Permission Denied
+                Toast.makeText(getContext(),"您没有允许相机权限",Toast.LENGTH_SHORT).show();
+            }
+        }
         PermissionManager.TPermissionType type = PermissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
         PermissionManager.handlePermissionsResult(getActivity(), type, invokeParam, this);
     }
@@ -600,7 +624,7 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
 
     private CropOptions getCropOptions() {
         CropOptions.Builder builder = new CropOptions.Builder();
-        builder.setAspectX(800).setAspectY(800);
+        builder.setAspectX(1200).setAspectY(1200);
         builder.setWithOwnCrop(false);
         return builder.create();
     }
@@ -632,7 +656,39 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
         });
     }
 
-    //---------------------------------------------选择 裁剪 上传头像-------------------------------------------------
+    //---------------------------------------------选择 裁剪 上传头像-----↑--------------------------------------------
+
+
+
+    //申请存储空间权限-注意这里是申请 有申请还有回调
+    private void requestPermissions(String platform) {
+
+        mPlatform = platform;
+
+        //避免空指针
+        if (getContext() == null || getActivity() == null){ return;}
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                int permission = ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if (permission != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    Manifest.permission.READ_EXTERNAL_STORAGE,},
+                            PERMISSION_REQUEST_STOREAGE);
+                }else {
+                    shareMessage(platform);
+                }
+            } else {
+                shareMessage(platform);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
 
     /**
      * 分享工具类的二次封装
@@ -644,22 +700,22 @@ public class MeFragment extends LogFragment implements View.OnClickListener, OnI
                 R.drawable.umeng_socialize_menu_default, new UMShareListener() {
                     @Override
                     public void onStart(SHARE_MEDIA share_media) {
-                        LELog.showLogWithLineNum(5,share_media.toString());
+                        Toast.makeText(getContext(),"onStart"+share_media.toString(),Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onResult(SHARE_MEDIA share_media) {
-                        LELog.showLogWithLineNum(5,share_media.toString());
+                        Toast.makeText(getContext(),"onResult"+share_media.toString(),Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-                        LELog.showLogWithLineNum(5,share_media.toString());
+                        Toast.makeText(getContext(),"onError"+throwable.toString(),Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onCancel(SHARE_MEDIA share_media) {
-                        LELog.showLogWithLineNum(5,share_media.toString());
+                        Toast.makeText(getContext(),"onCancel"+share_media.toString(),Toast.LENGTH_LONG).show();
                     }
                 });
     }

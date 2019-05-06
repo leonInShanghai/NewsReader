@@ -84,7 +84,7 @@ public class NewsReaderApplication extends Application {
     //各平台的配置建议放在全局 application 或程序入口 友盟官方就是这样写的
     {
         //AppID  AppSecret
-       // PlatformConfig.setWeixin("111111","");
+        PlatformConfig.setWeixin("wx9e94ec8ffe3bdac4","wx9e94ec8ffe3bdac4");
 
         //APP ID：101572053 APP Key：a57dfb9a54c2af792120514a64cb9733
         PlatformConfig.setQQZone("101572053 ","a57dfb9a54c2af792120514a64cb9733");

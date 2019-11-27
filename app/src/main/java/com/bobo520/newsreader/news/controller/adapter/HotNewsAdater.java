@@ -58,7 +58,7 @@ public class HotNewsAdater extends MyBaseAdapter<HotNewsBean> {
         viewHolder.tvSource.setText(hotNewsBean.getSource());
         //LELog.showLogWithLineNum(5,hotNewsBean.getInterest()+"<<<<<<<<<<<<<<<<<<<<<<<<<");
 
-        if (hotNewsBean.getInterest().equals("S")) {
+        if (hotNewsBean.getInterest() != null && hotNewsBean.getInterest().equals("S")) {
             //要显示置顶
             viewHolder.tvTop.setVisibility(View.VISIBLE);
             viewHolder.tvReply.setVisibility(View.GONE);
